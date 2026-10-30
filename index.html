@@ -8,7 +8,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
-:root {
+:root{
   --bg:#070b12;
   --panel:#101824;
   --border:#1d2b3b;
@@ -16,13 +16,14 @@
   --blue:#38bdf8;
   --purple:#a78bfa;
   --red:#fb7185;
+  --yellow:#fbbf24;
   --text:#e8f0fa;
   --muted:#8292a7;
 }
 
 *{box-sizing:border-box}
 
-body {
+body{
   margin:0;
   background:var(--bg);
   color:var(--text);
@@ -33,21 +34,21 @@ body {
     radial-gradient(ellipse at 90% 10%,#173c6530,transparent 40%);
 }
 
-header {
-  height:76px;
+header{
+  height:72px;
   border-bottom:1px solid var(--border);
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 5%;
-  background:#080e18d9;
+  background:#080e18ed;
   backdrop-filter:blur(15px);
   position:sticky;
   top:0;
   z-index:10;
 }
 
-.logo {
+.logo{
   font-size:21px;
   font-weight:800;
   letter-spacing:1px;
@@ -55,16 +56,16 @@ header {
 
 .logo span{color:var(--green)}
 
-.status {
+.status{
   display:flex;
   align-items:center;
   gap:9px;
   color:var(--green);
-  font-size:12px;
+  font-size:11px;
   font-weight:700;
 }
 
-.dot {
+.dot{
   width:9px;
   height:9px;
   background:var(--green);
@@ -73,110 +74,132 @@ header {
   animation:pulse 1.5s infinite;
 }
 
-@keyframes pulse {
+@keyframes pulse{
   50%{opacity:.35;transform:scale(.7)}
 }
 
-.container {
+.container{
   max-width:1450px;
   margin:auto;
-  padding:35px 5%;
+  padding:32px 5%;
 }
 
-.heading {
+.heading{
   display:flex;
   justify-content:space-between;
   align-items:center;
   flex-wrap:wrap;
   gap:15px;
-  margin-bottom:30px;
+  margin-bottom:25px;
 }
 
-.heading h1 {
+.heading h1{
   font-size:27px;
   margin:0 0 8px;
 }
 
-.heading p {
+.heading p{
   color:var(--muted);
   margin:0;
   font-size:13px;
 }
 
-.time {
+.time{
   color:var(--green);
   font-family:'Space Mono',monospace;
   font-size:12px;
 }
 
-.grid {
+.grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:16px;
 }
 
-.card {
+.card{
   background:linear-gradient(145deg,#131e2b,#0c131e);
   border:1px solid var(--border);
   border-radius:15px;
-  padding:22px;
+  padding:20px;
   position:relative;
   overflow:hidden;
   transition:.3s;
-  animation:appear .7s ease both;
 }
 
-.card:hover {
-  transform:translateY(-5px);
+.card:hover{
+  transform:translateY(-4px);
   border-color:#42f5a177;
   box-shadow:0 10px 35px #0006;
 }
 
-@keyframes appear {
-  from{opacity:0;transform:translateY(18px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-.card:before {
-  content:"";
-  position:absolute;
-  width:120px;
-  height:120px;
-  right:-60px;
-  top:-60px;
-  background:var(--glow,#42f5a1);
-  filter:blur(65px);
-  opacity:.12;
-}
-
-.label {
+.label{
   color:var(--muted);
-  font-size:12px;
-  font-weight:600;
+  font-size:11px;
+  font-weight:700;
   letter-spacing:1px;
 }
 
-.value {
-  font-size:34px;
-  font-weight:800;
-  margin:16px 0 8px;
-  font-family:'Space Mono',monospace;
+.metric-layout{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-top:18px;
 }
 
-.unit {
+.gauge{
+  --pct:0;
+  --gauge-color:var(--green);
+  width:105px;
+  height:105px;
+  flex-shrink:0;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:conic-gradient(
+    var(--gauge-color) calc(var(--pct)*1%),
+    #263344 0
+  );
+  position:relative;
+  box-shadow:0 0 20px #0005;
+  transition:background .5s;
+}
+
+.gauge:before{
+  content:"";
+  position:absolute;
+  inset:9px;
+  border-radius:50%;
+  background:#101824;
+  border:1px solid #263344;
+}
+
+.gauge b{
+  position:relative;
+  font:700 18px 'Space Mono',monospace;
+}
+
+.metric-note{
   color:var(--muted);
-  font-size:12px;
+  font-size:11px;
+  line-height:1.8;
 }
 
-.bar {
-  height:6px;
+.metric-note strong{
+  display:block;
+  color:var(--text);
+  font-size:12px;
+  margin-top:5px;
+}
+
+.bar{
+  height:5px;
   background:#263344;
   border-radius:10px;
-  margin-top:20px;
+  margin-top:18px;
   overflow:hidden;
 }
 
-.bar span {
+.bar span{
   display:block;
   height:100%;
   width:0;
@@ -186,14 +209,14 @@ header {
   transition:width 1s ease;
 }
 
-.section {
-  margin-top:22px;
+.section{
+  margin-top:20px;
   display:grid;
   grid-template-columns:1.5fr 1fr;
   gap:18px;
 }
 
-.panel {
+.panel{
   background:var(--panel);
   border:1px solid var(--border);
   border-radius:15px;
@@ -201,40 +224,52 @@ header {
   min-width:0;
 }
 
-.panel h3 {
+.panel h3,
+.table-panel h3{
   margin:0 0 20px;
   font-size:14px;
 }
 
-canvas {
+canvas{
   width:100%;
   height:220px;
+  display:block;
 }
 
-.info {
+.network-info{
+  display:flex;
+  flex-wrap:wrap;
+  gap:25px;
+  font-size:11px;
+  color:var(--muted);
+  margin-top:15px;
+}
+
+.info{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
 }
 
-.info div {
+.info div{
   background:#0b131f;
-  padding:15px;
+  padding:14px;
   border-radius:10px;
 }
 
-.info small {
+.info small{
   color:var(--muted);
   display:block;
   margin-bottom:8px;
+  font-size:10px;
 }
 
-.info strong {
-  font-size:13px;
+.info strong{
+  font-size:12px;
   overflow-wrap:anywhere;
 }
 
-.table-panel {
+.table-panel{
   margin-top:20px;
   background:var(--panel);
   border:1px solid var(--border);
@@ -243,29 +278,74 @@ canvas {
   overflow:hidden;
 }
 
+.connection-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.connection-summary{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.connection-count{
+  color:var(--green);
+  font:700 22px 'Space Mono',monospace;
+}
+
+.expand-btn{
+  border:1px solid #2a4053;
+  background:#101d2a;
+  color:var(--green);
+  padding:10px 14px;
+  border-radius:9px;
+  font:600 11px Inter,sans-serif;
+  cursor:pointer;
+}
+
+.expand-btn:hover{
+  border-color:var(--green);
+  background:#123326;
+}
+
+.connection-details{
+  display:none;
+  margin-top:18px;
+}
+
+.connection-details.open{
+  display:block;
+}
+
 .table-wrap{overflow-x:auto}
 
-table {
+table{
   width:100%;
   border-collapse:collapse;
   min-width:550px;
   font-size:12px;
 }
 
-th {
+th{
   color:var(--muted);
   text-align:left;
   padding:14px;
   border-bottom:1px solid var(--border);
 }
 
-td {
+td{
   padding:15px 14px;
   border-bottom:1px solid #1b2836;
   font-family:'Space Mono',monospace;
 }
 
-.badge {
+.badge{
   background:#123c2c;
   color:var(--green);
   padding:5px 9px;
@@ -273,14 +353,14 @@ td {
   font-size:10px;
 }
 
-footer {
+footer{
   text-align:center;
   padding:30px;
   color:var(--muted);
   font-size:11px;
 }
 
-.error {
+.error{
   color:var(--red);
   font-size:11px;
   margin-top:12px;
@@ -292,13 +372,20 @@ footer {
 }
 
 @media(max-width:500px){
-  header{padding:0 18px}
-  .container{padding:25px 15px}
+  header{padding:0 16px}
+  .container{padding:24px 14px}
   .heading h1{font-size:22px}
   .grid{gap:10px}
-  .card{padding:15px}
-  .value{font-size:25px}
+  .card{padding:14px}
+  .gauge{
+    width:85px;
+    height:85px;
+  }
+  .gauge b{font-size:15px}
+  .metric-layout{gap:10px}
   .panel{padding:16px}
+  .table-panel{padding:15px}
+  .info{gap:8px}
 }
 </style>
 </head>
@@ -306,7 +393,11 @@ footer {
 <body>
 
 <header>
-  <div class="logo">AGE<span>VPN</span> <small style="font-size:10px;color:#8292a7">MONITOR</small></div>
+  <div class="logo">
+    AGE<span>VPN</span>
+    <small style="font-size:10px;color:#8292a7">MONITOR</small>
+  </div>
+
   <div class="status">
     <span class="dot" id="dot"></span>
     <span id="status">CONNECTING</span>
@@ -320,85 +411,206 @@ footer {
       <h1>Server Overview</h1>
       <p>Real-time VPS infrastructure monitoring</p>
     </div>
+
     <div class="time" id="clock">--:--:--</div>
   </div>
 
+  <!-- RESOURCE CARDS -->
+
   <div class="grid">
 
-    <div class="card" style="--glow:#42f5a1">
+    <div class="card">
       <div class="label">CPU USAGE</div>
-      <div class="value" id="cpu">--%</div>
-      <div class="unit">Processor utilization</div>
-      <div class="bar"><span id="cpuBar"></span></div>
+
+      <div class="metric-layout">
+        <div class="gauge" id="cpuGauge">
+          <b id="cpu">--%</b>
+        </div>
+
+        <div class="metric-note">
+          Processor utilization
+          <strong id="cpuNote">Loading...</strong>
+        </div>
+      </div>
+
+      <div class="bar">
+        <span id="cpuBar"></span>
+      </div>
     </div>
 
-    <div class="card" style="--glow:#38bdf8">
+    <div class="card">
       <div class="label">MEMORY USAGE</div>
-      <div class="value" id="ram">--%</div>
-      <div class="unit">RAM utilization</div>
-      <div class="bar"><span id="ramBar" style="background:#38bdf8;box-shadow:0 0 15px #38bdf8"></span></div>
+
+      <div class="metric-layout">
+        <div class="gauge" id="ramGauge"
+             style="--gauge-color:#38bdf8">
+          <b id="ram">--%</b>
+        </div>
+
+        <div class="metric-note">
+          RAM utilization
+          <strong id="ramNote">Loading...</strong>
+        </div>
+      </div>
+
+      <div class="bar">
+        <span id="ramBar"
+              style="background:#38bdf8;box-shadow:0 0 15px #38bdf8"></span>
+      </div>
     </div>
 
-    <div class="card" style="--glow:#a78bfa">
+    <div class="card">
       <div class="label">DISK USAGE</div>
-      <div class="value" id="disk">--%</div>
-      <div class="unit">Root filesystem</div>
-      <div class="bar"><span id="diskBar" style="background:#a78bfa;box-shadow:0 0 15px #a78bfa"></span></div>
+
+      <div class="metric-layout">
+        <div class="gauge" id="diskGauge"
+             style="--gauge-color:#a78bfa">
+          <b id="disk">--%</b>
+        </div>
+
+        <div class="metric-note">
+          Root filesystem
+          <strong id="diskNote">Loading...</strong>
+        </div>
+      </div>
+
+      <div class="bar">
+        <span id="diskBar"
+              style="background:#a78bfa;box-shadow:0 0 15px #a78bfa"></span>
+      </div>
     </div>
 
-    <div class="card" style="--glow:#fbbf24">
-      <div class="label">UPTIME</div>
-      <div class="value" id="uptime" style="font-size:24px">--</div>
+    <div class="card">
+      <div class="label">SERVER UPTIME</div>
+
+      <div class="value" id="uptime"
+           style="font-size:25px;margin-top:20px">
+        --
+      </div>
+
       <div class="unit">Server running time</div>
-      <div style="margin-top:20px;color:var(--green);font-size:11px">● SYSTEM ACTIVE</div>
+
+      <div style="margin-top:20px;color:var(--green);font-size:11px">
+        ● SYSTEM ACTIVE
+      </div>
     </div>
 
   </div>
+
+  <!-- NETWORK AND SERVER INFORMATION -->
 
   <div class="section">
 
     <div class="panel">
       <h3>◈ NETWORK TRAFFIC</h3>
+
       <canvas id="networkChart"></canvas>
-      <div style="display:flex;gap:25px;font-size:11px;color:var(--muted)">
-        <span style="color:#38bdf8">● Download: <b id="download">--</b></span>
-        <span style="color:#42f5a1">● Upload: <b id="upload">--</b></span>
+
+      <div class="network-info">
+        <span style="color:#38bdf8">
+          ● Download:
+          <b id="download">--</b>
+        </span>
+
+        <span style="color:#42f5a1">
+          ● Upload:
+          <b id="upload">--</b>
+        </span>
       </div>
     </div>
 
     <div class="panel">
       <h3>◈ SERVER INFORMATION</h3>
+
       <div class="info">
-        <div><small>HOSTNAME</small><strong id="hostname">--</strong></div>
-        <div><small>PLATFORM</small><strong id="platform">--</strong></div>
-        <div><small>LOAD AVERAGE</small><strong id="load">--</strong></div>
-        <div><small>CPU CORES</small><strong id="cores">--</strong></div>
-        <div><small>RAM TOTAL</small><strong id="ramTotal">--</strong></div>
-        <div><small>DISK TOTAL</small><strong id="diskTotal">--</strong></div>
+
+        <div>
+          <small>HOSTNAME</small>
+          <strong id="hostname">--</strong>
+        </div>
+
+        <div>
+          <small>PLATFORM</small>
+          <strong id="platform">--</strong>
+        </div>
+
+        <div>
+          <small>LOAD AVERAGE</small>
+          <strong id="load">--</strong>
+        </div>
+
+        <div>
+          <small>CPU CORES</small>
+          <strong id="cores">--</strong>
+        </div>
+
+        <div>
+          <small>RAM TOTAL</small>
+          <strong id="ramTotal">--</strong>
+        </div>
+
+        <div>
+          <small>DISK TOTAL</small>
+          <strong id="diskTotal">--</strong>
+        </div>
+
       </div>
     </div>
 
   </div>
 
+  <!-- CONNECTIONS -->
+
   <div class="table-panel">
-    <h3>◈ LIVE TCP CONNECTIONS</h3>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>REMOTE IP</th>
-            <th>LOCAL PORT</th>
-            <th>REMOTE PORT</th>
-            <th>PROTOCOL</th>
-            <th>STATUS</th>
-          </tr>
-        </thead>
-        <tbody id="connections">
-          <tr><td colspan="5">Waiting for server data...</td></tr>
-        </tbody>
-      </table>
+
+    <div class="connection-head">
+
+      <div>
+        <h3>◈ LIVE TCP CONNECTIONS</h3>
+
+        <div class="connection-summary">
+          <span class="connection-count" id="connectionCount">--</span>
+          <span>Active connections detected</span>
+        </div>
+      </div>
+
+      <button class="expand-btn"
+              id="connectionToggle"
+              type="button"
+              aria-expanded="false">
+        ＋ SHOW DETAILS
+      </button>
+
     </div>
+
+    <div class="connection-details" id="connectionDetails">
+
+      <div class="table-wrap">
+
+        <table>
+          <thead>
+            <tr>
+              <th>REMOTE IP</th>
+              <th>LOCAL PORT</th>
+              <th>REMOTE PORT</th>
+              <th>PROTOCOL</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+
+          <tbody id="connections">
+            <tr>
+              <td colspan="5">Waiting for server data...</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+
     <div class="error" id="error"></div>
+
   </div>
 
 </div>
@@ -410,13 +622,14 @@ footer {
 </footer>
 
 <script>
-const API = '/api/metrics';
 
-const $ = id => document.getElementById(id);
+const API='/api/metrics';
+
+const $=id=>document.getElementById(id);
 
 function number(v){
-  const n = Number(v);
-  return Number.isFinite(n) ? n : 0;
+  const n=Number(v);
+  return Number.isFinite(n)?n:0;
 }
 
 function percent(v){
@@ -425,9 +638,11 @@ function percent(v){
 
 function bytes(v){
   v=number(v);
-  if(v<1024) return v.toFixed(0)+' B';
-  if(v<1048576) return (v/1024).toFixed(1)+' KB';
-  if(v<1073741824) return (v/1048576).toFixed(1)+' MB';
+
+  if(v<1024)return v.toFixed(0)+' B';
+  if(v<1048576)return (v/1024).toFixed(1)+' KB';
+  if(v<1073741824)return (v/1048576).toFixed(1)+' MB';
+
   return (v/1073741824).toFixed(2)+' GB';
 }
 
@@ -439,34 +654,54 @@ function setBar(id,value){
   $(id).style.width=percent(value)+'%';
 }
 
+function setGauge(id,value){
+  $(id).style.setProperty('--pct',percent(value));
+}
+
 function uptimeText(seconds){
+
   seconds=number(seconds);
+
   const d=Math.floor(seconds/86400);
   const h=Math.floor(seconds%86400/3600);
   const m=Math.floor(seconds%3600/60);
+
   return `${d}d ${h}h ${m}m`;
 }
 
-const history={rx:[],tx:[]};
+// NETWORK HISTORY
+
+const history={
+  rx:[],
+  tx:[]
+};
 
 function drawChart(){
+
   const c=$('networkChart');
   const ctx=c.getContext('2d');
+
   const w=c.clientWidth;
   const h=220;
   const ratio=window.devicePixelRatio||1;
 
+  if(!w)return;
+
   c.width=w*ratio;
   c.height=h*ratio;
-  ctx.scale(ratio,ratio);
 
+  ctx.setTransform(ratio,0,0,ratio,0,0);
   ctx.clearRect(0,0,w,h);
+
+  // GRID
 
   ctx.strokeStyle='#253344';
   ctx.lineWidth=1;
 
   for(let i=1;i<5;i++){
-    let y=i*h/5;
+
+    const y=i*h/5;
+
     ctx.beginPath();
     ctx.moveTo(0,y);
     ctx.lineTo(w,y);
@@ -476,13 +711,21 @@ function drawChart(){
   const max=Math.max(1,...history.rx,...history.tx);
 
   function line(data,color){
+
+    if(!data.length)return;
+
     ctx.beginPath();
+
     data.forEach((v,i)=>{
-      const x=i/(Math.max(1,data.length-1))*w;
+
+      const x=i/Math.max(1,data.length-1)*w;
       const y=h-(v/max)*(h-20)-10;
+
       if(i===0)ctx.moveTo(x,y);
       else ctx.lineTo(x,y);
+
     });
+
     ctx.strokeStyle=color;
     ctx.lineWidth=2.5;
     ctx.shadowBlur=10;
@@ -495,34 +738,82 @@ function drawChart(){
   line(history.tx,'#42f5a1');
 }
 
-function renderConnections(list){
-  if(!Array.isArray(list)){
-    $('connections').innerHTML='<tr><td colspan="5">No connection data</td></tr>';
-    return;
-  }
-
-  $('connections').innerHTML=list.slice(0,50).map(c=>`
-    <tr>
-      <td>${safe(c.remoteAddress||c.remoteIP||c.remote||'-')}</td>
-      <td>${safe(c.localPort||'-')}</td>
-      <td>${safe(c.remotePort||'-')}</td>
-      <td>TCP</td>
-      <td><span class="badge">${safe(c.state||'ESTABLISHED')}</span></td>
-    </tr>
-  `).join('') || '<tr><td colspan="5">No active connections</td></tr>';
-}
+// CONNECTION DETAILS
 
 function safe(v){
+
   return String(v).replace(/[&<>"']/g,c=>({
-    '&':'&amp;','<':'&lt;','>':'&gt;',
-    '"':'&quot;',"'":'&#39;'
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
   })[c]);
 }
 
+function renderConnections(list){
+
+  if(!Array.isArray(list)){
+    list=[];
+  }
+
+  $('connectionCount').textContent=list.length;
+
+  $('connections').innerHTML=list.slice(0,100).map(c=>`
+
+    <tr>
+      <td>${safe(c.remoteAddress||c.remoteIP||c.remote||'-')}</td>
+
+      <td>${safe(c.localPort||'-')}</td>
+
+      <td>${safe(c.remotePort||'-')}</td>
+
+      <td>TCP</td>
+
+      <td>
+        <span class="badge">
+          ${safe(c.state||'ESTABLISHED')}
+        </span>
+      </td>
+    </tr>
+
+  `).join('')||
+
+  '<tr><td colspan="5">No active connections</td></tr>';
+
+}
+
+// EXPAND / COLLAPSE
+
+$('connectionToggle').addEventListener('click',()=>{
+
+  const box=$('connectionDetails');
+
+  const open=box.classList.toggle('open');
+
+  $('connectionToggle').textContent=
+    open?'－ HIDE DETAILS':'＋ SHOW DETAILS';
+
+  $('connectionToggle').setAttribute(
+    'aria-expanded',
+    String(open)
+  );
+
+});
+
+// MAIN API REFRESH
+
 async function refresh(){
+
   try{
-    const res=await fetch(API,{cache:'no-store'});
-    if(!res.ok)throw new Error('HTTP '+res.status);
+
+    const res=await fetch(API,{
+      cache:'no-store'
+    });
+
+    if(!res.ok){
+      throw new Error('HTTP '+res.status);
+    }
 
     const d=await res.json();
 
@@ -530,36 +821,90 @@ async function refresh(){
     $('dot').style.background='var(--green)';
     $('error').textContent='';
 
-    const cpu=number(d.cpu?.usage??d.cpuUsage??d.cpu);
-    const ram=number(d.memory?.usagePercent??d.ramUsage??d.ram?.percent);
-    const disk=number(d.disk?.usagePercent??d.disk?.percent??d.diskUsage);
+    // CPU RAM DISK
+
+    const cpu=number(
+      d.cpu?.usage??
+      d.cpuUsage??
+      d.cpu
+    );
+
+    const ram=number(
+      d.memory?.usagePercent??
+      d.ramUsage??
+      d.ram?.percent
+    );
+
+    const disk=number(
+      d.disk?.usagePercent??
+      d.disk?.percent??
+      d.diskUsage
+    );
 
     $('cpu').textContent=cpu.toFixed(1)+'%';
     $('ram').textContent=ram.toFixed(1)+'%';
     $('disk').textContent=disk.toFixed(1)+'%';
 
+    setGauge('cpuGauge',cpu);
+    setGauge('ramGauge',ram);
+    setGauge('diskGauge',disk);
+
     setBar('cpuBar',cpu);
     setBar('ramBar',ram);
     setBar('diskBar',disk);
 
+    $('cpuNote').textContent='Live utilization';
+    $('ramNote').textContent='Memory in use';
+    $('diskNote').textContent='Storage used';
+
+    // SERVER INFORMATION
+
     $('hostname').textContent=d.hostname||'--';
     $('platform').textContent=d.platform||'--';
-    $('cores').textContent=d.cpu?.cores??d.cores??'--';
+
+    $('cores').textContent=
+      d.cpu?.cores??
+      d.cores??
+      '--';
 
     const load=d.load||[];
-    $('load').textContent=Array.isArray(load)?load.map(x=>number(x).toFixed(2)).join(' / '):load;
+
+    $('load').textContent=
+      Array.isArray(load)
+      ?load.map(x=>number(x).toFixed(2)).join(' / ')
+      :load;
 
     $('uptime').textContent=uptimeText(d.uptime);
 
-    const memTotal=d.memory?.total??d.memory?.totalBytes;
-    $('ramTotal').textContent=memTotal?bytes(memTotal):'--';
+    const memTotal=
+      d.memory?.total??
+      d.memory?.totalBytes;
 
-    const diskTotal=d.disk?.total??d.disk?.totalBytes;
-    $('diskTotal').textContent=diskTotal?bytes(diskTotal):'--';
+    $('ramTotal').textContent=
+      memTotal?bytes(memTotal):'--';
+
+    const diskTotal=
+      d.disk?.total??
+      d.disk?.totalBytes;
+
+    $('diskTotal').textContent=
+      diskTotal?bytes(diskTotal):'--';
+
+    // NETWORK
 
     const net=d.network||{};
-    const rx=number(net.rxSpeed??net.downloadSpeed??net.rx);
-    const tx=number(net.txSpeed??net.uploadSpeed??net.tx);
+
+    const rx=number(
+      net.rxSpeed??
+      net.downloadSpeed??
+      net.rx
+    );
+
+    const tx=number(
+      net.txSpeed??
+      net.uploadSpeed??
+      net.tx
+    );
 
     $('download').textContent=speed(rx);
     $('upload').textContent=speed(tx);
@@ -568,29 +913,53 @@ async function refresh(){
     history.tx.push(tx);
 
     if(history.rx.length>30){
+
       history.rx.shift();
       history.tx.shift();
+
     }
 
     drawChart();
-    renderConnections(d.tcp||d.connections||[]);
+
+    // TCP CONNECTIONS
+
+    renderConnections(
+      d.tcp||
+      d.connections||
+      []
+    );
 
   }catch(e){
+
     $('status').textContent='API OFFLINE';
     $('dot').style.background='var(--red)';
-    $('error').textContent='API connection error: '+e.message;
+
+    $('error').textContent=
+      'API connection error: '+e.message;
+
   }
+
 }
 
+// CLOCK
+
 function clock(){
-  $('clock').textContent=new Date().toLocaleTimeString();
+
+  $('clock').textContent=
+    new Date().toLocaleTimeString();
+
 }
+
+// START
 
 clock();
 refresh();
+
 setInterval(refresh,5000);
 setInterval(clock,1000);
+
 window.addEventListener('resize',drawChart);
+
 </script>
 
 </body>
