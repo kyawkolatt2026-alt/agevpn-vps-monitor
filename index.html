@@ -483,6 +483,33 @@ canvas{
 .speed-up{color:var(--green)}
 .speed-down{color:var(--blue)}
 
+.location-cell{
+  min-width:150px;
+  white-space:normal;
+  font-family:Inter,sans-serif;
+}
+
+.location-main{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:11px;
+  font-weight:700;
+  color:var(--text);
+}
+
+.location-flag{
+  font-size:21px;
+  line-height:1;
+}
+
+.location-city{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:5px;
+}
+
 .table-wrap{
   overflow-x:auto;
   scrollbar-width:thin;
@@ -491,7 +518,7 @@ canvas{
 
 table{
   width:100%;
-  min-width:650px;
+  min-width:850px;
   border-collapse:collapse;
   font-size:11px;
 }
@@ -726,7 +753,7 @@ footer{
 
   <div class="section-title">
     <h2>◈ INCOMING CONNECTION MONITOR</h2>
-    <span>IP / PORT / TRAFFIC</span>
+    <span>IP / LOCATION / PORT / TRAFFIC</span>
   </div>
 
   <div class="table-panel">
@@ -774,6 +801,7 @@ footer{
           <thead>
             <tr>
               <th>REMOTE IP</th>
+              <th>LOCATION</th>
               <th>LOCAL PORT</th>
               <th>CONNECTIONS</th>
               <th>UPLOAD</th>
@@ -782,7 +810,7 @@ footer{
             </tr>
           </thead>
           <tbody id="incomingList">
-            <tr><td colspan="6">Waiting for incoming IP data...</td></tr>
+            <tr><td colspan="7">Waiting for incoming IP data...</td></tr>
           </tbody>
         </table>
       </div>
@@ -1027,7 +1055,7 @@ function renderVPN(vpn){
     :'<div class="vpn-ip">No active VPN IPs</div>';
 }
 
-// INCOMING CONNECTIONS
+// INCOMING CONNECTIONS WITH GEO LOCATION
 
 function renderIncoming(incoming){
   incoming=incoming||{};
@@ -1046,17 +1074,44 @@ function renderIncoming(incoming){
   $('incomingPorts').textContent=ports.size;
 
   $('incomingList').innerHTML=rows.length
-    ?rows.map(item=>`
-      <tr>
-        <td class="incoming-ip">${safe(item.ip||'-')}</td>
-        <td class="incoming-port">${safe(item.port||'-')}</td>
-        <td class="incoming-count">${number(item.connections)}</td>
-        <td class="speed-up">${number(item.uploadKbps).toFixed(2)} Kbps</td>
-        <td class="speed-down">${number(item.downloadKbps).toFixed(2)} Kbps</td>
-        <td><span class="badge">ONLINE</span></td>
-      </tr>
-    `).join('')
-    :'<tr><td colspan="6">No active incoming connections</td></tr>';
+    ?rows.map(item=>{
+      const flag=item.flag||'🌐';
+      const country=item.country||'Unknown';
+      const city=item.city||'Location unavailable';
+
+      return `
+        <tr>
+          <td class="incoming-ip">${safe(item.ip||'-')}</td>
+
+          <td class="location-cell">
+            <div class="location-main">
+              <span class="location-flag">${safe(flag)}</span>
+              <span>${safe(country)}</span>
+            </div>
+            <span class="location-city">${safe(city)}</span>
+          </td>
+
+          <td class="incoming-port">${safe(item.port||'-')}</td>
+
+          <td class="incoming-count">
+            ${number(item.connections)}
+          </td>
+
+          <td class="speed-up">
+            ${number(item.uploadKbps).toFixed(2)} Kbps
+          </td>
+
+          <td class="speed-down">
+            ${number(item.downloadKbps).toFixed(2)} Kbps
+          </td>
+
+          <td>
+            <span class="badge">ONLINE</span>
+          </td>
+        </tr>
+      `;
+    }).join('')
+    :'<tr><td colspan="7">No active incoming connections</td></tr>';
 }
 
 // TCP CONNECTIONS
@@ -1243,7 +1298,7 @@ async function refresh(){
 
     renderVPN(d.vpn);
 
-    // INCOMING IP
+    // INCOMING IP + COUNTRY + CITY + SPEED
 
     renderIncoming(d.incoming);
 
