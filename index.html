@@ -1,48 +1,55 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AGEVPN — VPS Monitor</title><style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+<meta name="theme-color" content="#080d16">
+<title>AGEVPN — VPS Monitor</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
 :root{
-  --bg:#070b12;
-  --panel:#101824;
-  --border:#1d2b3b;
+  --bg:#080d16;
+  --panel:#101a28;
+  --panel2:#0c1521;
+  --border:#213044;
   --green:#42f5a1;
   --blue:#38bdf8;
   --purple:#a78bfa;
   --red:#fb7185;
   --yellow:#fbbf24;
   --text:#e8f0fa;
-  --muted:#8292a7;
+  --muted:#8798ad;
 }
 
 *{box-sizing:border-box}
 
 body{
   margin:0;
-  background:var(--bg);
+  background:
+    radial-gradient(ellipse at 10% 0%,#123b3030,transparent 40%),
+    radial-gradient(ellipse at 90% 5%,#173c6530,transparent 40%),
+    var(--bg);
   color:var(--text);
   font-family:Inter,sans-serif;
   min-height:100vh;
-  background-image:
-    radial-gradient(ellipse at 15% 0%,#123b3030,transparent 40%),
-    radial-gradient(ellipse at 90% 10%,#173c6530,transparent 40%);
 }
 
 header{
-  height:72px;
-  border-bottom:1px solid var(--border);
+  height:70px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 5%;
+  border-bottom:1px solid var(--border);
   background:#080e18ed;
-  backdrop-filter:blur(15px);
   position:sticky;
   top:0;
   z-index:10;
+  backdrop-filter:blur(15px);
 }
 
 .logo{
@@ -52,6 +59,14 @@ header{
 }
 
 .logo span{color:var(--green)}
+
+.logo small{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:3px;
+  margin-top:2px;
+}
 
 .status{
   display:flex;
@@ -65,8 +80,8 @@ header{
 .dot{
   width:9px;
   height:9px;
-  background:var(--green);
   border-radius:50%;
+  background:var(--green);
   box-shadow:0 0 14px var(--green);
   animation:pulse 1.5s infinite;
 }
@@ -76,9 +91,9 @@ header{
 }
 
 .container{
-  max-width:1450px;
+  max-width:1500px;
   margin:auto;
-  padding:32px 5%;
+  padding:30px 5%;
 }
 
 .heading{
@@ -103,35 +118,52 @@ header{
 
 .time{
   color:var(--green);
-  font-family:'Space Mono',monospace;
-  font-size:12px;
+  font:12px 'Space Mono',monospace;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin:28px 0 14px;
+}
+
+.section-title h2{
+  font-size:14px;
+  margin:0;
+  letter-spacing:.5px;
+}
+
+.section-title span{
+  font-size:10px;
+  color:var(--muted);
 }
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(4,minmax(0,1fr));
   gap:16px;
 }
 
 .card{
-  background:linear-gradient(145deg,#131e2b,#0c131e);
+  background:linear-gradient(145deg,#142132,#0d1521);
   border:1px solid var(--border);
   border-radius:15px;
   padding:20px;
-  position:relative;
-  overflow:hidden;
-  transition:.3s;
+  min-width:0;
+  transition:.25s;
 }
 
 .card:hover{
-  transform:translateY(-4px);
+  transform:translateY(-3px);
   border-color:#42f5a177;
-  box-shadow:0 10px 35px #0006;
+  box-shadow:0 10px 35px #0005;
 }
 
 .label{
   color:var(--muted);
-  font-size:11px;
+  font-size:10px;
   font-weight:700;
   letter-spacing:1px;
 }
@@ -139,15 +171,15 @@ header{
 .metric-layout{
   display:flex;
   align-items:center;
-  gap:16px;
+  gap:15px;
   margin-top:18px;
 }
 
 .gauge{
   --pct:0;
   --gauge-color:var(--green);
-  width:105px;
-  height:105px;
+  width:95px;
+  height:95px;
   flex-shrink:0;
   border-radius:50%;
   display:grid;
@@ -158,13 +190,12 @@ header{
   );
   position:relative;
   box-shadow:0 0 20px #0005;
-  transition:background .5s;
 }
 
 .gauge:before{
   content:"";
   position:absolute;
-  inset:9px;
+  inset:8px;
   border-radius:50%;
   background:#101824;
   border:1px solid #263344;
@@ -172,13 +203,14 @@ header{
 
 .gauge b{
   position:relative;
-  font:700 18px 'Space Mono',monospace;
+  font:700 17px 'Space Mono',monospace;
 }
 
 .metric-note{
   color:var(--muted);
   font-size:11px;
   line-height:1.8;
+  overflow-wrap:anywhere;
 }
 
 .metric-note strong{
@@ -202,15 +234,14 @@ header{
   width:0;
   border-radius:10px;
   background:var(--green);
-  box-shadow:0 0 15px var(--green);
-  transition:width 1s ease;
+  transition:width .8s ease;
 }
 
-.section{
-  margin-top:20px;
-  display:grid;
-  grid-template-columns:1.5fr 1fr;
-  gap:18px;
+.uptime{
+  font:700 23px 'Space Mono',monospace;
+  margin-top:22px;
+  color:var(--green);
+  overflow-wrap:anywhere;
 }
 
 .panel{
@@ -221,16 +252,23 @@ header{
   min-width:0;
 }
 
-.panel h3,
-.table-panel h3{
-  margin:0 0 20px;
+.panel h3,.table-panel h3{
+  margin:0;
   font-size:14px;
+}
+
+.section{
+  display:grid;
+  grid-template-columns:1.5fr 1fr;
+  gap:18px;
+  margin-top:20px;
 }
 
 canvas{
   width:100%;
   height:220px;
   display:block;
+  margin-top:15px;
 }
 
 .network-info{
@@ -245,20 +283,23 @@ canvas{
 .info{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;
+  gap:10px;
+  margin-top:18px;
 }
 
 .info div{
   background:#0b131f;
-  padding:14px;
+  padding:13px;
   border-radius:10px;
+  border:1px solid #1b2939;
+  min-width:0;
 }
 
 .info small{
   color:var(--muted);
   display:block;
   margin-bottom:8px;
-  font-size:10px;
+  font-size:9px;
 }
 
 .info strong{
@@ -272,7 +313,7 @@ canvas{
   border:1px solid var(--border);
   border-radius:15px;
   padding:22px;
-  overflow:hidden;
+  min-width:0;
 }
 
 .connection-head{
@@ -286,9 +327,11 @@ canvas{
 .connection-summary{
   display:flex;
   align-items:center;
+  flex-wrap:wrap;
   gap:10px;
   color:var(--muted);
-  font-size:12px;
+  font-size:11px;
+  margin-top:9px;
 }
 
 .connection-count{
@@ -316,17 +359,15 @@ canvas{
   margin-top:18px;
 }
 
-.connection-details.open{
-  display:block;
-}
+.connection-details.open{display:block}
 
 .table-wrap{overflow-x:auto}
 
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:550px;
-  font-size:12px;
+  min-width:650px;
+  font-size:11px;
 }
 
 th{
@@ -334,49 +375,50 @@ th{
   text-align:left;
   padding:14px;
   border-bottom:1px solid var(--border);
+  white-space:nowrap;
 }
 
 td{
-  padding:15px 14px;
+  padding:14px;
   border-bottom:1px solid #1b2836;
   font-family:'Space Mono',monospace;
+  white-space:nowrap;
 }
 
+tbody tr:hover{background:#172438}
+
 .badge{
+  display:inline-block;
   background:#123c2c;
   color:var(--green);
   padding:5px 9px;
   border-radius:20px;
-  font-size:10px;
+  font-size:9px;
 }
 
-/* VPN MONITOR */
-
-.vpn-grid{
+.vpn-grid,.incoming-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
   margin-top:20px;
 }
 
 .vpn-card{
   background:linear-gradient(145deg,#13251f,#0c1718);
   border:1px solid #24513d;
-  border-radius:15px;
-  padding:20px;
+  border-radius:13px;
+  padding:19px;
   min-width:0;
 }
 
 .vpn-number{
-  font:700 30px 'Space Mono',monospace;
+  font:700 28px 'Space Mono',monospace;
   color:var(--green);
   margin-top:12px;
   overflow-wrap:anywhere;
 }
 
-.vpn-ip-list{
-  margin-top:15px;
-}
+.vpn-ip-list{margin-top:15px}
 
 .vpn-ip{
   display:flex;
@@ -388,323 +430,367 @@ td{
   background:#0b131f;
   border:1px solid #1d2b3b;
   border-radius:9px;
-  font:12px 'Space Mono',monospace;
+  font:11px 'Space Mono',monospace;
   overflow-wrap:anywhere;
 }
 
-.vpn-online{
+.vpn-online,.incoming-status{
   color:var(--green);
   font-size:10px;
-  white-space:nowrap;
-}
-
-/* INCOMING IP MONITOR */
-
-.incoming-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  margin-top:20px;
 }
 
 .incoming-card{
   background:linear-gradient(145deg,#171d30,#0c131e);
   border:1px solid #35405d;
-  border-radius:15px;
-  padding:20px;
+  border-radius:13px;
+  padding:19px;
   min-width:0;
 }
 
 .incoming-number{
-  font:700 30px 'Space Mono',monospace;
+  font:700 28px 'Space Mono',monospace;
   color:var(--blue);
   margin-top:12px;
+  overflow-wrap:anywhere;
 }
 
-.incoming-ip{
-  color:var(--blue);
-  font:12px 'Space Mono',monospace;
-}
+.incoming-ip{color:var(--blue)}
+.incoming-port{color:var(--yellow)}
+.incoming-count{color:var(--green);font-weight:700}
+.speed-up{color:var(--green)}
+.speed-down{color:var(--blue)}
 
-.incoming-port{
-  color:var(--yellow);
-}
-
-.incoming-count{
-  color:var(--green);
-  font-weight:700;
-}
-
-.incoming-status{
-  color:var(--green);
-  font-size:10px;
+.error{
+  color:var(--red);
+  font-size:11px;
+  margin-top:12px;
+  overflow-wrap:anywhere;
 }
 
 footer{
   text-align:center;
   padding:30px;
   color:var(--muted);
-  font-size:11px;
+  font-size:10px;
+  line-height:1.8;
 }
 
-.error{
-  color:var(--red);
-  font-size:11px;
-  margin-top:12px;
-}
-
-@media(max-width:950px){
-  .grid{grid-template-columns:repeat(2,1fr)}
+@media(max-width:1000px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .section{grid-template-columns:1fr}
 }
 
-@media(max-width:700px){
-  .vpn-grid,
-  .incoming-grid{grid-template-columns:1fr}
-}
-
-@media(max-width:500px){
+@media(max-width:650px){
   header{padding:0 16px}
   .container{padding:24px 14px}
   .heading h1{font-size:22px}
-  .grid{gap:10px}
+  .vpn-grid,.incoming-grid{grid-template-columns:1fr}
   .card{padding:14px}
-  .gauge{width:85px;height:85px}
-  .gauge b{font-size:15px}
+  .gauge{width:80px;height:80px}
+  .gauge b{font-size:14px}
   .metric-layout{gap:10px}
-  .panel{padding:16px}
-  .table-panel{padding:15px}
+  .panel,.table-panel{padding:15px}
   .info{gap:8px}
+  .uptime{font-size:19px}
 }
-</style></head><body><header>
+
+@media(max-width:360px){
+  .grid{gap:8px}
+  .card{padding:10px}
+  .gauge{width:68px;height:68px}
+  .metric-note{font-size:9px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
   <div class="logo">
     AGE<span>VPN</span>
-    <small style="font-size:10px;color:#8292a7">MONITOR</small>
-  </div>  <div class="status">
+    <small>VPS MONITORING</small>
+  </div>
+
+  <div class="status">
     <span class="dot" id="dot"></span>
     <span id="status">CONNECTING</span>
   </div>
-</header><div class="container">  <div class="heading">
+</header>
+
+<div class="container">
+
+  <div class="heading">
     <div>
       <h1>Server Overview</h1>
       <p>Real-time VPS infrastructure monitoring</p>
     </div>
     <div class="time" id="clock">--:--:--</div>
-  </div>  <!-- RESOURCE CARDS -->  <div class="grid"><div class="card">
-  <div class="label">CPU USAGE</div>
-  <div class="metric-layout">
-    <div class="gauge" id="cpuGauge">
-      <b id="cpu">--%</b>
+  </div>
+
+  <div class="section-title">
+    <h2>◈ SYSTEM RESOURCES</h2>
+    <span>LIVE MONITORING</span>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="label">CPU USAGE</div>
+      <div class="metric-layout">
+        <div class="gauge" id="cpuGauge">
+          <b id="cpu">--%</b>
+        </div>
+        <div class="metric-note">
+          Processor utilization
+          <strong id="cpuNote">Loading...</strong>
+        </div>
+      </div>
+      <div class="bar"><span id="cpuBar"></span></div>
     </div>
-    <div class="metric-note">
-      Processor utilization
-      <strong id="cpuNote">Loading...</strong>
+
+    <div class="card">
+      <div class="label">MEMORY USAGE</div>
+      <div class="metric-layout">
+        <div class="gauge" id="ramGauge" style="--gauge-color:#38bdf8">
+          <b id="ram">--%</b>
+        </div>
+        <div class="metric-note">
+          RAM utilization
+          <strong id="ramNote">Loading...</strong>
+        </div>
+      </div>
+      <div class="bar">
+        <span id="ramBar" style="background:#38bdf8"></span>
+      </div>
     </div>
-  </div>
-  <div class="bar"><span id="cpuBar"></span></div>
-</div>
 
-<div class="card">
-  <div class="label">MEMORY USAGE</div>
-  <div class="metric-layout">
-    <div class="gauge" id="ramGauge" style="--gauge-color:#38bdf8">
-      <b id="ram">--%</b>
+    <div class="card">
+      <div class="label">DISK USAGE</div>
+      <div class="metric-layout">
+        <div class="gauge" id="diskGauge" style="--gauge-color:#a78bfa">
+          <b id="disk">--%</b>
+        </div>
+        <div class="metric-note">
+          Root filesystem
+          <strong id="diskNote">Loading...</strong>
+        </div>
+      </div>
+      <div class="bar">
+        <span id="diskBar" style="background:#a78bfa"></span>
+      </div>
     </div>
-    <div class="metric-note">
-      RAM utilization
-      <strong id="ramNote">Loading...</strong>
+
+    <div class="card">
+      <div class="label">SERVER UPTIME</div>
+      <div class="uptime" id="uptime">--</div>
+      <div class="metric-note">Server running time</div>
+      <div style="margin-top:20px;color:var(--green);font-size:10px">
+        ● SYSTEM ACTIVE
+      </div>
     </div>
-  </div>
-  <div class="bar">
-    <span id="ramBar" style="background:#38bdf8;box-shadow:0 0 15px #38bdf8"></span>
-  </div>
-</div>
 
-<div class="card">
-  <div class="label">DISK USAGE</div>
-  <div class="metric-layout">
-    <div class="gauge" id="diskGauge" style="--gauge-color:#a78bfa">
-      <b id="disk">--%</b>
+  </div>
+
+  <div class="section-title">
+    <h2>◈ VPN MONITOR</h2>
+    <span>X-RAY CONNECTIONS</span>
+  </div>
+
+  <div class="table-panel">
+
+    <div class="connection-head">
+      <div>
+        <h3>AGEVPN LIVE USERS</h3>
+        <div class="connection-summary">
+          <span class="vpn-online">● LIVE MONITOR</span>
+          <span id="vpnPortSummary">Enabled VPN ports</span>
+        </div>
+      </div>
     </div>
-    <div class="metric-note">
-      Root filesystem
-      <strong id="diskNote">Loading...</strong>
+
+    <div class="vpn-grid">
+
+      <div class="vpn-card">
+        <div class="label">VPN CONNECTIONS</div>
+        <div class="vpn-number" id="vpnConnections">--</div>
+        <div class="metric-note">Established connections</div>
+      </div>
+
+      <div class="vpn-card">
+        <div class="label">UNIQUE IP ADDRESSES</div>
+        <div class="vpn-number" id="vpnIPs">--</div>
+        <div class="metric-note">Distinct remote IPs</div>
+      </div>
+
+      <div class="vpn-card">
+        <div class="label">ACTIVE VPN PORTS</div>
+        <div class="vpn-number" id="vpnActivePorts">--</div>
+        <div class="metric-note">Ports with active sessions</div>
+      </div>
+
     </div>
-  </div>
-  <div class="bar">
-    <span id="diskBar" style="background:#a78bfa;box-shadow:0 0 15px #a78bfa"></span>
-  </div>
-</div>
 
-<div class="card">
-  <div class="label">SERVER UPTIME</div>
-  <div id="uptime" style="font-size:25px;margin-top:20px">--</div>
-  <div class="metric-note">Server running time</div>
-  <div style="margin-top:20px;color:var(--green);font-size:11px">
-    ● SYSTEM ACTIVE
-  </div>
-</div>
-
-  </div>  <!-- VPN MONITOR -->  <div class="table-panel"><div class="connection-head">
-  <div>
-    <h3>◈ AGEVPN LIVE USERS</h3>
-    <div class="connection-summary">
-      <span class="vpn-online">● X-RAY MONITOR</span>
-      <span>Port 3668</span>
+    <div class="vpn-ip-list" id="vpnIPList">
+      <div class="vpn-ip">Waiting for VPN data...</div>
     </div>
-  </div>
-</div>
 
-<div class="vpn-grid">
-
-  <div class="vpn-card">
-    <div class="label">VPN CONNECTIONS</div>
-    <div class="vpn-number" id="vpnConnections">--</div>
-    <div class="metric-note">Established connections</div>
   </div>
 
-  <div class="vpn-card">
-    <div class="label">UNIQUE IP ADDRESSES</div>
-    <div class="vpn-number" id="vpnIPs">--</div>
-    <div class="metric-note">Distinct remote IPs</div>
+  <div class="section-title">
+    <h2>◈ INCOMING CONNECTION MONITOR</h2>
+    <span>IP / PORT / TRAFFIC</span>
   </div>
 
-  <div class="vpn-card">
-    <div class="label">VPN PORT</div>
-    <div class="vpn-number">3668</div>
-    <div class="metric-note">Xray inbound port</div>
-  </div>
+  <div class="table-panel">
 
-</div>
-
-<div class="vpn-ip-list" id="vpnIPList">
-  <div class="vpn-ip">Waiting for VPN data...</div>
-</div>
-
-  </div>  <!-- ALL INCOMING IP MONITOR -->  <div class="table-panel"><div class="connection-head">
-  <div>
-    <h3>◈ ALL INCOMING VPS CONNECTIONS</h3>
-    <div class="connection-summary">
-      <span class="vpn-online">● LIVE IP MONITOR</span>
-      <span>All listening TCP ports</span>
+    <div class="connection-head">
+      <div>
+        <h3>ALL INCOMING VPS CONNECTIONS</h3>
+        <div class="connection-summary">
+          <span class="vpn-online">● LIVE IP MONITOR</span>
+          <span>Monitored VPN traffic</span>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-<div class="incoming-grid">
+    <div class="incoming-grid">
 
-  <div class="incoming-card">
-    <div class="label">TOTAL CONNECTIONS</div>
-    <div class="incoming-number" id="incomingConnections">--</div>
-    <div class="metric-note">Established incoming sessions</div>
-  </div>
+      <div class="incoming-card">
+        <div class="label">TOTAL CONNECTIONS</div>
+        <div class="incoming-number" id="incomingConnections">--</div>
+        <div class="metric-note">Established sessions</div>
+      </div>
 
-  <div class="incoming-card">
-    <div class="label">UNIQUE IP ADDRESSES</div>
-    <div class="incoming-number" id="incomingIPs">--</div>
-    <div class="metric-note">Distinct remote IPs</div>
-  </div>
+      <div class="incoming-card">
+        <div class="label">UNIQUE IP ADDRESSES</div>
+        <div class="incoming-number" id="incomingIPs">--</div>
+        <div class="metric-note">Distinct remote IPs</div>
+      </div>
 
-  <div class="incoming-card">
-    <div class="label">MONITORED PORTS</div>
-    <div class="incoming-number" id="incomingPorts">--</div>
-    <div class="metric-note">Ports with active connections</div>
-  </div>
+      <div class="incoming-card">
+        <div class="label">ACTIVE PORTS</div>
+        <div class="incoming-number" id="incomingPorts">--</div>
+        <div class="metric-note">Ports with active connections</div>
+      </div>
 
-</div>
-
-<div style="margin-top:22px">
-  <div class="connection-head">
-    <h3 style="margin:0">CONNECTED IP ADDRESS LIST</h3>
-    <span class="incoming-status">● AUTO UPDATED</span>
-  </div>
-
-  <div class="table-wrap" style="margin-top:15px">
-    <table>
-      <thead>
-        <tr>
-          <th>REMOTE IP</th>
-          <th>LOCAL PORT</th>
-          <th>CONNECTIONS</th>
-          <th>STATUS</th>
-        </tr>
-      </thead>
-      <tbody id="incomingList">
-        <tr>
-          <td colspan="4">Waiting for incoming IP data...</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-  </div>  <!-- NETWORK AND SERVER INFORMATION -->  <div class="section"><div class="panel">
-  <h3>◈ NETWORK TRAFFIC</h3>
-  <canvas id="networkChart"></canvas>
-
-  <div class="network-info">
-    <span style="color:#38bdf8">
-      ● Download: <b id="download">--</b>
-    </span>
-    <span style="color:#42f5a1">
-      ● Upload: <b id="upload">--</b>
-    </span>
-  </div>
-</div>
-
-<div class="panel">
-  <h3>◈ SERVER INFORMATION</h3>
-
-  <div class="info">
-    <div><small>HOSTNAME</small><strong id="hostname">--</strong></div>
-    <div><small>PLATFORM</small><strong id="platform">--</strong></div>
-    <div><small>LOAD AVERAGE</small><strong id="load">--</strong></div>
-    <div><small>CPU CORES</small><strong id="cores">--</strong></div>
-    <div><small>RAM TOTAL</small><strong id="ramTotal">--</strong></div>
-    <div><small>DISK TOTAL</small><strong id="diskTotal">--</strong></div>
-  </div>
-</div>
-
-  </div>  <!-- TCP CONNECTIONS -->  <div class="table-panel"><div class="connection-head">
-  <div>
-    <h3>◈ LIVE TCP CONNECTIONS</h3>
-    <div class="connection-summary">
-      <span class="connection-count" id="connectionCount">--</span>
-      <span>Active connections detected</span>
     </div>
+
+    <div style="margin-top:22px">
+      <div class="connection-head">
+        <h3>CONNECTED IP ADDRESS LIST</h3>
+        <span class="incoming-status">● AUTO UPDATED</span>
+      </div>
+
+      <div class="table-wrap" style="margin-top:15px">
+        <table>
+          <thead>
+            <tr>
+              <th>REMOTE IP</th>
+              <th>LOCAL PORT</th>
+              <th>CONNECTIONS</th>
+              <th>UPLOAD</th>
+              <th>DOWNLOAD</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+          <tbody id="incomingList">
+            <tr><td colspan="6">Waiting for incoming IP data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 
-  <button class="expand-btn" id="connectionToggle" type="button" aria-expanded="false">
-    ＋ SHOW DETAILS
-  </button>
-</div>
-
-<div class="connection-details" id="connectionDetails">
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>REMOTE IP</th>
-          <th>LOCAL PORT</th>
-          <th>REMOTE PORT</th>
-          <th>PROTOCOL</th>
-          <th>STATUS</th>
-        </tr>
-      </thead>
-      <tbody id="connections">
-        <tr><td colspan="5">Waiting for server data...</td></tr>
-      </tbody>
-    </table>
+  <div class="section-title">
+    <h2>◈ NETWORK & SERVER INFORMATION</h2>
+    <span>PERFORMANCE</span>
   </div>
+
+  <div class="section">
+
+    <div class="panel">
+      <h3>NETWORK TRAFFIC</h3>
+      <canvas id="networkChart"></canvas>
+
+      <div class="network-info">
+        <span style="color:var(--blue)">
+          ● Download: <b id="download">--</b>
+        </span>
+        <span style="color:var(--green)">
+          ● Upload: <b id="upload">--</b>
+        </span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>SERVER INFORMATION</h3>
+
+      <div class="info">
+        <div><small>HOSTNAME</small><strong id="hostname">--</strong></div>
+        <div><small>PLATFORM</small><strong id="platform">--</strong></div>
+        <div><small>LOAD AVERAGE</small><strong id="load">--</strong></div>
+        <div><small>CPU CORES</small><strong id="cores">--</strong></div>
+        <div><small>RAM TOTAL</small><strong id="ramTotal">--</strong></div>
+        <div><small>DISK TOTAL</small><strong id="diskTotal">--</strong></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-title">
+    <h2>◈ TCP CONNECTIONS</h2>
+    <span>CONNECTION DETAILS</span>
+  </div>
+
+  <div class="table-panel">
+
+    <div class="connection-head">
+      <div>
+        <h3>LIVE TCP CONNECTIONS</h3>
+        <div class="connection-summary">
+          <span class="connection-count" id="connectionCount">--</span>
+          <span>Active connections detected</span>
+        </div>
+      </div>
+
+      <button class="expand-btn" id="connectionToggle" type="button" aria-expanded="false">
+        ＋ SHOW DETAILS
+      </button>
+    </div>
+
+    <div class="connection-details" id="connectionDetails">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>REMOTE IP</th>
+              <th>LOCAL PORT</th>
+              <th>REMOTE PORT</th>
+              <th>PROTOCOL</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+          <tbody id="connections">
+            <tr><td colspan="5">Waiting for server data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="error" id="error"></div>
+
+  </div>
+
 </div>
 
-<div class="error" id="error"></div>
-
-  </div></div><footer>
+<footer>
   AGEVPN INFRASTRUCTURE • VPS MONITORING SYSTEM
-  <br><br>
+  <br>
   AUTO REFRESH: 5 SECONDS
-</footer><script>
+</footer>
+
+<script>
 const API='/api/metrics';
 
 const $=id=>document.getElementById(id);
@@ -750,6 +836,16 @@ function uptimeText(seconds){
   return `${d}d ${h}h ${m}m`;
 }
 
+function safe(v){
+  return String(v??'-').replace(/[&<>"']/g,c=>({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  })[c]);
+}
+
 // NETWORK HISTORY
 
 const history={
@@ -759,8 +855,9 @@ const history={
 
 function drawChart(){
   const c=$('networkChart');
-  const ctx=c.getContext('2d');
+  if(!c)return;
 
+  const ctx=c.getContext('2d');
   const w=c.clientWidth;
   const h=220;
   const ratio=window.devicePixelRatio||1;
@@ -801,7 +898,7 @@ function drawChart(){
 
     ctx.strokeStyle=color;
     ctx.lineWidth=2.5;
-    ctx.shadowBlur=10;
+    ctx.shadowBlur=9;
     ctx.shadowColor=color;
     ctx.stroke();
     ctx.shadowBlur=0;
@@ -809,18 +906,6 @@ function drawChart(){
 
   line(history.rx,'#38bdf8');
   line(history.tx,'#42f5a1');
-}
-
-// SAFE HTML
-
-function safe(v){
-  return String(v).replace(/[&<>"']/g,c=>({
-    '&':'&amp;',
-    '<':'&lt;',
-    '>':'&gt;',
-    '"':'&quot;',
-    "'":'&#39;'
-  })[c]);
 }
 
 // VPN MONITOR
@@ -831,7 +916,18 @@ function renderVPN(vpn){
   $('vpnConnections').textContent=number(vpn.connections);
   $('vpnIPs').textContent=number(vpn.uniqueIPs);
 
+  const activePorts=Array.isArray(vpn.activePorts)
+    ?vpn.activePorts:[];
+  const vpnPorts=Array.isArray(vpn.vpnPorts)
+    ?vpn.vpnPorts:[];
   const ips=Array.isArray(vpn.ips)?vpn.ips:[];
+
+  $('vpnActivePorts').textContent=activePorts.length;
+
+  $('vpnPortSummary').textContent=
+    vpnPorts.length
+    ?'Enabled ports: '+vpnPorts.join(', ')
+    :'Enabled VPN ports';
 
   $('vpnIPList').innerHTML=ips.length
     ?ips.map(ip=>`
@@ -843,12 +939,11 @@ function renderVPN(vpn){
     :'<div class="vpn-ip">No active VPN IPs</div>';
 }
 
-// ALL INCOMING CONNECTIONS
+// INCOMING CONNECTIONS
 
 function renderIncoming(incoming){
   incoming=incoming||{};
 
-  const ips=Array.isArray(incoming.ips)?incoming.ips:[];
   const rows=Array.isArray(incoming.connections)
     ?incoming.connections:[];
 
@@ -868,10 +963,12 @@ function renderIncoming(incoming){
         <td class="incoming-ip">${safe(item.ip||'-')}</td>
         <td class="incoming-port">${safe(item.port||'-')}</td>
         <td class="incoming-count">${number(item.connections)}</td>
+        <td class="speed-up">${number(item.uploadKbps).toFixed(2)} Kbps</td>
+        <td class="speed-down">${number(item.downloadKbps).toFixed(2)} Kbps</td>
         <td><span class="badge">ONLINE</span></td>
       </tr>
     `).join('')
-    :'<tr><td colspan="4">No active incoming connections</td></tr>';
+    :'<tr><td colspan="6">No active incoming connections</td></tr>';
 }
 
 // TCP CONNECTIONS
@@ -931,7 +1028,12 @@ $('connectionToggle').addEventListener('click',()=>{
 
 // MAIN API REFRESH
 
+let refreshing=false;
+
 async function refresh(){
+  if(refreshing)return;
+  refreshing=true;
+
   try{
     const res=await fetch(API,{
       cache:'no-store'
@@ -945,6 +1047,7 @@ async function refresh(){
 
     $('status').textContent='SERVER ONLINE';
     $('dot').style.background='var(--green)';
+    $('dot').style.boxShadow='0 0 14px var(--green)';
     $('error').textContent='';
 
     // CPU
@@ -1007,87 +1110,4 @@ async function refresh(){
 
     $('uptime').textContent=uptimeText(d.uptime);
 
-    const memTotal=d.memory?.total??d.memory?.totalBytes;
-
-    $('ramTotal').textContent=
-      memTotal?bytes(memTotal):'--';
-
-    const diskTotal=d.disk?.total??d.disk?.totalBytes;
-
-    $('diskTotal').textContent=
-      diskTotal?bytes(diskTotal):'--';
-
-    // NETWORK
-
-    const net=d.network||{};
-
-    const rx=number(
-      net.download??
-      net.rxSpeed??
-      net.downloadSpeed??
-      net.rx
-    );
-
-    const tx=number(
-      net.upload??
-      net.txSpeed??
-      net.uploadSpeed??
-      net.tx
-    );
-
-    $('download').textContent=speed(rx);
-    $('upload').textContent=speed(tx);
-
-    history.rx.push(rx);
-    history.tx.push(tx);
-
-    if(history.rx.length>30){
-      history.rx.shift();
-      history.tx.shift();
-    }
-
-    drawChart();
-
-    // VPN MONITOR
-
-    renderVPN(d.vpn);
-
-    // ALL INCOMING IP MONITOR
-
-    renderIncoming(d.incoming);
-
-    // TCP CONNECTIONS
-
-    renderConnections(
-      d.tcp||
-      d.connections||
-      []
-    );
-
-  }catch(e){
-    $('status').textContent='API OFFLINE';
-    $('dot').style.background='var(--red)';
-
-    $('error').textContent=
-      'API connection error: '+e.message;
-  }
-}
-
-// CLOCK
-
-function clock(){
-  $('clock').textContent=
-    new Date().toLocaleTimeString();
-}
-
-// START
-
-clock();
-refresh();
-
-setInterval(refresh,5000);
-setInterval(clock,1000);
-
-window.addEventListener('resize',drawChart);
-</script></body>
-</html>
+    const
