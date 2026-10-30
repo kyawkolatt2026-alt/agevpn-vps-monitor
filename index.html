@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080d16">
-<title>AGEVPN — VPS Monitor</title>
+<meta name="theme-color" content="#050711">
+<title>AGEVPN — Neon VPS Monitor</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,69 +12,74 @@
 
 <style>
 :root{
-  --bg:#080d16;
-  --panel:#101a28;
-  --panel2:#0c1521;
-  --border:#213044;
-  --green:#42f5a1;
-  --blue:#38bdf8;
-  --purple:#a78bfa;
-  --red:#fb7185;
-  --yellow:#fbbf24;
-  --text:#e8f0fa;
-  --muted:#8798ad;
+  --bg:#050711;
+  --panel:#0c1120;
+  --panel2:#10172a;
+  --border:#202b45;
+  --green:#00ff9c;
+  --blue:#00e5ff;
+  --purple:#a855f7;
+  --red:#ff3864;
+  --yellow:#ffd166;
+  --text:#eef5ff;
+  --muted:#8493ad;
 }
 
 *{box-sizing:border-box}
 
 body{
   margin:0;
-  background:
-    radial-gradient(ellipse at 10% 0%,#123b3030,transparent 40%),
-    radial-gradient(ellipse at 90% 5%,#173c6530,transparent 40%),
-    var(--bg);
+  min-height:100vh;
   color:var(--text);
   font-family:Inter,sans-serif;
-  min-height:100vh;
+  background:
+    radial-gradient(ellipse at 5% 0%,#00ff9c12,transparent 35%),
+    radial-gradient(ellipse at 95% 5%,#a855f715,transparent 35%),
+    radial-gradient(ellipse at 50% 100%,#00e5ff09,transparent 45%),
+    var(--bg);
 }
 
 header{
-  height:70px;
+  height:76px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 5%;
-  border-bottom:1px solid var(--border);
-  background:#080e18ed;
   position:sticky;
   top:0;
-  z-index:10;
-  backdrop-filter:blur(15px);
+  z-index:100;
+  background:#080c18ed;
+  border-bottom:1px solid #00e5ff25;
+  backdrop-filter:blur(20px);
 }
 
 .logo{
-  font-size:21px;
+  font-size:23px;
   font-weight:800;
-  letter-spacing:1px;
+  letter-spacing:1.5px;
 }
 
-.logo span{color:var(--green)}
+.logo span{
+  color:var(--blue);
+  text-shadow:0 0 15px #00e5ff90;
+}
 
 .logo small{
   display:block;
   color:var(--muted);
   font-size:9px;
-  letter-spacing:3px;
-  margin-top:2px;
+  letter-spacing:4px;
+  margin-top:4px;
 }
 
 .status{
   display:flex;
   align-items:center;
-  gap:9px;
+  gap:10px;
   color:var(--green);
   font-size:11px;
-  font-weight:700;
+  font-weight:800;
+  letter-spacing:1px;
 }
 
 .dot{
@@ -82,7 +87,7 @@ header{
   height:9px;
   border-radius:50%;
   background:var(--green);
-  box-shadow:0 0 14px var(--green);
+  box-shadow:0 0 15px var(--green);
   animation:pulse 1.5s infinite;
 }
 
@@ -91,9 +96,9 @@ header{
 }
 
 .container{
-  max-width:1500px;
+  max-width:1550px;
   margin:auto;
-  padding:30px 5%;
+  padding:35px 5%;
 }
 
 .heading{
@@ -102,23 +107,30 @@ header{
   align-items:center;
   flex-wrap:wrap;
   gap:15px;
-  margin-bottom:25px;
+  margin-bottom:30px;
 }
 
 .heading h1{
-  font-size:27px;
-  margin:0 0 8px;
+  font-size:29px;
+  font-weight:800;
+  letter-spacing:-1px;
+  margin:0 0 9px;
 }
 
 .heading p{
   color:var(--muted);
   margin:0;
-  font-size:13px;
+  font-size:12px;
 }
 
 .time{
-  color:var(--green);
-  font:12px 'Space Mono',monospace;
+  color:var(--blue);
+  font:13px 'Space Mono',monospace;
+  padding:12px 17px;
+  background:#00e5ff0c;
+  border:1px solid #00e5ff35;
+  border-radius:10px;
+  box-shadow:0 0 18px #00e5ff20;
 }
 
 .section-title{
@@ -126,90 +138,113 @@ header{
   justify-content:space-between;
   align-items:center;
   gap:10px;
-  margin:28px 0 14px;
+  margin:36px 0 16px;
+  padding-left:13px;
+  border-left:3px solid var(--blue);
 }
 
 .section-title h2{
-  font-size:14px;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:1.2px;
   margin:0;
-  letter-spacing:.5px;
 }
 
 .section-title span{
-  font-size:10px;
+  font-size:9px;
   color:var(--muted);
+  letter-spacing:1.5px;
 }
 
 .grid{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:16px;
+  gap:17px;
 }
 
 .card{
-  background:linear-gradient(145deg,#142132,#0d1521);
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:20px;
+  position:relative;
+  overflow:hidden;
   min-width:0;
-  transition:.25s;
+  padding:22px;
+  background:linear-gradient(145deg,#111a2d,#090e1b);
+  border:1px solid var(--border);
+  border-radius:17px;
+  box-shadow:0 8px 30px #0005;
+  transition:.3s ease;
+}
+
+.card:after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:20px;
+  right:20px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--blue),transparent);
+  opacity:.5;
 }
 
 .card:hover{
-  transform:translateY(-3px);
-  border-color:#42f5a177;
-  box-shadow:0 10px 35px #0005;
+  transform:translateY(-5px);
+  border-color:#00e5ff75;
+  box-shadow:0 12px 35px #00e5ff12;
 }
 
 .label{
   color:var(--muted);
   font-size:10px;
-  font-weight:700;
-  letter-spacing:1px;
+  font-weight:800;
+  letter-spacing:1.5px;
 }
 
 .metric-layout{
   display:flex;
   align-items:center;
-  gap:15px;
-  margin-top:18px;
+  gap:17px;
+  margin-top:20px;
 }
 
 .gauge{
   --pct:0;
   --gauge-color:var(--green);
-  width:95px;
-  height:95px;
+  width:100px;
+  height:100px;
   flex-shrink:0;
-  border-radius:50%;
   display:grid;
   place-items:center;
+  position:relative;
+  border-radius:50%;
   background:conic-gradient(
     var(--gauge-color) calc(var(--pct)*1%),
-    #263344 0
+    #263047 0
   );
-  position:relative;
-  box-shadow:0 0 20px #0005;
+  box-shadow:0 0 20px #0008;
 }
 
 .gauge:before{
   content:"";
   position:absolute;
-  inset:8px;
+  inset:9px;
   border-radius:50%;
-  background:#101824;
-  border:1px solid #263344;
+  background:#0b1120;
+  border:1px solid #27334b;
 }
 
 .gauge b{
   position:relative;
-  font:700 17px 'Space Mono',monospace;
+  font:700 18px 'Space Mono',monospace;
+  text-shadow:0 0 12px currentColor;
 }
+
+#cpuGauge{color:var(--green)}
+#ramGauge{color:var(--blue)}
+#diskGauge{color:var(--purple)}
 
 .metric-note{
   color:var(--muted);
-  font-size:11px;
-  line-height:1.8;
+  font-size:10px;
+  line-height:1.9;
   overflow-wrap:anywhere;
 }
 
@@ -222,9 +257,9 @@ header{
 
 .bar{
   height:5px;
-  background:#263344;
-  border-radius:10px;
-  margin-top:18px;
+  background:#202a40;
+  border-radius:20px;
+  margin-top:20px;
   overflow:hidden;
 }
 
@@ -232,29 +267,31 @@ header{
   display:block;
   height:100%;
   width:0;
-  border-radius:10px;
-  background:var(--green);
+  border-radius:20px;
   transition:width .8s ease;
 }
 
 .uptime{
-  font:700 23px 'Space Mono',monospace;
-  margin-top:22px;
+  font:700 25px 'Space Mono',monospace;
+  margin-top:25px;
   color:var(--green);
+  text-shadow:0 0 15px #00ff9c50;
   overflow-wrap:anywhere;
 }
 
-.panel{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:22px;
+.panel,.table-panel{
   min-width:0;
+  background:linear-gradient(145deg,#10182a,#090e1b);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:23px;
+  box-shadow:0 8px 30px #0004;
 }
 
 .panel h3,.table-panel h3{
   margin:0;
-  font-size:14px;
+  font-size:13px;
+  letter-spacing:.5px;
 }
 
 .section{
@@ -268,7 +305,7 @@ canvas{
   width:100%;
   height:220px;
   display:block;
-  margin-top:15px;
+  margin-top:18px;
 }
 
 .network-info{
@@ -277,29 +314,36 @@ canvas{
   gap:25px;
   font-size:11px;
   color:var(--muted);
-  margin-top:15px;
+  margin-top:18px;
 }
 
 .info{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:18px;
+  gap:11px;
+  margin-top:20px;
 }
 
 .info div{
-  background:#0b131f;
-  padding:13px;
-  border-radius:10px;
-  border:1px solid #1b2939;
   min-width:0;
+  padding:15px;
+  background:#080e1b;
+  border:1px solid #202b42;
+  border-radius:11px;
+  transition:.2s;
+}
+
+.info div:hover{
+  border-color:#00e5ff70;
+  box-shadow:0 0 18px #00e5ff20;
 }
 
 .info small{
-  color:var(--muted);
   display:block;
-  margin-bottom:8px;
+  color:var(--muted);
+  margin-bottom:9px;
   font-size:9px;
+  letter-spacing:1px;
 }
 
 .info strong{
@@ -309,11 +353,6 @@ canvas{
 
 .table-panel{
   margin-top:20px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:22px;
-  min-width:0;
 }
 
 .connection-head{
@@ -328,73 +367,40 @@ canvas{
   display:flex;
   align-items:center;
   flex-wrap:wrap;
-  gap:10px;
+  gap:12px;
   color:var(--muted);
-  font-size:11px;
-  margin-top:9px;
+  font-size:10px;
+  margin-top:10px;
 }
 
 .connection-count{
   color:var(--green);
-  font:700 22px 'Space Mono',monospace;
+  font:700 23px 'Space Mono',monospace;
+  text-shadow:0 0 12px #00ff9c55;
 }
 
 .expand-btn{
-  border:1px solid #2a4053;
-  background:#101d2a;
-  color:var(--green);
-  padding:10px 14px;
+  border:1px solid #00e5ff60;
+  background:#00e5ff0d;
+  color:var(--blue);
+  padding:11px 16px;
   border-radius:9px;
-  font:600 11px Inter,sans-serif;
+  font:700 10px Inter,sans-serif;
   cursor:pointer;
+  transition:.2s;
 }
 
 .expand-btn:hover{
-  border-color:var(--green);
-  background:#123326;
+  background:#00e5ff20;
+  box-shadow:0 0 18px #00e5ff30;
 }
 
 .connection-details{
   display:none;
-  margin-top:18px;
+  margin-top:20px;
 }
 
 .connection-details.open{display:block}
-
-.table-wrap{overflow-x:auto}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:650px;
-  font-size:11px;
-}
-
-th{
-  color:var(--muted);
-  text-align:left;
-  padding:14px;
-  border-bottom:1px solid var(--border);
-  white-space:nowrap;
-}
-
-td{
-  padding:14px;
-  border-bottom:1px solid #1b2836;
-  font-family:'Space Mono',monospace;
-  white-space:nowrap;
-}
-
-tbody tr:hover{background:#172438}
-
-.badge{
-  display:inline-block;
-  background:#123c2c;
-  color:var(--green);
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:9px;
-}
 
 .vpn-grid,.incoming-grid{
   display:grid;
@@ -404,32 +410,41 @@ tbody tr:hover{background:#172438}
 }
 
 .vpn-card{
-  background:linear-gradient(145deg,#13251f,#0c1718);
-  border:1px solid #24513d;
-  border-radius:13px;
-  padding:19px;
   min-width:0;
+  padding:20px;
+  border-radius:14px;
+  background:linear-gradient(145deg,#0c2824,#0b1420);
+  border:1px solid #00ff9c35;
+  box-shadow:inset 0 0 25px #00ff9c05;
+  transition:.25s;
+}
+
+.vpn-card:hover{
+  border-color:#00ff9c90;
+  box-shadow:0 0 18px #00ff9c30;
+  transform:translateY(-3px);
 }
 
 .vpn-number{
-  font:700 28px 'Space Mono',monospace;
+  font:700 29px 'Space Mono',monospace;
   color:var(--green);
-  margin-top:12px;
+  margin-top:13px;
+  text-shadow:0 0 15px #00ff9c45;
   overflow-wrap:anywhere;
 }
 
-.vpn-ip-list{margin-top:15px}
+.vpn-ip-list{margin-top:17px}
 
 .vpn-ip{
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:10px;
-  padding:12px;
+  padding:13px;
   margin-top:8px;
-  background:#0b131f;
-  border:1px solid #1d2b3b;
-  border-radius:9px;
+  background:#080f1c;
+  border:1px solid #24344a;
+  border-radius:10px;
   font:11px 'Space Mono',monospace;
   overflow-wrap:anywhere;
 }
@@ -440,17 +455,25 @@ tbody tr:hover{background:#172438}
 }
 
 .incoming-card{
-  background:linear-gradient(145deg,#171d30,#0c131e);
-  border:1px solid #35405d;
-  border-radius:13px;
-  padding:19px;
   min-width:0;
+  padding:20px;
+  border-radius:14px;
+  background:linear-gradient(145deg,#101c35,#0a1120);
+  border:1px solid #00e5ff35;
+  transition:.25s;
+}
+
+.incoming-card:hover{
+  border-color:#00e5ff90;
+  box-shadow:0 0 18px #00e5ff30;
+  transform:translateY(-3px);
 }
 
 .incoming-number{
-  font:700 28px 'Space Mono',monospace;
+  font:700 29px 'Space Mono',monospace;
   color:var(--blue);
-  margin-top:12px;
+  margin-top:13px;
+  text-shadow:0 0 15px #00e5ff45;
   overflow-wrap:anywhere;
 }
 
@@ -460,45 +483,110 @@ tbody tr:hover{background:#172438}
 .speed-up{color:var(--green)}
 .speed-down{color:var(--blue)}
 
+.table-wrap{
+  overflow-x:auto;
+  scrollbar-width:thin;
+  scrollbar-color:#344766 transparent;
+}
+
+table{
+  width:100%;
+  min-width:650px;
+  border-collapse:collapse;
+  font-size:11px;
+}
+
+th{
+  color:var(--blue);
+  text-align:left;
+  padding:15px;
+  border-bottom:1px solid #26334b;
+  white-space:nowrap;
+  font-size:9px;
+  letter-spacing:1px;
+}
+
+td{
+  padding:15px;
+  border-bottom:1px solid #1a263b;
+  font-family:'Space Mono',monospace;
+  white-space:nowrap;
+}
+
+tbody tr:hover{background:#00e5ff09}
+
+.badge{
+  display:inline-block;
+  background:#00ff9c12;
+  color:var(--green);
+  border:1px solid #00ff9c35;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:9px;
+  font-weight:700;
+}
+
 .error{
   color:var(--red);
   font-size:11px;
-  margin-top:12px;
+  margin-top:13px;
   overflow-wrap:anywhere;
 }
 
 footer{
   text-align:center;
-  padding:30px;
+  padding:35px 15px;
   color:var(--muted);
-  font-size:10px;
-  line-height:1.8;
+  font-size:9px;
+  letter-spacing:1.5px;
+  line-height:2;
+  border-top:1px solid #202b42;
+  background:#080c17;
 }
 
-@media(max-width:1000px){
+@media(max-width:1050px){
   .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .section{grid-template-columns:1fr}
 }
 
 @media(max-width:650px){
-  header{padding:0 16px}
-  .container{padding:24px 14px}
-  .heading h1{font-size:22px}
+  header{height:65px;padding:0 16px}
+  .logo{font-size:19px}
+  .container{padding:25px 13px}
+  .heading h1{font-size:23px}
+  .heading p{font-size:11px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card{padding:13px}
+  .gauge{width:70px;height:70px}
+  .gauge:before{inset:7px}
+  .gauge b{font-size:12px}
+  .metric-layout{gap:9px;flex-wrap:wrap}
+  .metric-note{font-size:9px}
+  .uptime{font-size:18px}
   .vpn-grid,.incoming-grid{grid-template-columns:1fr}
-  .card{padding:14px}
-  .gauge{width:80px;height:80px}
-  .gauge b{font-size:14px}
-  .metric-layout{gap:10px}
   .panel,.table-panel{padding:15px}
   .info{gap:8px}
-  .uptime{font-size:19px}
+  .info div{padding:11px}
+  .section-title{margin-top:29px}
+  .section-title h2{font-size:11px}
+  .time{font-size:11px}
 }
 
 @media(max-width:360px){
-  .grid{gap:8px}
-  .card{padding:10px}
-  .gauge{width:68px;height:68px}
-  .metric-note{font-size:9px}
+  .grid{gap:7px}
+  .card{padding:9px}
+  .gauge{width:62px;height:62px}
+  .metric-note{font-size:8px}
+  .label{font-size:8px}
+  .heading h1{font-size:20px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{
+    animation-duration:.01ms!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
 }
 </style>
 </head>
@@ -508,7 +596,7 @@ footer{
 <header>
   <div class="logo">
     AGE<span>VPN</span>
-    <small>VPS MONITORING</small>
+    <small>NEON VPS MONITORING</small>
   </div>
 
   <div class="status">
@@ -545,13 +633,13 @@ footer{
           <strong id="cpuNote">Loading...</strong>
         </div>
       </div>
-      <div class="bar"><span id="cpuBar"></span></div>
+      <div class="bar"><span id="cpuBar" style="background:var(--green)"></span></div>
     </div>
 
     <div class="card">
       <div class="label">MEMORY USAGE</div>
       <div class="metric-layout">
-        <div class="gauge" id="ramGauge" style="--gauge-color:#38bdf8">
+        <div class="gauge" id="ramGauge" style="--gauge-color:#00e5ff">
           <b id="ram">--%</b>
         </div>
         <div class="metric-note">
@@ -560,14 +648,14 @@ footer{
         </div>
       </div>
       <div class="bar">
-        <span id="ramBar" style="background:#38bdf8"></span>
+        <span id="ramBar" style="background:var(--blue)"></span>
       </div>
     </div>
 
     <div class="card">
       <div class="label">DISK USAGE</div>
       <div class="metric-layout">
-        <div class="gauge" id="diskGauge" style="--gauge-color:#a78bfa">
+        <div class="gauge" id="diskGauge" style="--gauge-color:#a855f7">
           <b id="disk">--%</b>
         </div>
         <div class="metric-note">
@@ -576,7 +664,7 @@ footer{
         </div>
       </div>
       <div class="bar">
-        <span id="diskBar" style="background:#a78bfa"></span>
+        <span id="diskBar" style="background:var(--purple)"></span>
       </div>
     </div>
 
@@ -645,7 +733,7 @@ footer{
 
     <div class="connection-head">
       <div>
-        <h3>ALL INCOMING VPS CONNECTIONS</h3>
+        <h3>VPN TRAFFIC CONNECTIONS</h3>
         <div class="connection-summary">
           <span class="vpn-online">● LIVE IP MONITOR</span>
           <span>Monitored VPN traffic</span>
@@ -785,7 +873,7 @@ footer{
 </div>
 
 <footer>
-  AGEVPN INFRASTRUCTURE • VPS MONITORING SYSTEM
+  AGEVPN INFRASTRUCTURE • NEON VPS MONITORING SYSTEM
   <br>
   AUTO REFRESH: 5 SECONDS
 </footer>
@@ -898,14 +986,14 @@ function drawChart(){
 
     ctx.strokeStyle=color;
     ctx.lineWidth=2.5;
-    ctx.shadowBlur=9;
+    ctx.shadowBlur=12;
     ctx.shadowColor=color;
     ctx.stroke();
     ctx.shadowBlur=0;
   }
 
-  line(history.rx,'#38bdf8');
-  line(history.tx,'#42f5a1');
+  line(history.rx,'#00e5ff');
+  line(history.tx,'#00ff9c');
 }
 
 // VPN MONITOR
@@ -980,7 +1068,7 @@ function getHostPort(value){
 
   return match
     ?{
-      host:match[1].replace(/^|$/g,''),
+      host:match[1].replace(/^\[|\]$/g,''),
       port:match[2]
     }
     :{
@@ -1110,4 +1198,93 @@ async function refresh(){
 
     $('uptime').textContent=uptimeText(d.uptime);
 
-    const
+    const memTotal=d.memory?.total??d.memory?.totalBytes;
+
+    $('ramTotal').textContent=
+      memTotal?bytes(memTotal):'--';
+
+    const diskTotal=d.disk?.total??d.disk?.totalBytes;
+
+    $('diskTotal').textContent=
+      diskTotal?bytes(diskTotal):'--';
+
+    // NETWORK
+
+    const net=d.network||{};
+
+    const rx=number(
+      net.download??
+      net.rxSpeed??
+      net.downloadSpeed??
+      net.rx
+    );
+
+    const tx=number(
+      net.upload??
+      net.txSpeed??
+      net.uploadSpeed??
+      net.tx
+    );
+
+    $('download').textContent=speed(rx);
+    $('upload').textContent=speed(tx);
+
+    history.rx.push(rx);
+    history.tx.push(tx);
+
+    if(history.rx.length>30){
+      history.rx.shift();
+      history.tx.shift();
+    }
+
+    drawChart();
+
+    // VPN
+
+    renderVPN(d.vpn);
+
+    // INCOMING IP
+
+    renderIncoming(d.incoming);
+
+    // TCP
+
+    renderConnections(
+      d.tcp||
+      d.connections||
+      []
+    );
+
+  }catch(e){
+    $('status').textContent='API OFFLINE';
+    $('dot').style.background='var(--red)';
+    $('dot').style.boxShadow='0 0 14px var(--red)';
+
+    $('error').textContent=
+      'API connection error: '+e.message;
+
+  }finally{
+    refreshing=false;
+  }
+}
+
+// CLOCK
+
+function clock(){
+  $('clock').textContent=
+    new Date().toLocaleTimeString();
+}
+
+// START
+
+clock();
+refresh();
+
+setInterval(refresh,5000);
+setInterval(clock,1000);
+
+window.addEventListener('resize',drawChart);
+</script>
+
+</body>
+</html>
