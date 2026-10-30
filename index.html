@@ -398,6 +398,48 @@ td{
   white-space:nowrap;
 }
 
+/* INCOMING IP MONITOR */
+
+.incoming-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:20px;
+}
+
+.incoming-card{
+  background:linear-gradient(145deg,#171d30,#0c131e);
+  border:1px solid #35405d;
+  border-radius:15px;
+  padding:20px;
+  min-width:0;
+}
+
+.incoming-number{
+  font:700 30px 'Space Mono',monospace;
+  color:var(--blue);
+  margin-top:12px;
+}
+
+.incoming-ip{
+  color:var(--blue);
+  font:12px 'Space Mono',monospace;
+}
+
+.incoming-port{
+  color:var(--yellow);
+}
+
+.incoming-count{
+  color:var(--green);
+  font-weight:700;
+}
+
+.incoming-status{
+  color:var(--green);
+  font-size:10px;
+}
+
 footer{
   text-align:center;
   padding:30px;
@@ -417,7 +459,8 @@ footer{
 }
 
 @media(max-width:700px){
-  .vpn-grid{grid-template-columns:1fr}
+  .vpn-grid,
+  .incoming-grid{grid-template-columns:1fr}
 }
 
 @media(max-width:500px){
@@ -426,10 +469,7 @@ footer{
   .heading h1{font-size:22px}
   .grid{gap:10px}
   .card{padding:14px}
-  .gauge{
-    width:85px;
-    height:85px;
-  }
+  .gauge{width:85px;height:85px}
   .gauge b{font-size:15px}
   .metric-layout{gap:10px}
   .panel{padding:16px}
@@ -448,8 +488,8 @@ footer{
     <div>
       <h1>Server Overview</h1>
       <p>Real-time VPS infrastructure monitoring</p>
-    </div><div class="time" id="clock">--:--:--</div>
-
+    </div>
+    <div class="time" id="clock">--:--:--</div>
   </div>  <!-- RESOURCE CARDS -->  <div class="grid"><div class="card">
   <div class="label">CPU USAGE</div>
   <div class="metric-layout">
@@ -498,8 +538,8 @@ footer{
 
 <div class="card">
   <div class="label">SERVER UPTIME</div>
-  <div class="value" id="uptime" style="font-size:25px;margin-top:20px">--</div>
-  <div class="unit">Server running time</div>
+  <div id="uptime" style="font-size:25px;margin-top:20px">--</div>
+  <div class="metric-note">Server running time</div>
   <div style="margin-top:20px;color:var(--green);font-size:11px">
     ● SYSTEM ACTIVE
   </div>
@@ -539,6 +579,63 @@ footer{
 
 <div class="vpn-ip-list" id="vpnIPList">
   <div class="vpn-ip">Waiting for VPN data...</div>
+</div>
+
+  </div>  <!-- ALL INCOMING IP MONITOR -->  <div class="table-panel"><div class="connection-head">
+  <div>
+    <h3>◈ ALL INCOMING VPS CONNECTIONS</h3>
+    <div class="connection-summary">
+      <span class="vpn-online">● LIVE IP MONITOR</span>
+      <span>All listening TCP ports</span>
+    </div>
+  </div>
+</div>
+
+<div class="incoming-grid">
+
+  <div class="incoming-card">
+    <div class="label">TOTAL CONNECTIONS</div>
+    <div class="incoming-number" id="incomingConnections">--</div>
+    <div class="metric-note">Established incoming sessions</div>
+  </div>
+
+  <div class="incoming-card">
+    <div class="label">UNIQUE IP ADDRESSES</div>
+    <div class="incoming-number" id="incomingIPs">--</div>
+    <div class="metric-note">Distinct remote IPs</div>
+  </div>
+
+  <div class="incoming-card">
+    <div class="label">MONITORED PORTS</div>
+    <div class="incoming-number" id="incomingPorts">--</div>
+    <div class="metric-note">Ports with active connections</div>
+  </div>
+
+</div>
+
+<div style="margin-top:22px">
+  <div class="connection-head">
+    <h3 style="margin:0">CONNECTED IP ADDRESS LIST</h3>
+    <span class="incoming-status">● AUTO UPDATED</span>
+  </div>
+
+  <div class="table-wrap" style="margin-top:15px">
+    <table>
+      <thead>
+        <tr>
+          <th>REMOTE IP</th>
+          <th>LOCAL PORT</th>
+          <th>CONNECTIONS</th>
+          <th>STATUS</th>
+        </tr>
+      </thead>
+      <tbody id="incomingList">
+        <tr>
+          <td colspan="4">Waiting for incoming IP data...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
   </div>  <!-- NETWORK AND SERVER INFORMATION -->  <div class="section"><div class="panel">
@@ -608,7 +705,6 @@ footer{
   <br><br>
   AUTO REFRESH: 5 SECONDS
 </footer><script>
-
 const API='/api/metrics';
 
 const $=id=>document.getElementById(id);
@@ -645,7 +741,6 @@ function setGauge(id,value){
 }
 
 function uptimeText(seconds){
-
   seconds=number(seconds);
 
   const d=Math.floor(seconds/86400);
@@ -663,7 +758,6 @@ const history={
 };
 
 function drawChart(){
-
   const c=$('networkChart');
   const ctx=c.getContext('2d');
 
@@ -693,7 +787,6 @@ function drawChart(){
   const max=Math.max(1,...history.rx,...history.tx);
 
   function line(data,color){
-
     if(!data.length)return;
 
     ctx.beginPath();
@@ -733,7 +826,6 @@ function safe(v){
 // VPN MONITOR
 
 function renderVPN(vpn){
-
   vpn=vpn||{};
 
   $('vpnConnections').textContent=number(vpn.connections);
@@ -751,10 +843,40 @@ function renderVPN(vpn){
     :'<div class="vpn-ip">No active VPN IPs</div>';
 }
 
+// ALL INCOMING CONNECTIONS
+
+function renderIncoming(incoming){
+  incoming=incoming||{};
+
+  const ips=Array.isArray(incoming.ips)?incoming.ips:[];
+  const rows=Array.isArray(incoming.connections)
+    ?incoming.connections:[];
+
+  $('incomingConnections').textContent=
+    number(incoming.totalConnections);
+
+  $('incomingIPs').textContent=
+    number(incoming.uniqueIPs);
+
+  const ports=new Set(rows.map(item=>String(item.port)));
+
+  $('incomingPorts').textContent=ports.size;
+
+  $('incomingList').innerHTML=rows.length
+    ?rows.map(item=>`
+      <tr>
+        <td class="incoming-ip">${safe(item.ip||'-')}</td>
+        <td class="incoming-port">${safe(item.port||'-')}</td>
+        <td class="incoming-count">${number(item.connections)}</td>
+        <td><span class="badge">ONLINE</span></td>
+      </tr>
+    `).join('')
+    :'<tr><td colspan="4">No active incoming connections</td></tr>';
+}
+
 // TCP CONNECTIONS
 
 function getHostPort(value){
-
   value=String(value||'-');
 
   const match=value.match(/^(.*):(\d+)$/);
@@ -771,13 +893,11 @@ function getHostPort(value){
 }
 
 function renderConnections(list){
-
   if(!Array.isArray(list))list=[];
 
   $('connectionCount').textContent=list.length;
 
   $('connections').innerHTML=list.slice(0,100).map(c=>{
-
     const remote=getHostPort(c.remote);
     const local=getHostPort(c.local);
 
@@ -790,7 +910,6 @@ function renderConnections(list){
         <td><span class="badge">${safe(c.state||'ESTABLISHED')}</span></td>
       </tr>
     `;
-
   }).join('')||
   '<tr><td colspan="5">No active connections</td></tr>';
 }
@@ -798,7 +917,6 @@ function renderConnections(list){
 // EXPAND / COLLAPSE
 
 $('connectionToggle').addEventListener('click',()=>{
-
   const box=$('connectionDetails');
   const open=box.classList.toggle('open');
 
@@ -809,15 +927,12 @@ $('connectionToggle').addEventListener('click',()=>{
     'aria-expanded',
     String(open)
   );
-
 });
 
 // MAIN API REFRESH
 
 async function refresh(){
-
   try{
-
     const res=await fetch(API,{
       cache:'no-store'
     });
@@ -840,7 +955,7 @@ async function refresh(){
       d.cpu
     );
 
-    // RAM: BACKEND USES memory.percent
+    // RAM
 
     const ram=number(
       d.memory?.percent??
@@ -902,7 +1017,7 @@ async function refresh(){
     $('diskTotal').textContent=
       diskTotal?bytes(diskTotal):'--';
 
-    // NETWORK: BACKEND USES download / upload
+    // NETWORK
 
     const net=d.network||{};
 
@@ -937,6 +1052,10 @@ async function refresh(){
 
     renderVPN(d.vpn);
 
+    // ALL INCOMING IP MONITOR
+
+    renderIncoming(d.incoming);
+
     // TCP CONNECTIONS
 
     renderConnections(
@@ -946,15 +1065,12 @@ async function refresh(){
     );
 
   }catch(e){
-
     $('status').textContent='API OFFLINE';
     $('dot').style.background='var(--red)';
 
     $('error').textContent=
       'API connection error: '+e.message;
-
   }
-
 }
 
 // CLOCK
@@ -973,6 +1089,5 @@ setInterval(refresh,5000);
 setInterval(clock,1000);
 
 window.addEventListener('resize',drawChart);
-
 </script></body>
 </html>
