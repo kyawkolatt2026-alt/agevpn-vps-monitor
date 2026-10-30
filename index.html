@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AGEVPN — VPS Monitor</title>
-
-<style>
+<title>AGEVPN — VPS Monitor</title><style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
 :root{
@@ -353,6 +350,54 @@ td{
   font-size:10px;
 }
 
+/* VPN MONITOR */
+
+.vpn-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:20px;
+}
+
+.vpn-card{
+  background:linear-gradient(145deg,#13251f,#0c1718);
+  border:1px solid #24513d;
+  border-radius:15px;
+  padding:20px;
+  min-width:0;
+}
+
+.vpn-number{
+  font:700 30px 'Space Mono',monospace;
+  color:var(--green);
+  margin-top:12px;
+  overflow-wrap:anywhere;
+}
+
+.vpn-ip-list{
+  margin-top:15px;
+}
+
+.vpn-ip{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  margin-top:8px;
+  background:#0b131f;
+  border:1px solid #1d2b3b;
+  border-radius:9px;
+  font:12px 'Space Mono',monospace;
+  overflow-wrap:anywhere;
+}
+
+.vpn-online{
+  color:var(--green);
+  font-size:10px;
+  white-space:nowrap;
+}
+
 footer{
   text-align:center;
   padding:30px;
@@ -371,6 +416,10 @@ footer{
   .section{grid-template-columns:1fr}
 }
 
+@media(max-width:700px){
+  .vpn-grid{grid-template-columns:1fr}
+}
+
 @media(max-width:500px){
   header{padding:0 16px}
   .container{padding:24px 14px}
@@ -387,241 +436,178 @@ footer{
   .table-panel{padding:15px}
   .info{gap:8px}
 }
-</style>
-</head>
-
-<body>
-
-<header>
+</style></head><body><header>
   <div class="logo">
     AGE<span>VPN</span>
     <small style="font-size:10px;color:#8292a7">MONITOR</small>
-  </div>
-
-  <div class="status">
+  </div>  <div class="status">
     <span class="dot" id="dot"></span>
     <span id="status">CONNECTING</span>
   </div>
-</header>
-
-<div class="container">
-
-  <div class="heading">
+</header><div class="container">  <div class="heading">
     <div>
       <h1>Server Overview</h1>
       <p>Real-time VPS infrastructure monitoring</p>
-    </div>
+    </div><div class="time" id="clock">--:--:--</div>
 
-    <div class="time" id="clock">--:--:--</div>
+  </div>  <!-- RESOURCE CARDS -->  <div class="grid"><div class="card">
+  <div class="label">CPU USAGE</div>
+  <div class="metric-layout">
+    <div class="gauge" id="cpuGauge">
+      <b id="cpu">--%</b>
+    </div>
+    <div class="metric-note">
+      Processor utilization
+      <strong id="cpuNote">Loading...</strong>
+    </div>
+  </div>
+  <div class="bar"><span id="cpuBar"></span></div>
+</div>
+
+<div class="card">
+  <div class="label">MEMORY USAGE</div>
+  <div class="metric-layout">
+    <div class="gauge" id="ramGauge" style="--gauge-color:#38bdf8">
+      <b id="ram">--%</b>
+    </div>
+    <div class="metric-note">
+      RAM utilization
+      <strong id="ramNote">Loading...</strong>
+    </div>
+  </div>
+  <div class="bar">
+    <span id="ramBar" style="background:#38bdf8;box-shadow:0 0 15px #38bdf8"></span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="label">DISK USAGE</div>
+  <div class="metric-layout">
+    <div class="gauge" id="diskGauge" style="--gauge-color:#a78bfa">
+      <b id="disk">--%</b>
+    </div>
+    <div class="metric-note">
+      Root filesystem
+      <strong id="diskNote">Loading...</strong>
+    </div>
+  </div>
+  <div class="bar">
+    <span id="diskBar" style="background:#a78bfa;box-shadow:0 0 15px #a78bfa"></span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="label">SERVER UPTIME</div>
+  <div class="value" id="uptime" style="font-size:25px;margin-top:20px">--</div>
+  <div class="unit">Server running time</div>
+  <div style="margin-top:20px;color:var(--green);font-size:11px">
+    ● SYSTEM ACTIVE
+  </div>
+</div>
+
+  </div>  <!-- VPN MONITOR -->  <div class="table-panel"><div class="connection-head">
+  <div>
+    <h3>◈ AGEVPN LIVE USERS</h3>
+    <div class="connection-summary">
+      <span class="vpn-online">● X-RAY MONITOR</span>
+      <span>Port 3668</span>
+    </div>
+  </div>
+</div>
+
+<div class="vpn-grid">
+
+  <div class="vpn-card">
+    <div class="label">VPN CONNECTIONS</div>
+    <div class="vpn-number" id="vpnConnections">--</div>
+    <div class="metric-note">Established connections</div>
   </div>
 
-  <!-- RESOURCE CARDS -->
-
-  <div class="grid">
-
-    <div class="card">
-      <div class="label">CPU USAGE</div>
-
-      <div class="metric-layout">
-        <div class="gauge" id="cpuGauge">
-          <b id="cpu">--%</b>
-        </div>
-
-        <div class="metric-note">
-          Processor utilization
-          <strong id="cpuNote">Loading...</strong>
-        </div>
-      </div>
-
-      <div class="bar">
-        <span id="cpuBar"></span>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="label">MEMORY USAGE</div>
-
-      <div class="metric-layout">
-        <div class="gauge" id="ramGauge"
-             style="--gauge-color:#38bdf8">
-          <b id="ram">--%</b>
-        </div>
-
-        <div class="metric-note">
-          RAM utilization
-          <strong id="ramNote">Loading...</strong>
-        </div>
-      </div>
-
-      <div class="bar">
-        <span id="ramBar"
-              style="background:#38bdf8;box-shadow:0 0 15px #38bdf8"></span>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="label">DISK USAGE</div>
-
-      <div class="metric-layout">
-        <div class="gauge" id="diskGauge"
-             style="--gauge-color:#a78bfa">
-          <b id="disk">--%</b>
-        </div>
-
-        <div class="metric-note">
-          Root filesystem
-          <strong id="diskNote">Loading...</strong>
-        </div>
-      </div>
-
-      <div class="bar">
-        <span id="diskBar"
-              style="background:#a78bfa;box-shadow:0 0 15px #a78bfa"></span>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="label">SERVER UPTIME</div>
-
-      <div class="value" id="uptime"
-           style="font-size:25px;margin-top:20px">
-        --
-      </div>
-
-      <div class="unit">Server running time</div>
-
-      <div style="margin-top:20px;color:var(--green);font-size:11px">
-        ● SYSTEM ACTIVE
-      </div>
-    </div>
-
+  <div class="vpn-card">
+    <div class="label">UNIQUE IP ADDRESSES</div>
+    <div class="vpn-number" id="vpnIPs">--</div>
+    <div class="metric-note">Distinct remote IPs</div>
   </div>
 
-  <!-- NETWORK AND SERVER INFORMATION -->
-
-  <div class="section">
-
-    <div class="panel">
-      <h3>◈ NETWORK TRAFFIC</h3>
-
-      <canvas id="networkChart"></canvas>
-
-      <div class="network-info">
-        <span style="color:#38bdf8">
-          ● Download:
-          <b id="download">--</b>
-        </span>
-
-        <span style="color:#42f5a1">
-          ● Upload:
-          <b id="upload">--</b>
-        </span>
-      </div>
-    </div>
-
-    <div class="panel">
-      <h3>◈ SERVER INFORMATION</h3>
-
-      <div class="info">
-
-        <div>
-          <small>HOSTNAME</small>
-          <strong id="hostname">--</strong>
-        </div>
-
-        <div>
-          <small>PLATFORM</small>
-          <strong id="platform">--</strong>
-        </div>
-
-        <div>
-          <small>LOAD AVERAGE</small>
-          <strong id="load">--</strong>
-        </div>
-
-        <div>
-          <small>CPU CORES</small>
-          <strong id="cores">--</strong>
-        </div>
-
-        <div>
-          <small>RAM TOTAL</small>
-          <strong id="ramTotal">--</strong>
-        </div>
-
-        <div>
-          <small>DISK TOTAL</small>
-          <strong id="diskTotal">--</strong>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-
-  <!-- CONNECTIONS -->
-
-  <div class="table-panel">
-
-    <div class="connection-head">
-
-      <div>
-        <h3>◈ LIVE TCP CONNECTIONS</h3>
-
-        <div class="connection-summary">
-          <span class="connection-count" id="connectionCount">--</span>
-          <span>Active connections detected</span>
-        </div>
-      </div>
-
-      <button class="expand-btn"
-              id="connectionToggle"
-              type="button"
-              aria-expanded="false">
-        ＋ SHOW DETAILS
-      </button>
-
-    </div>
-
-    <div class="connection-details" id="connectionDetails">
-
-      <div class="table-wrap">
-
-        <table>
-          <thead>
-            <tr>
-              <th>REMOTE IP</th>
-              <th>LOCAL PORT</th>
-              <th>REMOTE PORT</th>
-              <th>PROTOCOL</th>
-              <th>STATUS</th>
-            </tr>
-          </thead>
-
-          <tbody id="connections">
-            <tr>
-              <td colspan="5">Waiting for server data...</td>
-            </tr>
-          </tbody>
-        </table>
-
-      </div>
-
-    </div>
-
-    <div class="error" id="error"></div>
-
+  <div class="vpn-card">
+    <div class="label">VPN PORT</div>
+    <div class="vpn-number">3668</div>
+    <div class="metric-note">Xray inbound port</div>
   </div>
 
 </div>
 
-<footer>
+<div class="vpn-ip-list" id="vpnIPList">
+  <div class="vpn-ip">Waiting for VPN data...</div>
+</div>
+
+  </div>  <!-- NETWORK AND SERVER INFORMATION -->  <div class="section"><div class="panel">
+  <h3>◈ NETWORK TRAFFIC</h3>
+  <canvas id="networkChart"></canvas>
+
+  <div class="network-info">
+    <span style="color:#38bdf8">
+      ● Download: <b id="download">--</b>
+    </span>
+    <span style="color:#42f5a1">
+      ● Upload: <b id="upload">--</b>
+    </span>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>◈ SERVER INFORMATION</h3>
+
+  <div class="info">
+    <div><small>HOSTNAME</small><strong id="hostname">--</strong></div>
+    <div><small>PLATFORM</small><strong id="platform">--</strong></div>
+    <div><small>LOAD AVERAGE</small><strong id="load">--</strong></div>
+    <div><small>CPU CORES</small><strong id="cores">--</strong></div>
+    <div><small>RAM TOTAL</small><strong id="ramTotal">--</strong></div>
+    <div><small>DISK TOTAL</small><strong id="diskTotal">--</strong></div>
+  </div>
+</div>
+
+  </div>  <!-- TCP CONNECTIONS -->  <div class="table-panel"><div class="connection-head">
+  <div>
+    <h3>◈ LIVE TCP CONNECTIONS</h3>
+    <div class="connection-summary">
+      <span class="connection-count" id="connectionCount">--</span>
+      <span>Active connections detected</span>
+    </div>
+  </div>
+
+  <button class="expand-btn" id="connectionToggle" type="button" aria-expanded="false">
+    ＋ SHOW DETAILS
+  </button>
+</div>
+
+<div class="connection-details" id="connectionDetails">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>REMOTE IP</th>
+          <th>LOCAL PORT</th>
+          <th>REMOTE PORT</th>
+          <th>PROTOCOL</th>
+          <th>STATUS</th>
+        </tr>
+      </thead>
+      <tbody id="connections">
+        <tr><td colspan="5">Waiting for server data...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="error" id="error"></div>
+
+  </div></div><footer>
   AGEVPN INFRASTRUCTURE • VPS MONITORING SYSTEM
   <br><br>
   AUTO REFRESH: 5 SECONDS
-</footer>
-
-<script>
+</footer><script>
 
 const API='/api/metrics';
 
@@ -693,15 +679,11 @@ function drawChart(){
   ctx.setTransform(ratio,0,0,ratio,0,0);
   ctx.clearRect(0,0,w,h);
 
-  // GRID
-
   ctx.strokeStyle='#253344';
   ctx.lineWidth=1;
 
   for(let i=1;i<5;i++){
-
     const y=i*h/5;
-
     ctx.beginPath();
     ctx.moveTo(0,y);
     ctx.lineTo(w,y);
@@ -717,13 +699,11 @@ function drawChart(){
     ctx.beginPath();
 
     data.forEach((v,i)=>{
-
       const x=i/Math.max(1,data.length-1)*w;
       const y=h-(v/max)*(h-20)-10;
 
       if(i===0)ctx.moveTo(x,y);
       else ctx.lineTo(x,y);
-
     });
 
     ctx.strokeStyle=color;
@@ -738,10 +718,9 @@ function drawChart(){
   line(history.tx,'#42f5a1');
 }
 
-// CONNECTION DETAILS
+// SAFE HTML
 
 function safe(v){
-
   return String(v).replace(/[&<>"']/g,c=>({
     '&':'&amp;',
     '<':'&lt;',
@@ -751,36 +730,69 @@ function safe(v){
   })[c]);
 }
 
+// VPN MONITOR
+
+function renderVPN(vpn){
+
+  vpn=vpn||{};
+
+  $('vpnConnections').textContent=number(vpn.connections);
+  $('vpnIPs').textContent=number(vpn.uniqueIPs);
+
+  const ips=Array.isArray(vpn.ips)?vpn.ips:[];
+
+  $('vpnIPList').innerHTML=ips.length
+    ?ips.map(ip=>`
+      <div class="vpn-ip">
+        <span>${safe(ip)}</span>
+        <span class="vpn-online">● ONLINE</span>
+      </div>
+    `).join('')
+    :'<div class="vpn-ip">No active VPN IPs</div>';
+}
+
+// TCP CONNECTIONS
+
+function getHostPort(value){
+
+  value=String(value||'-');
+
+  const match=value.match(/^(.*):(\d+)$/);
+
+  return match
+    ?{
+      host:match[1].replace(/^|$/g,''),
+      port:match[2]
+    }
+    :{
+      host:value,
+      port:'-'
+    };
+}
+
 function renderConnections(list){
 
-  if(!Array.isArray(list)){
-    list=[];
-  }
+  if(!Array.isArray(list))list=[];
 
   $('connectionCount').textContent=list.length;
 
-  $('connections').innerHTML=list.slice(0,100).map(c=>`
+  $('connections').innerHTML=list.slice(0,100).map(c=>{
 
-    <tr>
-      <td>${safe(c.remoteAddress||c.remoteIP||c.remote||'-')}</td>
+    const remote=getHostPort(c.remote);
+    const local=getHostPort(c.local);
 
-      <td>${safe(c.localPort||'-')}</td>
+    return `
+      <tr>
+        <td>${safe(c.remoteAddress||c.remoteIP||remote.host)}</td>
+        <td>${safe(c.localPort||local.port)}</td>
+        <td>${safe(c.remotePort||remote.port)}</td>
+        <td>TCP</td>
+        <td><span class="badge">${safe(c.state||'ESTABLISHED')}</span></td>
+      </tr>
+    `;
 
-      <td>${safe(c.remotePort||'-')}</td>
-
-      <td>TCP</td>
-
-      <td>
-        <span class="badge">
-          ${safe(c.state||'ESTABLISHED')}
-        </span>
-      </td>
-    </tr>
-
-  `).join('')||
-
+  }).join('')||
   '<tr><td colspan="5">No active connections</td></tr>';
-
 }
 
 // EXPAND / COLLAPSE
@@ -788,7 +800,6 @@ function renderConnections(list){
 $('connectionToggle').addEventListener('click',()=>{
 
   const box=$('connectionDetails');
-
   const open=box.classList.toggle('open');
 
   $('connectionToggle').textContent=
@@ -821,7 +832,7 @@ async function refresh(){
     $('dot').style.background='var(--green)';
     $('error').textContent='';
 
-    // CPU RAM DISK
+    // CPU
 
     const cpu=number(
       d.cpu?.usage??
@@ -829,15 +840,20 @@ async function refresh(){
       d.cpu
     );
 
+    // RAM: BACKEND USES memory.percent
+
     const ram=number(
+      d.memory?.percent??
       d.memory?.usagePercent??
       d.ramUsage??
       d.ram?.percent
     );
 
+    // DISK
+
     const disk=number(
-      d.disk?.usagePercent??
       d.disk?.percent??
+      d.disk?.usagePercent??
       d.diskUsage
     );
 
@@ -876,31 +892,29 @@ async function refresh(){
 
     $('uptime').textContent=uptimeText(d.uptime);
 
-    const memTotal=
-      d.memory?.total??
-      d.memory?.totalBytes;
+    const memTotal=d.memory?.total??d.memory?.totalBytes;
 
     $('ramTotal').textContent=
       memTotal?bytes(memTotal):'--';
 
-    const diskTotal=
-      d.disk?.total??
-      d.disk?.totalBytes;
+    const diskTotal=d.disk?.total??d.disk?.totalBytes;
 
     $('diskTotal').textContent=
       diskTotal?bytes(diskTotal):'--';
 
-    // NETWORK
+    // NETWORK: BACKEND USES download / upload
 
     const net=d.network||{};
 
     const rx=number(
+      net.download??
       net.rxSpeed??
       net.downloadSpeed??
       net.rx
     );
 
     const tx=number(
+      net.upload??
       net.txSpeed??
       net.uploadSpeed??
       net.tx
@@ -913,13 +927,15 @@ async function refresh(){
     history.tx.push(tx);
 
     if(history.rx.length>30){
-
       history.rx.shift();
       history.tx.shift();
-
     }
 
     drawChart();
+
+    // VPN MONITOR
+
+    renderVPN(d.vpn);
 
     // TCP CONNECTIONS
 
@@ -944,10 +960,8 @@ async function refresh(){
 // CLOCK
 
 function clock(){
-
   $('clock').textContent=
     new Date().toLocaleTimeString();
-
 }
 
 // START
@@ -960,7 +974,5 @@ setInterval(clock,1000);
 
 window.addEventListener('resize',drawChart);
 
-</script>
-
-</body>
+</script></body>
 </html>
