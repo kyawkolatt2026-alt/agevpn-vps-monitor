@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGEVPN — VPS Monitor</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg:#070b12;
+  --panel:#101824;
+  --border:#1d2b3b;
+  --green:#42f5a1;
+  --blue:#38bdf8;
+  --purple:#a78bfa;
+  --red:#fb7185;
+  --text:#e8f0fa;
+  --muted:#8292a7;
+}
+
+*{box-sizing:border-box}
+
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,sans-serif;
+  min-height:100vh;
+  background-image:
+    radial-gradient(ellipse at 15% 0%,#123b3030,transparent 40%),
+    radial-gradient(ellipse at 90% 10%,#173c6530,transparent 40%);
+}
+
+header {
+  height:76px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 5%;
+  background:#080e18d9;
+  backdrop-filter:blur(15px);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.logo {
+  font-size:21px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+.logo span{color:var(--green)}
+
+.status {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:var(--green);
+  font-size:12px;
+  font-weight:700;
+}
+
+.dot {
+  width:9px;
+  height:9px;
+  background:var(--green);
+  border-radius:50%;
+  box-shadow:0 0 14px var(--green);
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  50%{opacity:.35;transform:scale(.7)}
+}
+
+.container {
+  max-width:1450px;
+  margin:auto;
+  padding:35px 5%;
+}
+
+.heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:15px;
+  margin-bottom:30px;
+}
+
+.heading h1 {
+  font-size:27px;
+  margin:0 0 8px;
+}
+
+.heading p {
+  color:var(--muted);
+  margin:0;
+  font-size:13px;
+}
+
+.time {
+  color:var(--green);
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
+
+.card {
+  background:linear-gradient(145deg,#131e2b,#0c131e);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:22px;
+  position:relative;
+  overflow:hidden;
+  transition:.3s;
+  animation:appear .7s ease both;
+}
+
+.card:hover {
+  transform:translateY(-5px);
+  border-color:#42f5a177;
+  box-shadow:0 10px 35px #0006;
+}
+
+@keyframes appear {
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.card:before {
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  right:-60px;
+  top:-60px;
+  background:var(--glow,#42f5a1);
+  filter:blur(65px);
+  opacity:.12;
+}
+
+.label {
+  color:var(--muted);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:1px;
+}
+
+.value {
+  font-size:34px;
+  font-weight:800;
+  margin:16px 0 8px;
+  font-family:'Space Mono',monospace;
+}
+
+.unit {
+  color:var(--muted);
+  font-size:12px;
+}
+
+.bar {
+  height:6px;
+  background:#263344;
+  border-radius:10px;
+  margin-top:20px;
+  overflow:hidden;
+}
+
+.bar span {
+  display:block;
+  height:100%;
+  width:0;
+  border-radius:10px;
+  background:var(--green);
+  box-shadow:0 0 15px var(--green);
+  transition:width 1s ease;
+}
+
+.section {
+  margin-top:22px;
+  display:grid;
+  grid-template-columns:1.5fr 1fr;
+  gap:18px;
+}
+
+.panel {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:22px;
+  min-width:0;
+}
+
+.panel h3 {
+  margin:0 0 20px;
+  font-size:14px;
+}
+
+canvas {
+  width:100%;
+  height:220px;
+}
+
+.info {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.info div {
+  background:#0b131f;
+  padding:15px;
+  border-radius:10px;
+}
+
+.info small {
+  color:var(--muted);
+  display:block;
+  margin-bottom:8px;
+}
+
+.info strong {
+  font-size:13px;
+  overflow-wrap:anywhere;
+}
+
+.table-panel {
+  margin-top:20px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:22px;
+  overflow:hidden;
+}
+
+.table-wrap{overflow-x:auto}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+  min-width:550px;
+  font-size:12px;
+}
+
+th {
+  color:var(--muted);
+  text-align:left;
+  padding:14px;
+  border-bottom:1px solid var(--border);
+}
+
+td {
+  padding:15px 14px;
+  border-bottom:1px solid #1b2836;
+  font-family:'Space Mono',monospace;
+}
+
+.badge {
+  background:#123c2c;
+  color:var(--green);
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:10px;
+}
+
+footer {
+  text-align:center;
+  padding:30px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.error {
+  color:var(--red);
+  font-size:11px;
+  margin-top:12px;
+}
+
+@media(max-width:950px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .section{grid-template-columns:1fr}
+}
+
+@media(max-width:500px){
+  header{padding:0 18px}
+  .container{padding:25px 15px}
+  .heading h1{font-size:22px}
+  .grid{gap:10px}
+  .card{padding:15px}
+  .value{font-size:25px}
+  .panel{padding:16px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">AGE<span>VPN</span> <small style="font-size:10px;color:#8292a7">MONITOR</small></div>
+  <div class="status">
+    <span class="dot" id="dot"></span>
+    <span id="status">CONNECTING</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="heading">
+    <div>
+      <h1>Server Overview</h1>
+      <p>Real-time VPS infrastructure monitoring</p>
+    </div>
+    <div class="time" id="clock">--:--:--</div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card" style="--glow:#42f5a1">
+      <div class="label">CPU USAGE</div>
+      <div class="value" id="cpu">--%</div>
+      <div class="unit">Processor utilization</div>
+      <div class="bar"><span id="cpuBar"></span></div>
+    </div>
+
+    <div class="card" style="--glow:#38bdf8">
+      <div class="label">MEMORY USAGE</div>
+      <div class="value" id="ram">--%</div>
+      <div class="unit">RAM utilization</div>
+      <div class="bar"><span id="ramBar" style="background:#38bdf8;box-shadow:0 0 15px #38bdf8"></span></div>
+    </div>
+
+    <div class="card" style="--glow:#a78bfa">
+      <div class="label">DISK USAGE</div>
+      <div class="value" id="disk">--%</div>
+      <div class="unit">Root filesystem</div>
+      <div class="bar"><span id="diskBar" style="background:#a78bfa;box-shadow:0 0 15px #a78bfa"></span></div>
+    </div>
+
+    <div class="card" style="--glow:#fbbf24">
+      <div class="label">UPTIME</div>
+      <div class="value" id="uptime" style="font-size:24px">--</div>
+      <div class="unit">Server running time</div>
+      <div style="margin-top:20px;color:var(--green);font-size:11px">● SYSTEM ACTIVE</div>
+    </div>
+
+  </div>
+
+  <div class="section">
+
+    <div class="panel">
+      <h3>◈ NETWORK TRAFFIC</h3>
+      <canvas id="networkChart"></canvas>
+      <div style="display:flex;gap:25px;font-size:11px;color:var(--muted)">
+        <span style="color:#38bdf8">● Download: <b id="download">--</b></span>
+        <span style="color:#42f5a1">● Upload: <b id="upload">--</b></span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>◈ SERVER INFORMATION</h3>
+      <div class="info">
+        <div><small>HOSTNAME</small><strong id="hostname">--</strong></div>
+        <div><small>PLATFORM</small><strong id="platform">--</strong></div>
+        <div><small>LOAD AVERAGE</small><strong id="load">--</strong></div>
+        <div><small>CPU CORES</small><strong id="cores">--</strong></div>
+        <div><small>RAM TOTAL</small><strong id="ramTotal">--</strong></div>
+        <div><small>DISK TOTAL</small><strong id="diskTotal">--</strong></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="table-panel">
+    <h3>◈ LIVE TCP CONNECTIONS</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>REMOTE IP</th>
+            <th>LOCAL PORT</th>
+            <th>REMOTE PORT</th>
+            <th>PROTOCOL</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody id="connections">
+          <tr><td colspan="5">Waiting for server data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="error" id="error"></div>
+  </div>
+
+</div>
+
+<footer>
+  AGEVPN INFRASTRUCTURE • VPS MONITORING SYSTEM
+  <br><br>
+  AUTO REFRESH: 5 SECONDS
+</footer>
+
+<script>
+const API = '/api/metrics';
+
+const $ = id => document.getElementById(id);
+
+function number(v){
+  const n = Number(v);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function percent(v){
+  return Math.max(0,Math.min(100,number(v)));
+}
+
+function bytes(v){
+  v=number(v);
+  if(v<1024) return v.toFixed(0)+' B';
+  if(v<1048576) return (v/1024).toFixed(1)+' KB';
+  if(v<1073741824) return (v/1048576).toFixed(1)+' MB';
+  return (v/1073741824).toFixed(2)+' GB';
+}
+
+function speed(v){
+  return bytes(v)+'/s';
+}
+
+function setBar(id,value){
+  $(id).style.width=percent(value)+'%';
+}
+
+function uptimeText(seconds){
+  seconds=number(seconds);
+  const d=Math.floor(seconds/86400);
+  const h=Math.floor(seconds%86400/3600);
+  const m=Math.floor(seconds%3600/60);
+  return `${d}d ${h}h ${m}m`;
+}
+
+const history={rx:[],tx:[]};
+
+function drawChart(){
+  const c=$('networkChart');
+  const ctx=c.getContext('2d');
+  const w=c.clientWidth;
+  const h=220;
+  const ratio=window.devicePixelRatio||1;
+
+  c.width=w*ratio;
+  c.height=h*ratio;
+  ctx.scale(ratio,ratio);
+
+  ctx.clearRect(0,0,w,h);
+
+  ctx.strokeStyle='#253344';
+  ctx.lineWidth=1;
+
+  for(let i=1;i<5;i++){
+    let y=i*h/5;
+    ctx.beginPath();
+    ctx.moveTo(0,y);
+    ctx.lineTo(w,y);
+    ctx.stroke();
+  }
+
+  const max=Math.max(1,...history.rx,...history.tx);
+
+  function line(data,color){
+    ctx.beginPath();
+    data.forEach((v,i)=>{
+      const x=i/(Math.max(1,data.length-1))*w;
+      const y=h-(v/max)*(h-20)-10;
+      if(i===0)ctx.moveTo(x,y);
+      else ctx.lineTo(x,y);
+    });
+    ctx.strokeStyle=color;
+    ctx.lineWidth=2.5;
+    ctx.shadowBlur=10;
+    ctx.shadowColor=color;
+    ctx.stroke();
+    ctx.shadowBlur=0;
+  }
+
+  line(history.rx,'#38bdf8');
+  line(history.tx,'#42f5a1');
+}
+
+function renderConnections(list){
+  if(!Array.isArray(list)){
+    $('connections').innerHTML='<tr><td colspan="5">No connection data</td></tr>';
+    return;
+  }
+
+  $('connections').innerHTML=list.slice(0,50).map(c=>`
+    <tr>
+      <td>${safe(c.remoteAddress||c.remoteIP||c.remote||'-')}</td>
+      <td>${safe(c.localPort||'-')}</td>
+      <td>${safe(c.remotePort||'-')}</td>
+      <td>TCP</td>
+      <td><span class="badge">${safe(c.state||'ESTABLISHED')}</span></td>
+    </tr>
+  `).join('') || '<tr><td colspan="5">No active connections</td></tr>';
+}
+
+function safe(v){
+  return String(v).replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;',
+    '"':'&quot;',"'":'&#39;'
+  })[c]);
+}
+
+async function refresh(){
+  try{
+    const res=await fetch(API,{cache:'no-store'});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+
+    const d=await res.json();
+
+    $('status').textContent='SERVER ONLINE';
+    $('dot').style.background='var(--green)';
+    $('error').textContent='';
+
+    const cpu=number(d.cpu?.usage??d.cpuUsage??d.cpu);
+    const ram=number(d.memory?.usagePercent??d.ramUsage??d.ram?.percent);
+    const disk=number(d.disk?.usagePercent??d.disk?.percent??d.diskUsage);
+
+    $('cpu').textContent=cpu.toFixed(1)+'%';
+    $('ram').textContent=ram.toFixed(1)+'%';
+    $('disk').textContent=disk.toFixed(1)+'%';
+
+    setBar('cpuBar',cpu);
+    setBar('ramBar',ram);
+    setBar('diskBar',disk);
+
+    $('hostname').textContent=d.hostname||'--';
+    $('platform').textContent=d.platform||'--';
+    $('cores').textContent=d.cpu?.cores??d.cores??'--';
+
+    const load=d.load||[];
+    $('load').textContent=Array.isArray(load)?load.map(x=>number(x).toFixed(2)).join(' / '):load;
+
+    $('uptime').textContent=uptimeText(d.uptime);
+
+    const memTotal=d.memory?.total??d.memory?.totalBytes;
+    $('ramTotal').textContent=memTotal?bytes(memTotal):'--';
+
+    const diskTotal=d.disk?.total??d.disk?.totalBytes;
+    $('diskTotal').textContent=diskTotal?bytes(diskTotal):'--';
+
+    const net=d.network||{};
+    const rx=number(net.rxSpeed??net.downloadSpeed??net.rx);
+    const tx=number(net.txSpeed??net.uploadSpeed??net.tx);
+
+    $('download').textContent=speed(rx);
+    $('upload').textContent=speed(tx);
+
+    history.rx.push(rx);
+    history.tx.push(tx);
+
+    if(history.rx.length>30){
+      history.rx.shift();
+      history.tx.shift();
+    }
+
+    drawChart();
+    renderConnections(d.tcp||d.connections||[]);
+
+  }catch(e){
+    $('status').textContent='API OFFLINE';
+    $('dot').style.background='var(--red)';
+    $('error').textContent='API connection error: '+e.message;
+  }
+}
+
+function clock(){
+  $('clock').textContent=new Date().toLocaleTimeString();
+}
+
+clock();
+refresh();
+setInterval(refresh,5000);
+setInterval(clock,1000);
+window.addEventListener('resize',drawChart);
+</script>
+
+</body>
+</html>
