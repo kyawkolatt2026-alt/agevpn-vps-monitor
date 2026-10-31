@@ -3,1082 +3,719 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGEVPN — Professional Control Center</title>
 <meta name="theme-color" content="#090817">
-<title>AGEVPN — Neon Premium Control Center</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
- --bg:#090817;
- --panel:#17152b;
- --panel2:#201c39;
- --border:#3a315b;
- --text:#f5f2ff;
- --muted:#aaa3c5;
- --cyan:#36dcff;
- --green:#39f5ae;
- --purple:#ad79ff;
- --pink:#ff70cf;
- --red:#ff638f;
- --yellow:#ffd166;
- --orange:#ff9e59;
- --blue:#6d8cff;
+  --bg:#090817;
+  --panel:#17162d;
+  --panel2:#1d1b38;
+  --border:#302c50;
+  --text:#f3f1ff;
+  --muted:#85829f;
+  --cyan:#45d8f5;
+  --purple:#a879ff;
+  --pink:#ed77d2;
+  --green:#48e4b0;
+  --orange:#ffbd70;
+  --red:#ff6d86;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
- margin:0;
- background:
- radial-gradient(ellipse at 5% 5%,#8b5cf633,transparent 30%),
- radial-gradient(ellipse at 95% 10%,#ff70cf20,transparent 30%),
- radial-gradient(ellipse at 50% 100%,#36dcff15,transparent 40%),
- var(--bg);
- color:var(--text);
- font-family:Inter,sans-serif;
+  margin:0;background:
+  radial-gradient(ellipse at 80% 10%,#28133255,transparent 35%),
+  radial-gradient(ellipse at 30% 70%,#121c3d55,transparent 40%),
+  var(--bg);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+  font-size:13px;
 }
 button,input,select{font:inherit}
 button{cursor:pointer}
-.layout{display:flex;min-height:100vh}
-
-/* SIDEBAR */
+.app{display:flex;min-height:100vh}
 .sidebar{
- width:240px;
- flex-shrink:0;
- position:fixed;
- inset:0 auto 0 0;
- z-index:20;
- padding:24px 17px;
- background:linear-gradient(180deg,#19132f,#0d1223);
- border-right:1px solid #ad79ff35;
+  width:230px;flex-shrink:0;position:fixed;inset:0 auto 0 0;
+  background:linear-gradient(180deg,#17132d,#111225);
+  border-right:1px solid #30294c;
+  padding:24px 16px;display:flex;flex-direction:column;
+  z-index:20;
 }
-.brand{
- font-size:24px;
- font-weight:800;
- letter-spacing:1px;
- padding:6px 10px 28px;
-}
-.brand span{
- background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
- -webkit-background-clip:text;
- background-clip:text;
- color:transparent;
-}
-.brand small{
- display:block;
- color:var(--muted);
- font-size:9px;
- letter-spacing:3px;
- margin-top:7px;
-}
-.nav-label{
- font-size:9px;
- color:#766b96;
- letter-spacing:2px;
- padding:13px 11px 9px;
-}
+.brand{font-size:20px;font-weight:800;letter-spacing:1px}
+.brand span{color:var(--purple)}
+.brand-sub{font-size:8px;color:#aaa2c4;letter-spacing:3px;margin-top:6px}
+.menu-label{font-size:9px;letter-spacing:2px;color:#77728f;margin:34px 8px 12px}
+.nav{display:flex;flex-direction:column;gap:7px}
 .nav a{
- display:flex;
- align-items:center;
- gap:12px;
- text-decoration:none;
- color:var(--muted);
- padding:13px 12px;
- border-radius:10px;
- font-size:12px;
- margin:4px 0;
- transition:.2s;
+  color:#aaa6c2;text-decoration:none;padding:12px 10px;border-radius:10px;
+  display:flex;gap:11px;align-items:center;border:1px solid transparent;
+  transition:.2s;font-size:12px
 }
-.nav a:hover{
- background:#ad79ff20;
- color:white;
+.nav a:hover,.nav a.active{
+  color:white;background:linear-gradient(100deg,#8e60ff28,#40d6ef12);
+  border-color:#59477d;box-shadow:inset 3px 0 var(--purple)
 }
-.nav a.active{
- background:linear-gradient(100deg,#743cff30,#36dcff15);
- border:1px solid #ad79ff55;
- color:#e3d2ff;
- box-shadow:inset 3px 0 var(--purple);
+.nav-icon{width:16px;text-align:center;color:var(--cyan)}
+.sidebar-bottom{
+  margin-top:auto;padding:14px 12px;border:1px solid var(--border);
+  border-radius:12px;background:#1b1a32;font-size:10px;color:var(--muted)
 }
-.side-bottom{
- position:absolute;
- bottom:22px;
- left:20px;
- right:20px;
- padding:14px;
- background:#151d30;
- border:1px solid var(--border);
- border-radius:12px;
- font-size:10px;
- color:var(--muted);
- line-height:2;
-}
-.side-bottom b{color:var(--green)}
-
-/* MAIN */
-main{
- width:calc(100% - 240px);
- margin-left:240px;
- min-width:0;
-}
+.live-dot,.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);margin-right:6px}
+.main{margin-left:230px;width:calc(100% - 230px);min-width:0}
 .topbar{
- height:70px;
- display:flex;
- justify-content:space-between;
- align-items:center;
- padding:0 32px;
- position:sticky;
- top:0;
- z-index:10;
- background:#100e20ed;
- border-bottom:1px solid #ad79ff35;
- backdrop-filter:blur(18px);
+  height:52px;padding:0 28px;border-bottom:1px solid #29253f;
+  display:flex;align-items:center;justify-content:space-between;
+  background:#100e20cc;position:sticky;top:0;z-index:10;backdrop-filter:blur(14px)
 }
-.top-left{font-size:12px;color:var(--muted)}
-.top-left b{color:white}
-.top-right{display:flex;align-items:center;gap:18px}
-#clock{font:12px 'Space Mono';color:var(--cyan)}
-.live{
- display:flex;
- align-items:center;
- gap:9px;
- color:var(--green);
- font-size:10px;
- font-weight:800;
- letter-spacing:1px;
+.crumb{font-size:10px;color:#a8a3c1}
+.crumb b{color:white}
+.top-right{display:flex;align-items:center;gap:16px;font-size:10px}
+.clock{font-family:"Space Mono";color:var(--cyan)}
+.status{color:var(--green);font-size:9px;letter-spacing:1px}
+.content{padding:26px 28px 50px;max-width:1500px;margin:auto}
+.page-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:12px}
+h1{font-size:23px;margin:0 0 7px;font-weight:800}
+.subtitle{font-size:10px;color:var(--muted)}
+.update-pill{
+  border:1px solid var(--border);background:#19172e;padding:9px 13px;
+  border-radius:9px;font-size:9px;color:#c5bddf;white-space:nowrap
 }
-.dot{
- width:8px;height:8px;
- border-radius:50%;
- background:var(--green);
- box-shadow:0 0 12px var(--green);
- animation:pulse 1.5s infinite;
-}
-@keyframes pulse{50%{opacity:.3;transform:scale(.75)}}
-
-.content{
- max-width:1650px;
- margin:auto;
- padding:30px 32px 45px;
-}
-.page-head{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:15px;
- flex-wrap:wrap;
- margin-bottom:25px;
-}
-h1{font-size:28px;letter-spacing:-1px;margin:0 0 8px}
-.subtitle{font-size:11px;color:var(--muted)}
-.updated{
- font-size:10px;
- color:#e2d2ff;
- background:#211b38;
- padding:12px 15px;
- border:1px solid #ad79ff55;
- border-radius:9px;
-}
-
-/* SECTION */
+.section{margin-bottom:27px;scroll-margin-top:75px}
 .section-head{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:10px;
- margin:32px 0 15px;
- padding-left:12px;
- border-left:3px solid var(--purple);
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:13px;gap:10px
 }
-.section-head h2{
- font-size:12px;
- letter-spacing:1.2px;
- margin:0;
- color:#e0caff;
+.section-title{
+  font-size:11px;font-weight:800;letter-spacing:1.2px;
+  border-left:3px solid var(--purple);padding-left:10px
 }
-.section-head span{
- color:var(--muted);
- font-size:9px;
- letter-spacing:1px;
-}
-
-/* CARDS */
-.grid{
- display:grid;
- grid-template-columns:repeat(4,minmax(0,1fr));
- gap:14px;
-}
-.card,.panel{
- min-width:0;
- background:linear-gradient(145deg,#211c39,#12182b);
- border:1px solid #40365f;
- border-radius:15px;
- padding:19px;
- box-shadow:0 9px 28px #0004;
- transition:.25s;
- position:relative;
- overflow:hidden;
+.section-note{font-size:8px;letter-spacing:1px;color:var(--muted)}
+.grid{display:grid;gap:12px}
+.resource-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{
+  background:linear-gradient(145deg,#1d1b38,#15152b);
+  border:1px solid var(--border);border-radius:15px;padding:17px;
+  position:relative;overflow:hidden;min-width:0;
+  box-shadow:0 8px 25px #00000018
 }
 .card:before{
- content:"";
- position:absolute;
- height:2px;
- top:0;left:15px;right:15px;
- background:linear-gradient(90deg,transparent,var(--purple),var(--cyan),transparent);
- opacity:.8;
+  content:"";position:absolute;top:0;left:12%;right:12%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent,var(--cyan)),transparent)
 }
-.card:hover,.panel:hover{
- transform:translateY(-3px);
- border-color:#ad79ff90;
- box-shadow:0 12px 30px #ad79ff18;
+.card-top{display:flex;justify-content:space-between;align-items:center}
+.card-label{font-size:9px;color:#aaa5c1;font-weight:700;letter-spacing:1px}
+.card-icon{
+  width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+  background:#ffffff0b;color:var(--accent,var(--cyan));border:1px solid #ffffff12
 }
-.card-top{
- display:flex;
- justify-content:space-between;
- align-items:center;
+.metric{font-family:"Space Mono",monospace;font-size:24px;font-weight:700;margin:17px 0 7px;overflow-wrap:anywhere}
+.metric.cyan{color:var(--cyan)}
+.metric.green{color:var(--green)}
+.metric.purple{color:var(--purple)}
+.metric.pink{color:var(--pink)}
+.metric.orange{color:var(--orange)}
+.card-desc{font-size:9px;color:var(--muted)}
+.progress{height:5px;background:#34304c;border-radius:20px;margin-top:15px;overflow:hidden}
+.progress span{height:100%;display:block;width:0;border-radius:20px;transition:width .5s;background:var(--accent,var(--cyan))}
+.resource-grid .card{min-height:145px}
+.three-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.small-card{min-height:105px}
+.small-card .metric{font-size:23px;margin:13px 0 7px}
+.green-card{--accent:var(--green);background:linear-gradient(145deg,#12372f,#172638)}
+.cyan-card{--accent:var(--cyan)}
+.purple-card{--accent:var(--purple);background:linear-gradient(145deg,#292044,#19182e)}
+.pink-card{--accent:var(--pink);background:linear-gradient(145deg,#38203b,#1a1931)}
+.orange-card{--accent:var(--orange)}
+.panel{
+  background:linear-gradient(145deg,#1b1934,#15152a);
+  border:1px solid var(--border);border-radius:15px;padding:16px;min-width:0
 }
-.label{
- font-size:9px;
- font-weight:800;
- letter-spacing:1.3px;
- color:var(--muted);
+.panel-title{font-size:11px;font-weight:700;margin-bottom:5px}
+.panel-sub{font-size:9px;color:var(--muted);margin-bottom:14px}
+.search-row{display:flex;gap:9px;margin-bottom:12px}
+.search{
+  width:100%;min-width:0;background:#111225;color:white;
+  border:1px solid #37324f;border-radius:9px;padding:11px 12px;
+  outline:none;font-size:11px
 }
-.icon{
- width:35px;height:35px;
- display:grid;place-items:center;
- border-radius:10px;
- background:linear-gradient(135deg,#ad79ff35,#36dcff20);
- color:#d9c1ff;
- border:1px solid #ad79ff40;
- font-size:16px;
+.search:focus{border-color:var(--cyan)}
+select.search{width:auto;min-width:110px}
+.ip-chips{display:flex;flex-wrap:wrap;gap:7px}
+.ip-chip{
+  border:1px solid #276d68;background:#10332e;color:var(--green);
+  padding:9px 11px;border-radius:8px;font-family:"Space Mono";font-size:9px
 }
-.metric{
- font:700 27px 'Space Mono',monospace;
- margin:17px 0 8px;
- overflow-wrap:anywhere;
-}
-.metric-sub{font-size:10px;color:var(--muted)}
-.progress{
- height:6px;
- background:#302b49;
- border-radius:10px;
- overflow:hidden;
- margin-top:17px;
-}
-.progress span{
- display:block;
- height:100%;
- width:0;
- border-radius:10px;
- transition:width .6s;
-}
-#cpuBar{background:linear-gradient(90deg,var(--cyan),var(--blue))}
-#ramBar{background:linear-gradient(90deg,var(--green),var(--cyan))}
-#diskBar{background:linear-gradient(90deg,var(--purple),var(--pink))}
-.resource{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.resource .metric{font-size:25px}
-.resource-tag{font-size:9px;color:var(--cyan)}
-
-/* LAYOUTS */
-.two{
- display:grid;
- grid-template-columns:1.45fr 1fr;
- gap:14px;
-}
-.three{
- display:grid;
- grid-template-columns:repeat(3,minmax(0,1fr));
- gap:13px;
-}
-.panel h3{font-size:12px;margin:0}
-.panel-sub{font-size:10px;color:var(--muted);margin-top:6px}
-.stat-card{
- min-width:0;
- padding:18px;
- border-radius:13px;
- background:linear-gradient(140deg,#172b3c,#17132c);
- border:1px solid #36dcff50;
- box-shadow:0 8px 24px #36dcff08;
-}
-.stat-card.green{
- background:linear-gradient(140deg,#10382f,#142235);
- border-color:#39f5ae65;
-}
-.stat-card.purple{
- background:linear-gradient(140deg,#30204d,#19152e);
- border-color:#ad79ff65;
-}
-.stat-card.pink{
- background:linear-gradient(140deg,#401e3d,#21152e);
- border-color:#ff70cf65;
-}
-.stat-card .metric{color:var(--cyan)}
-.stat-card.green .metric{color:var(--green)}
-.stat-card.purple .metric{color:var(--purple)}
-.stat-card.pink .metric{color:var(--pink)}
-
-/* CHART */
-canvas{
- width:100%;
- height:205px;
- display:block;
- margin-top:18px;
-}
-.chart-legend{
- display:flex;
- gap:20px;
- flex-wrap:wrap;
- margin-top:12px;
- font-size:10px;
- color:var(--muted);
-}
-.chart-legend i{
- display:inline-block;
- width:8px;height:8px;
- border-radius:50%;
- margin-right:6px;
-}
-.network-stats{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:10px;
- margin-top:17px;
-}
-.network-stats div{
- padding:13px;
- border-radius:10px;
- background:#11182a;
- border:1px solid var(--border);
-}
-.network-stats small{
- display:block;
- font-size:8px;
- color:var(--muted);
- margin-bottom:8px;
-}
-.network-stats strong{
- font-size:11px;
- overflow-wrap:anywhere;
-}
-
-/* INFO */
-.info{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:9px;
- margin-top:17px;
-}
-.info div{
- min-width:0;
- background:linear-gradient(140deg,#25203e,#111a2d);
- border:1px solid #42365f;
- padding:13px;
- border-radius:10px;
-}
-.info small{
- display:block;
- font-size:8px;
- color:var(--muted);
- letter-spacing:1px;
- margin-bottom:8px;
-}
-.info strong{font-size:11px;overflow-wrap:anywhere}
-
-/* SEARCH */
-.tools{
- display:flex;
- gap:9px;
- flex-wrap:wrap;
- margin:16px 0;
-}
-.tools input,.tools select{
- min-width:130px;
- padding:11px 12px;
- border-radius:8px;
- background:#10182a;
- border:1px solid var(--border);
- color:white;
- font-size:11px;
- outline:none;
-}
-.tools input{flex:1}
-.tools input:focus,.tools select:focus{border-color:var(--cyan)}
-.tools select option{background:#17152b}
-
-/* TABLE */
-.table-wrap{overflow-x:auto;margin-top:15px}
-table{
- width:100%;
- min-width:760px;
- border-collapse:collapse;
- font-size:10px;
-}
-th{
- text-align:left;
- padding:13px;
- font-size:8px;
- letter-spacing:1px;
- color:#c8aaff;
- border-bottom:1px solid #55427b;
- white-space:nowrap;
-}
-td{
- padding:13px;
- border-bottom:1px solid #29243e;
- font:10px 'Space Mono',monospace;
- white-space:nowrap;
-}
-tbody tr:hover{background:linear-gradient(90deg,#ad79ff12,#36dcff0c)}
-.ip{color:var(--cyan)}
-.port{color:var(--yellow)}
-.location{font-family:Inter,sans-serif;min-width:140px;white-space:normal}
-.location b{display:block;font-size:10px}
-.location small{display:block;color:var(--muted);margin-top:4px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:600px}
+th{text-align:left;color:#aaa2c7;font-size:8px;letter-spacing:1px;padding:12px 9px}
+td{padding:13px 9px;border-top:1px solid #2b2843;font-size:9px;color:#d7d3e8;white-space:nowrap}
+td.mono{font-family:"Space Mono";color:var(--cyan)}
+td.speed{font-family:"Space Mono";color:var(--green)}
+.country{font-size:10px}
+.city{font-size:8px;color:var(--muted);margin-top:3px}
+.port{color:var(--orange);font-family:"Space Mono"}
 .badge{
- display:inline-block;
- padding:5px 9px;
- border-radius:20px;
- background:#39f5ae18;
- border:1px solid #39f5ae55;
- color:var(--green);
- font-size:8px;
- font-weight:700;
+  padding:4px 7px;border-radius:20px;background:#123b32;color:var(--green);
+  font-size:8px;border:1px solid #246c5b
 }
-.vpn-ip-list{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
-.vpn-ip{
- padding:10px 12px;
- border-radius:9px;
- background:linear-gradient(100deg,#102c2b,#14223a);
- border:1px solid #39f5ae55;
- color:var(--green);
- font:10px 'Space Mono',monospace;
+.chart-box{height:210px;position:relative}
+canvas{width:100%;height:100%;display:block}
+.info-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.info-item{padding:12px;border:1px solid #302c4b;border-radius:10px;background:#111225}
+.info-item span{display:block;font-size:8px;color:var(--muted);margin-bottom:7px}
+.info-item b{font-size:11px;overflow-wrap:anywhere}
+details summary{cursor:pointer;color:#d7d2eb;font-size:11px;font-weight:700;padding:4px 0}
+details[open] summary{margin-bottom:12px}
+.empty{text-align:center;color:var(--muted);padding:25px;font-size:10px}
+.error-banner{
+  display:none;margin-bottom:18px;padding:12px;border-radius:10px;
+  background:#451f2d;border:1px solid #8a3b55;color:#ffb4c2;font-size:10px
 }
-.btn{
- padding:10px 14px;
- background:linear-gradient(100deg,#6037a5,#315c91);
- color:white;
- border:1px solid #a98bff80;
- border-radius:8px;
- font-size:10px;
- font-weight:700;
+.footer{text-align:center;color:#625e7b;font-size:9px;padding:20px}
+.mobile-menu{display:none}
+@media(max-width:900px){
+  .sidebar{width:190px}.main{margin-left:190px;width:calc(100% - 190px)}
+  .content{padding:22px 18px}
 }
-.btn:hover{box-shadow:0 0 18px #ad79ff55}
-.empty{padding:20px;text-align:center;color:var(--muted);font-size:10px}
-.alerts{display:grid;gap:9px;margin-top:15px}
-.alert{
- padding:12px 14px;
- border-radius:9px;
- background:#123b32;
- border:1px solid #39f5ae55;
- color:#68ffbf;
- font-size:10px;
+@media(max-width:650px){
+  .sidebar{
+    width:100%;height:auto;inset:auto 0 0 0;top:auto;padding:7px 5px;
+    border-right:0;border-top:1px solid var(--border);background:#121126f5;
+    flex-direction:row;justify-content:space-around;backdrop-filter:blur(15px)
+  }
+  .brand,.brand-sub,.menu-label,.sidebar-bottom{display:none}
+  .nav{width:100%;display:flex;flex-direction:row;justify-content:space-around;gap:2px}
+  .nav a{flex:1;flex-direction:column;gap:4px;padding:8px 2px;font-size:8px;border-radius:8px}
+  .nav-icon{font-size:14px}
+  .main{margin-left:0;width:100%;padding-bottom:65px}
+  .topbar{padding:0 14px;height:45px}
+  .content{padding:19px 13px 30px}
+  .page-head{align-items:flex-start;flex-direction:column;margin-bottom:22px}
+  h1{font-size:21px}
+  .update-pill{font-size:8px}
+  .resource-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .three-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+  .card{padding:12px;border-radius:12px}
+  .resource-grid .card{min-height:135px}
+  .card-label{font-size:8px}
+  .card-icon{width:25px;height:25px}
+  .metric{font-size:19px;margin:15px 0 7px}
+  .small-card{min-height:95px}
+  .small-card .metric{font-size:19px}
+  .small-card .card-desc{font-size:8px}
+  .panel{padding:12px;border-radius:12px}
+  .section{margin-bottom:23px}
+  .section-title{font-size:10px}
+  .section-note{font-size:7px}
+  .chart-box{height:180px}
+  .info-grid{grid-template-columns:1fr 1fr}
+  .top-right{gap:8px}
+  .clock{font-size:9px}
 }
-.alert.warning{background:#44351c;border-color:#ffcc7060;color:#ffd166}
-.alert.danger{background:#461e36;border-color:#ff638f65;color:#ff8ba9}
-.error{font-size:10px;color:var(--red);margin-top:13px;overflow-wrap:anywhere}
-[hidden]{display:none!important}
-footer{
- padding:26px 15px;
- text-align:center;
- color:var(--muted);
- font-size:9px;
- letter-spacing:1px;
- border-top:1px solid var(--border);
- background:#100e20;
-}
-.mobile-nav{display:none}
-
-/* RESPONSIVE */
-@media(max-width:1100px){
- .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
- .two{grid-template-columns:1fr}
-}
-@media(max-width:700px){
- .sidebar{display:none}
- main{width:100%;margin:0}
- .topbar{height:60px;padding:0 14px}
- .content{padding:22px 13px 100px}
- h1{font-size:22px}
- .grid{gap:9px}
- .card{padding:13px}
- .metric{font-size:22px}
- .resource .metric{font-size:21px}
- .three{grid-template-columns:1fr 1fr}
- .panel{padding:14px}
- #clock{font-size:10px}
- .top-left{font-size:10px}
- .mobile-nav{
-  display:flex;
-  position:fixed;
-  bottom:0;left:0;right:0;
-  background:#100e20f5;
-  border-top:1px solid #ad79ff55;
-  z-index:30;
-  justify-content:space-around;
-  padding:10px 3px calc(10px + env(safe-area-inset-bottom));
- }
- .mobile-nav a{
-  display:grid;
-  justify-items:center;
-  gap:5px;
-  color:var(--muted);
-  text-decoration:none;
-  font-size:9px;
- }
- .mobile-nav a span{font-size:17px}
- .mobile-nav a.active{color:var(--pink)}
-}
-@media(max-width:360px){
- .grid{grid-template-columns:1fr 1fr}
- .card{padding:10px}
- .metric{font-size:19px}
-}
-@media(prefers-reduced-motion:reduce){
- *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+@media(max-width:370px){
+  .three-grid{grid-template-columns:1fr}
+  .small-card{min-height:75px}
+  .resource-grid{grid-template-columns:1fr}
+  .search-row{flex-direction:column}
+  select.search{width:100%}
 }
 </style>
 </head>
 
 <body>
-<div class="layout">
+<div class="app">
 
 <aside class="sidebar">
- <div class="brand">AGE<span>VPN</span><small>NEON PREMIUM CONTROL</small></div>
- <div class="nav-label">MAIN MENU</div>
- <nav class="nav">
-  <a class="active" href="#overview">▦　Overview</a>
-  <a href="#resources">◈　Resources</a>
-  <a href="#vpn">⌁　VPN Monitor</a>
-  <a href="#incoming">◎　IP Traffic</a>
-  <a href="#analytics">⌁　Analytics</a>
-  <a href="#server">▤　Server Info</a>
-  <a href="#tcp">⇄　TCP Details</a>
-  <a href="#alerts">♢　Smart Alerts</a>
- </nav>
- <div class="side-bottom">
-  SYSTEM MONITORING<br>
-  <b>● AUTO MONITORING</b><br>
-  Refresh interval: 5 seconds
- </div>
+  <div>
+    <div class="brand">AGE<span>VPN</span></div>
+    <div class="brand-sub">NEON PREMIUM CONTROL</div>
+  </div>
+
+  <div class="menu-label">MAIN MENU</div>
+  <nav class="nav">
+    <a href="#overview" class="active"><span class="nav-icon">▦</span>Overview</a>
+    <a href="#resources"><span class="nav-icon">◈</span>Resources</a>
+    <a href="#vpn"><span class="nav-icon">⌁</span>VPN Monitor</a>
+    <a href="#traffic"><span class="nav-icon">◎</span>IP Traffic</a>
+    <a href="#analytics"><span class="nav-icon">⌁</span>Analytics</a>
+    <a href="#server"><span class="nav-icon">▤</span>Server Info</a>
+    <a href="#tcp"><span class="nav-icon">⇄</span>TCP Details</a>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <div>SYSTEM MONITORING</div>
+    <p style="color:var(--green);margin:8px 0"><span class="live-dot"></span>AUTO MONITORING</p>
+    Refresh interval: 5 seconds
+  </div>
 </aside>
 
-<main>
-<header class="topbar">
- <div class="top-left">AGEVPN / <b>Professional Control Center</b></div>
- <div class="top-right">
-  <div id="clock">--:--:--</div>
-  <div class="live"><i class="dot" id="dot"></i><span id="status">CONNECTING</span></div>
- </div>
-</header>
+<main class="main">
+  <header class="topbar">
+    <div class="crumb">AGEVPN / <b>Professional Control Center</b></div>
+    <div class="top-right">
+      <span class="clock" id="clock">--:--:--</span>
+      <span class="status"><span class="live-dot"></span><span id="apiStatus">CONNECTING</span></span>
+    </div>
+  </header>
 
-<div class="content">
+  <div class="content">
+    <div id="errorBanner" class="error-banner"></div>
 
-<section id="overview">
- <div class="page-head">
-  <div>
-   <h1>Server Overview</h1>
-   <div class="subtitle">Real-time VPS infrastructure monitoring</div>
+    <section id="overview" class="page-head">
+      <div>
+        <h1>Server Overview</h1>
+        <div class="subtitle">Real-time VPS infrastructure monitoring</div>
+      </div>
+      <div class="update-pill">LAST UPDATE: <span id="lastUpdate">Waiting...</span></div>
+    </section>
+
+    <section id="resources" class="section">
+      <div class="section-head">
+        <div class="section-title">01 / SYSTEM RESOURCES</div>
+        <div class="section-note">LIVE PERFORMANCE</div>
+      </div>
+
+      <div class="grid resource-grid">
+        <div class="card" style="--accent:var(--cyan)">
+          <div class="card-top">
+            <div class="card-label">CPU UTILIZATION</div><div class="card-icon">◈</div>
+          </div>
+          <div class="metric cyan" id="cpuValue">--%</div>
+          <div class="card-desc">Processor utilization</div>
+          <div class="progress"><span id="cpuBar"></span></div>
+        </div>
+
+        <div class="card" style="--accent:var(--green)">
+          <div class="card-top">
+            <div class="card-label">MEMORY USAGE</div><div class="card-icon">▤</div>
+          </div>
+          <div class="metric green" id="ramValue">--%</div>
+          <div class="card-desc" id="ramDesc">Memory used</div>
+          <div class="progress"><span id="ramBar"></span></div>
+        </div>
+
+        <div class="card" style="--accent:var(--pink)">
+          <div class="card-top">
+            <div class="card-label">DISK STORAGE</div><div class="card-icon">▣</div>
+          </div>
+          <div class="metric pink" id="diskValue">--%</div>
+          <div class="card-desc" id="diskDesc">Disk used</div>
+          <div class="progress"><span id="diskBar"></span></div>
+        </div>
+
+        <div class="card" style="--accent:var(--purple)">
+          <div class="card-top">
+            <div class="card-label">SERVER UPTIME</div><div class="card-icon">◷</div>
+          </div>
+          <div class="metric purple" id="uptimeValue" style="font-size:20px">--</div>
+          <div class="card-desc">Continuous running time</div>
+          <div class="card-desc" style="color:var(--green);margin-top:12px">● SYSTEM RUNNING</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="vpn" class="section">
+      <div class="section-head">
+        <div class="section-title">02 / VPN MONITOR</div>
+        <div class="section-note">X-RAY LIVE CONNECTIONS</div>
+      </div>
+
+      <div class="grid three-grid" style="margin-bottom:12px">
+        <div class="card small-card green-card">
+          <div class="card-label">VPN CONNECTIONS</div>
+          <div class="metric green" id="vpnConnections">--</div>
+          <div class="card-desc">Established sessions</div>
+        </div>
+        <div class="card small-card cyan-card">
+          <div class="card-label">UNIQUE IP ADDRESSES</div>
+          <div class="metric cyan" id="vpnUnique">--</div>
+          <div class="card-desc">Distinct remote IPs</div>
+        </div>
+        <div class="card small-card purple-card">
+          <div class="card-label">ACTIVE VPN PORTS</div>
+          <div class="metric purple" id="vpnPortsCount">--</div>
+          <div class="card-desc" id="vpnPortsText">Enabled ports</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">CONNECTED VPN IP ADDRESSES</div>
+        <div class="panel-sub">Currently detected remote addresses</div>
+        <input id="vpnSearch" class="search" placeholder="Search VPN IP address..." oninput="renderVPNIPs()">
+        <div class="ip-chips" id="vpnIPList"><div class="empty">Waiting for VPN data...</div></div>
+      </div>
+    </section>
+
+    <section id="traffic" class="section">
+      <div class="section-head">
+        <div class="section-title">03 / INCOMING IP TRAFFIC</div>
+        <div class="section-note">LOCATION · PORT · SPEED</div>
+      </div>
+
+      <div class="grid three-grid" style="margin-bottom:12px">
+        <div class="card small-card cyan-card">
+          <div class="card-label">TOTAL CONNECTIONS</div>
+          <div class="metric cyan" id="totalConnections">--</div>
+          <div class="card-desc">Established sessions</div>
+        </div>
+        <div class="card small-card pink-card">
+          <div class="card-label">UNIQUE IP ADDRESSES</div>
+          <div class="metric pink" id="uniqueIPs">--</div>
+          <div class="card-desc">Distinct remote IPs</div>
+        </div>
+        <div class="card small-card purple-card">
+          <div class="card-label">ACTIVE PORTS</div>
+          <div class="metric purple" id="activePorts">--</div>
+          <div class="card-desc">Ports with connections</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="section-head">
+          <div>
+            <div class="panel-title">CONNECTED IP ADDRESS LIST</div>
+            <div class="panel-sub" style="margin-bottom:0">Live location and traffic information</div>
+          </div>
+          <span class="badge">AUTO UPDATED</span>
+        </div>
+
+        <div class="search-row">
+          <input id="trafficSearch" class="search" placeholder="Search IP / country / city..." oninput="renderIncoming()">
+          <select id="portFilter" class="search" onchange="renderIncoming()">
+            <option value="">All ports</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>REMOTE IP</th>
+                <th>LOCATION</th>
+                <th>PORT</th>
+                <th>CONNECTIONS</th>
+                <th>UPLOAD</th>
+                <th>DOWNLOAD</th>
+              </tr>
+            </thead>
+            <tbody id="incomingBody">
+              <tr><td colspan="6" class="empty">Waiting for incoming traffic...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="analytics" class="section">
+      <div class="section-head">
+        <div class="section-title">04 / NETWORK ANALYTICS</div>
+        <div class="section-note">LIVE TRAFFIC</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">NETWORK TRAFFIC HISTORY</div>
+        <div class="panel-sub">Recent download and upload speed samples</div>
+        <div class="grid three-grid" style="margin-bottom:10px">
+          <div class="info-item"><span>DOWNLOAD NOW</span><b id="downloadNow" style="color:var(--cyan)">--</b></div>
+          <div class="info-item"><span>UPLOAD NOW</span><b id="uploadNow" style="color:var(--green)">--</b></div>
+          <div class="info-item"><span>HISTORY</span><b id="sampleCount">0 samples</b></div>
+        </div>
+        <div class="chart-box"><canvas id="trafficChart"></canvas></div>
+        <div class="grid info-grid" style="margin-top:12px">
+          <div class="info-item"><span>TOTAL RECEIVED</span><b id="receivedTotal">--</b></div>
+          <div class="info-item"><span>TOTAL SENT</span><b id="sentTotal">--</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="server" class="section">
+      <div class="section-head">
+        <div class="section-title">05 / SERVER INFORMATION</div>
+        <div class="section-note">SYSTEM DETAILS</div>
+      </div>
+      <div class="panel">
+        <div class="grid info-grid">
+          <div class="info-item"><span>HOSTNAME</span><b id="hostname">--</b></div>
+          <div class="info-item"><span>PLATFORM</span><b id="platform">--</b></div>
+          <div class="info-item"><span>CPU LOAD</span><b id="load">--</b></div>
+          <div class="info-item"><span>TCP CONNECTIONS</span><b id="tcpCount">--</b></div>
+          <div class="info-item"><span>MEMORY TOTAL</span><b id="ramTotal">--</b></div>
+          <div class="info-item"><span>DISK TOTAL</span><b id="diskTotal">--</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tcp" class="section">
+      <div class="section-head">
+        <div class="section-title">06 / TCP DETAILS</div>
+        <div class="section-note">CONNECTION INSPECTION</div>
+      </div>
+      <div class="panel">
+        <details>
+          <summary>VIEW TCP CONNECTION DETAILS</summary>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>PROTOCOL</th><th>STATE</th><th>LOCAL ADDRESS</th><th>REMOTE ADDRESS</th></tr></thead>
+              <tbody id="tcpBody"><tr><td colspan="4" class="empty">No TCP data</td></tr></tbody>
+            </table>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <div class="footer">AGEVPN PROFESSIONAL CONTROL CENTER · AUTO REFRESH EVERY 5 SECONDS</div>
   </div>
-  <div class="updated">LAST UPDATE · <span id="updated">Waiting...</span></div>
- </div>
-</section>
-
-<div class="section-head" id="resources">
- <h2>01 / SYSTEM RESOURCES</h2><span>LIVE PERFORMANCE</span>
-</div>
-
-<div class="grid">
- <div class="card">
-  <div class="card-top"><span class="label">CPU UTILIZATION</span><span class="icon">◈</span></div>
-  <div class="resource"><div class="metric" id="cpu">--%</div><span class="resource-tag">CPU</span></div>
-  <div class="metric-sub">Processor utilization</div>
-  <div class="progress"><span id="cpuBar"></span></div>
- </div>
- <div class="card">
-  <div class="card-top"><span class="label">MEMORY USAGE</span><span class="icon">▤</span></div>
-  <div class="resource"><div class="metric" id="ram">--%</div><span class="resource-tag">RAM</span></div>
-  <div class="metric-sub" id="ramNote">Memory usage</div>
-  <div class="progress"><span id="ramBar"></span></div>
- </div>
- <div class="card">
-  <div class="card-top"><span class="label">DISK STORAGE</span><span class="icon">▣</span></div>
-  <div class="resource"><div class="metric" id="disk">--%</div><span class="resource-tag">DISK</span></div>
-  <div class="metric-sub" id="diskNote">Root filesystem</div>
-  <div class="progress"><span id="diskBar"></span></div>
- </div>
- <div class="card">
-  <div class="card-top"><span class="label">SERVER UPTIME</span><span class="icon">◷</span></div>
-  <div class="metric" id="uptime">--</div>
-  <div class="metric-sub">Continuous running time</div>
-  <div style="margin-top:18px;color:var(--green);font-size:9px">● SYSTEM RUNNING</div>
- </div>
-</div>
-
-<div class="section-head" id="vpn">
- <h2>02 / VPN MONITOR</h2><span>X-RAY LIVE CONNECTIONS</span>
-</div>
-
-<div class="three">
- <div class="stat-card green"><div class="label">VPN CONNECTIONS</div><div class="metric" id="vpnConnections">--</div><div class="metric-sub">Established sessions</div></div>
- <div class="stat-card"><div class="label">UNIQUE IP ADDRESSES</div><div class="metric" id="vpnIPs">--</div><div class="metric-sub">Distinct remote IPs</div></div>
- <div class="stat-card purple"><div class="label">ACTIVE VPN PORTS</div><div class="metric" id="vpnActivePorts">--</div><div class="metric-sub" id="vpnPortSummary">Enabled ports</div></div>
-</div>
-
-<div class="panel" style="margin-top:13px">
- <h3>CONNECTED VPN IP ADDRESSES</h3>
- <div class="panel-sub">Currently detected remote addresses</div>
- <div class="tools"><input id="vpnSearch" placeholder="Search VPN IP address..."></div>
- <div class="vpn-ip-list" id="vpnIPList"><div class="empty">Waiting for VPN data...</div></div>
-</div>
-
-<div class="section-head" id="incoming">
- <h2>03 / INCOMING IP TRAFFIC</h2><span>LOCATION · PORT · SPEED</span>
-</div>
-
-<div class="three">
- <div class="stat-card"><div class="label">TOTAL CONNECTIONS</div><div class="metric" id="incomingConnections">--</div><div class="metric-sub">Established sessions</div></div>
- <div class="stat-card pink"><div class="label">UNIQUE IP ADDRESSES</div><div class="metric" id="incomingIPs">--</div><div class="metric-sub">Distinct remote IPs</div></div>
- <div class="stat-card purple"><div class="label">ACTIVE PORTS</div><div class="metric" id="incomingPorts">--</div><div class="metric-sub">Ports with connections</div></div>
-</div>
-
-<div class="panel" style="margin-top:13px">
- <div class="card-top">
-  <div><h3>CONNECTED IP ADDRESS LIST</h3><div class="panel-sub">Live location and traffic information</div></div>
-  <span class="badge">AUTO UPDATED</span>
- </div>
- <div class="tools">
-  <input id="ipSearch" placeholder="Search IP / country / city...">
-  <select id="portFilter"><option value="">All ports</option></select>
- </div>
- <div class="table-wrap">
-  <table>
-   <thead><tr><th>REMOTE IP</th><th>LOCATION</th><th>PORT</th><th>CONNECTIONS</th><th>UPLOAD</th><th>DOWNLOAD</th><th>STATUS</th></tr></thead>
-   <tbody id="incomingList"><tr><td colspan="7" class="empty">Waiting for data...</td></tr></tbody>
-  </table>
- </div>
-</div>
-
-<div class="section-head" id="analytics">
- <h2>04 / NETWORK ANALYTICS</h2><span>LIVE TRAFFIC</span>
-</div>
-
-<div class="two">
- <div class="panel">
-  <h3>NETWORK TRAFFIC HISTORY</h3>
-  <div class="panel-sub">Recent download and upload speed samples</div>
-  <canvas id="networkChart"></canvas>
-  <div class="chart-legend">
-   <span><i style="background:var(--cyan)"></i>Download</span>
-   <span><i style="background:var(--green)"></i>Upload</span>
-  </div>
- </div>
- <div class="panel">
-  <h3>NETWORK PERFORMANCE</h3>
-  <div class="network-stats">
-   <div><small>DOWNLOAD SPEED</small><strong id="download">--</strong></div>
-   <div><small>UPLOAD SPEED</small><strong id="upload">--</strong></div>
-   <div><small>TOTAL RECEIVED</small><strong id="received">--</strong></div>
-   <div><small>TOTAL SENT</small><strong id="sent">--</strong></div>
-  </div>
- </div>
-</div>
-
-<div class="section-head" id="server">
- <h2>05 / SERVER INFORMATION</h2><span>INFRASTRUCTURE DETAILS</span>
-</div>
-
-<div class="panel">
- <h3>SERVER SPECIFICATIONS</h3>
- <div class="info">
-  <div><small>HOSTNAME</small><strong id="hostname">--</strong></div>
-  <div><small>PLATFORM</small><strong id="platform">--</strong></div>
-  <div><small>LOAD AVERAGE</small><strong id="load">--</strong></div>
-  <div><small>CPU CORES</small><strong id="cores">--</strong></div>
-  <div><small>RAM TOTAL</small><strong id="ramTotal">--</strong></div>
-  <div><small>DISK TOTAL</small><strong id="diskTotal">--</strong></div>
- </div>
-</div>
-
-<div class="section-head" id="tcp">
- <h2>06 / TCP CONNECTIONS</h2><span>CONNECTION DETAILS</span>
-</div>
-
-<div class="panel">
- <div class="card-top">
-  <div><h3>LIVE TCP CONNECTIONS</h3><div class="panel-sub"><span id="connectionCount">--</span> detected connections</div></div>
-  <button class="btn" id="tcpToggle" type="button">SHOW DETAILS ＋</button>
- </div>
- <div id="tcpBox" hidden>
-  <div class="table-wrap">
-   <table>
-    <thead><tr><th>REMOTE IP</th><th>LOCAL PORT</th><th>REMOTE PORT</th><th>PROTOCOL</th><th>STATUS</th></tr></thead>
-    <tbody id="connections"></tbody>
-   </table>
-  </div>
- </div>
-</div>
-
-<div class="section-head" id="alerts">
- <h2>07 / SMART ALERTS</h2><span>RESOURCE THRESHOLDS</span>
-</div>
-
-<div class="panel">
- <h3>SYSTEM HEALTH NOTIFICATIONS</h3>
- <div class="panel-sub">Automatic resource threshold checks</div>
- <div class="alerts" id="alertList"><div class="alert">Waiting for server metrics...</div></div>
-</div>
-
-<div class="error" id="error"></div>
-</div>
-
-<footer>AGEVPN · NEON PREMIUM CONTROL CENTER · AUTO REFRESH EVERY 5 SECONDS</footer>
 </main>
 </div>
 
-<nav class="mobile-nav">
- <a class="active" href="#overview"><span>▦</span>Overview</a>
- <a href="#vpn"><span>⌁</span>VPN</a>
- <a href="#incoming"><span>◎</span>IP Traffic</a>
- <a href="#analytics"><span>⌁</span>Analytics</a>
- <a href="#alerts"><span>♢</span>Alerts</a>
-</nav>
-
 <script>
-'use strict';
-
 const API='/api/metrics';
+let latestData=null;
+let vpnIPs=[];
+let incomingRows=[];
+let history={download:[],upload:[]};
+const MAX_POINTS=30;
+
 const $=id=>document.getElementById(id);
 
-const history={rx:[],tx:[]};
-let incomingRows=[];
-let vpnIPs=[];
-let refreshing=false;
-
-function n(v){
- const x=Number(v);
- return Number.isFinite(x)?x:0;
+function safe(value){
+  return String(value??'').replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
 }
-
-function pct(v){
- return Math.max(0,Math.min(100,n(v)));
+function num(v){
+  const n=Number(v);
+  return Number.isFinite(n)?n:0;
 }
-
-function safe(v){
- return String(v??'-').replace(/[&<>"']/g,c=>({
-  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
- }[c]));
+function clamp(v){return Math.max(0,Math.min(100,num(v)))}
+function fmtBytes(v){
+  const n=num(v);
+  if(n<1024)return n.toFixed(0)+' B';
+  const units=['KB','MB','GB','TB'];
+  let x=n/1024,i=0;
+  while(x>=1024&&i<units.length-1){x/=1024;i++}
+  return x.toFixed(2)+' '+units[i];
 }
-
-function bytes(v){
- v=n(v);
- if(v<1024)return v.toFixed(0)+' B';
- const units=['KB','MB','GB','TB'];
- let i=-1;
- do{v/=1024;i++}while(v>=1024&&i<units.length-1);
- return v.toFixed(2)+' '+units[i];
+function fmtSpeed(v){
+  const n=num(v);
+  if(n<1024)return n.toFixed(2)+' B/s';
+  if(n<1024*1024)return (n/1024).toFixed(2)+' KB/s';
+  return (n/1024/1024).toFixed(2)+' MB/s';
 }
-
-function speed(v){return bytes(v)+'/s'}
-
-function uptime(v){
- v=Math.max(0,n(v));
- const d=Math.floor(v/86400);
- const h=Math.floor(v%86400/3600);
- const m=Math.floor(v%3600/60);
- return `${d}d ${h}h ${m}m`;
+function fmtKbps(v){
+  return num(v).toFixed(2)+' Kbps';
 }
-
-function setMetric(id,bar,value){
- $(id).textContent=pct(value).toFixed(1)+'%';
- $(bar).style.width=pct(value)+'%';
+function setText(id,value){
+  const el=$(id);if(el)el.textContent=value;
 }
-
-function drawChart(){
- const c=$('networkChart');
- if(!c)return;
- const w=c.clientWidth,h=205;
- if(!w)return;
-
- const ratio=window.devicePixelRatio||1;
- c.width=w*ratio;
- c.height=h*ratio;
-
- const ctx=c.getContext('2d');
- ctx.setTransform(ratio,0,0,ratio,0,0);
- ctx.clearRect(0,0,w,h);
-
- ctx.strokeStyle='#3a315b';
- ctx.lineWidth=1;
-
- for(let i=1;i<5;i++){
-  const y=i*h/5;
-  ctx.beginPath();
-  ctx.moveTo(0,y);
-  ctx.lineTo(w,y);
-  ctx.stroke();
- }
-
- const max=Math.max(1,...history.rx,...history.tx);
-
- function line(data,color){
-  if(!data.length)return;
-  ctx.beginPath();
-  data.forEach((v,i)=>{
-   const x=i/Math.max(1,data.length-1)*w;
-   const y=h-10-(v/max)*(h-25);
-   if(i===0)ctx.moveTo(x,y);
-   else ctx.lineTo(x,y);
-  });
-  ctx.strokeStyle=color;
-  ctx.lineWidth=2.5;
-  ctx.shadowBlur=10;
-  ctx.shadowColor=color;
-  ctx.stroke();
-  ctx.shadowBlur=0;
- }
- line(history.rx,'#36dcff');
- line(history.tx,'#39f5ae');
+function setProgress(id,value){
+  const el=$(id);if(el)el.style.width=clamp(value)+'%';
 }
-
-function renderVPN(v){
- v=v||{};
- const ports=Array.isArray(v.ports)?v.ports:
-  (Array.isArray(v.vpnPorts)?v.vpnPorts:[]);
- const active=Array.isArray(v.activePorts)?v.activePorts:[];
- vpnIPs=Array.isArray(v.ips)?v.ips:[];
-
- $('vpnConnections').textContent=n(v.connections);
- $('vpnIPs').textContent=n(v.uniqueIPs);
- $('vpnActivePorts').textContent=active.length;
- $('vpnPortSummary').textContent='Enabled: '+(ports.join(', ')||'—');
-
- renderVPNIPs();
+function formatUptime(seconds){
+  let s=Math.max(0,Math.floor(num(seconds)));
+  const d=Math.floor(s/86400);s%=86400;
+  const h=Math.floor(s/3600);s%=3600;
+  const m=Math.floor(s/60);
+  if(d>0)return `${d}d ${h}h ${m}m`;
+  if(h>0)return `${h}h ${m}m`;
+  return `${m}m`;
 }
+function cpuPercent(cpu){
+  if(cpu&&typeof cpu==='object')return num(cpu.usage??cpu.percent??cpu.value);
+  return num(cpu);
+}
+function getActivePorts(vpn){
+  const ports=Array.isArray(vpn?.activePorts)?vpn.activePorts:[];
+  return [...new Set(ports.map(Number).filter(Number.isFinite))];
+}
+function getConfiguredPorts(vpn){
+  const ports=Array.isArray(vpn?.ports)?vpn.ports:
+    Array.isArray(vpn?.vpnPorts)?vpn.vpnPorts:[];
+  return [...new Set(ports.map(Number).filter(Number.isFinite))];
+}
+function updateResources(d){
+  const cpu=cpuPercent(d.cpu??d.cpuUsage);
+  const ram=num(d.memory?.percent);
+  const disk=num(d.disk?.percent);
 
+  setText('cpuValue',clamp(cpu).toFixed(1)+'%');
+  setText('ramValue',clamp(ram).toFixed(1)+'%');
+  setText('diskValue',clamp(disk).toFixed(1)+'%');
+
+  setProgress('cpuBar',cpu);
+  setProgress('ramBar',ram);
+  setProgress('diskBar',disk);
+
+  setText('ramDesc',`${fmtBytes(d.memory?.used)} used`);
+  setText('diskDesc',`${fmtBytes(d.disk?.used)} used`);
+  setText('uptimeValue',formatUptime(d.uptime));
+  setText('ramTotal',fmtBytes(d.memory?.total));
+  setText('diskTotal',fmtBytes(d.disk?.total));
+
+  setText('hostname',d.hostname||'Unknown');
+  setText('platform',d.platform||'Unknown');
+  setText('load',Array.isArray(d.load)?d.load.map(x=>num(x).toFixed(2)).join(' / '):String(d.load??'--'));
+}
+function updateVPN(vpn){
+  vpn=vpn||{};
+  const ports=getConfiguredPorts(vpn);
+  const active=getActivePorts(vpn);
+  const ips=Array.isArray(vpn.ips)?vpn.ips:[];
+  vpnIPs=ips.map(x=>typeof x==='string'?x:(x.ip||x.address||'')).filter(Boolean);
+
+  setText('vpnConnections',vpn.connections??0);
+  setText('vpnUnique',vpn.uniqueIPs??vpnIPs.length);
+  setText('vpnPortsCount',active.length||ports.length);
+  setText('vpnPortsText',(ports.length?'Enabled: '+ports.join(', '):'No configured ports'));
+
+  renderVPNIPs();
+}
 function renderVPNIPs(){
- const q=$('vpnSearch').value.trim().toLowerCase();
- const rows=vpnIPs.filter(x=>String(x).toLowerCase().includes(q));
-
- $('vpnIPList').innerHTML=rows.length
-  ?rows.map(ip=>`<span class="vpn-ip">${safe(ip)}　● ONLINE</span>`).join('')
-  :'<div class="empty">No matching VPN IP addresses</div>';
+  const q=($('vpnSearch')?.value||'').toLowerCase();
+  const list=vpnIPs.filter(ip=>ip.toLowerCase().includes(q));
+  $('vpnIPList').innerHTML=list.length?list.map(ip=>
+    `<span class="ip-chip">${safe(ip)} · ONLINE</span>`
+  ).join(''):'<div class="empty">No matching VPN IP addresses</div>';
 }
+function updateIncomingData(d){
+  const incoming=d.incoming||{};
+  incomingRows=Array.isArray(incoming.connections)?incoming.connections:[];
+  const ports=[...new Set(incomingRows.map(x=>Number(x.port)).filter(Number.isFinite))];
 
-function renderIncoming(data){
- data=data||{};
- incomingRows=Array.isArray(data.connections)?data.connections:[];
+  setText('totalConnections',incoming.totalConnections??d.vpn?.connections??0);
+  setText('uniqueIPs',incoming.uniqueIPs??d.vpn?.uniqueIPs??0);
+  setText('activePorts',ports.length||getActivePorts(d.vpn).length);
 
- $('incomingConnections').textContent=n(data.totalConnections);
- $('incomingIPs').textContent=n(data.uniqueIPs);
+  const select=$('portFilter');
+  const old=select.value;
+  select.innerHTML='<option value="">All ports</option>'+
+    ports.map(p=>`<option value="${p}">${p}</option>`).join('');
+  if(ports.map(String).includes(old))select.value=old;
 
- const ports=[...new Set(incomingRows.map(x=>String(x.port??'-')))];
- $('incomingPorts').textContent=ports.length;
-
- const select=$('portFilter');
- const old=select.value;
-
- select.innerHTML='<option value="">All ports</option>'+
-  ports.map(p=>`<option value="${safe(p)}">${safe(p)}</option>`).join('');
-
- if(ports.includes(old))select.value=old;
- renderIncomingRows();
+  renderIncoming();
 }
+function renderIncoming(){
+  const q=($('trafficSearch')?.value||'').toLowerCase();
+  const port=($('portFilter')?.value||'');
+  const rows=incomingRows.filter(x=>{
+    const search=[x.ip,x.country,x.city,x.port].join(' ').toLowerCase();
+    return search.includes(q)&&(!port||String(x.port)===port);
+  });
 
-function renderIncomingRows(){
- const q=$('ipSearch').value.trim().toLowerCase();
- const port=$('portFilter').value;
-
- const rows=incomingRows.filter(x=>{
-  const hay=[x.ip,x.country,x.city,x.port].join(' ').toLowerCase();
-  return hay.includes(q)&&(!port||String(x.port)===port);
- });
-
- $('incomingList').innerHTML=rows.length?rows.map(x=>`
-  <tr>
-   <td class="ip">${safe(x.ip)}</td>
-   <td class="location">
-    ${safe(x.flag||'🌐')}
-    <b>${safe(x.country||'Unknown')}</b>
-    <small>${safe(x.city||'Location unavailable')}</small>
-   </td>
-   <td class="port">${safe(x.port)}</td>
-   <td>${n(x.connections)}</td>
-   <td style="color:var(--green)">${n(x.uploadKbps).toFixed(2)} Kbps</td>
-   <td style="color:var(--cyan)">${n(x.downloadKbps).toFixed(2)} Kbps</td>
-   <td><span class="badge">ONLINE</span></td>
-  </tr>
- `).join(''):'<tr><td colspan="7" class="empty">No matching connections</td></tr>';
+  $('incomingBody').innerHTML=rows.length?rows.map(x=>{
+    const flag=x.flag||'🌐';
+    const location=[x.country,x.city].filter(Boolean);
+    return `<tr>
+      <td class="mono">${safe(x.ip||'Unknown')}</td>
+      <td><div class="country">${safe(flag)} ${safe(x.country||'Unknown')}</div><div class="city">${safe(x.city||'')}</div></td>
+      <td class="port">${safe(x.port??'--')}</td>
+      <td>${safe(x.connections??0)}</td>
+      <td class="speed">${fmtKbps(x.uploadKbps)}</td>
+      <td class="speed">${fmtKbps(x.downloadKbps)}</td>
+    </tr>`;
+  }).join(''):'<tr><td colspan="6" class="empty">No matching incoming connections</td></tr>';
 }
+function updateNetwork(network){
+  network=network||{};
+  const down=num(network.download);
+  const up=num(network.upload);
+  setText('downloadNow',fmtSpeed(down));
+  setText('uploadNow',fmtSpeed(up));
+  setText('receivedTotal',fmtBytes(network.received));
+  setText('sentTotal',fmtBytes(network.sent));
 
-function splitHost(v){
- const s=String(v||'-');
- const m=s.match(/^(.*):(\d+)$/);
- return m?{host:m[1].replace(/^\[|\]$/g,''),port:m[2]}:{host:s,port:'-'};
-}
-
-function renderTCP(list){
- if(!Array.isArray(list))list=[];
- $('connectionCount').textContent=list.length;
-
- $('connections').innerHTML=list.slice(0,150).map(x=>{
-  const r=splitHost(x.remote);
-  const l=splitHost(x.local);
-
-  return `<tr>
-   <td>${safe(x.remoteAddress||x.remoteIP||r.host)}</td>
-   <td>${safe(x.localPort||l.port)}</td>
-   <td>${safe(x.remotePort||r.port)}</td>
-   <td>${safe(x.protocol||'TCP')}</td>
-   <td><span class="badge">${safe(x.state||'ESTABLISHED')}</span></td>
-  </tr>`;
- }).join('')||'<tr><td colspan="5" class="empty">No TCP connections</td></tr>';
-}
-
-function renderAlerts(cpu,ram,disk){
- const items=[];
-
- [['CPU',cpu],['RAM',ram],['DISK',disk]].forEach(([name,v])=>{
-  if(v>=90)items.push({level:'danger',text:`${name} usage critical: ${v.toFixed(1)}%`});
-  else if(v>=80)items.push({level:'warning',text:`${name} usage high: ${v.toFixed(1)}%`});
- });
-
- $('alertList').innerHTML=items.length
-  ?items.map(x=>`<div class="alert ${x.level}">⚠ ${safe(x.text)}</div>`).join('')
-  :'<div class="alert">✓ All monitored resource levels are within configured thresholds.</div>';
-}
-
-async function refresh(){
- if(refreshing)return;
- refreshing=true;
-
- try{
-  const res=await fetch(API,{cache:'no-store'});
-  if(!res.ok)throw new Error('HTTP '+res.status);
-
-  const d=await res.json();
-
-  $('status').textContent='SERVER ONLINE';
-  $('dot').style.background='var(--green)';
-  $('dot').style.boxShadow='0 0 12px var(--green)';
-  $('error').textContent='';
-
-  // CPU
-  const cpu=n(d.cpu?.usage??d.cpuUsage??d.cpu);
-
-  // MEMORY
-  const ram=n(
-   d.memory?.percent??
-   d.memory?.usagePercent??
-   d.ramUsage??
-   d.ram?.percent
-  );
-
-  // DISK
-  const disk=n(
-   d.disk?.percent??
-   d.disk?.usagePercent??
-   d.diskUsage??
-   d.disk?.usage
-  );
-
-  setMetric('cpu','cpuBar',cpu);
-  setMetric('ram','ramBar',ram);
-  setMetric('disk','diskBar',disk);
-
-  $('ramNote').textContent=
-   bytes(d.memory?.used??d.memory?.usedBytes)+' used';
-
-  $('diskNote').textContent=
-   bytes(d.disk?.used??d.disk?.usedBytes)+' used';
-
-  $('uptime').textContent=uptime(d.uptime);
-
-  // SERVER INFORMATION
-  $('hostname').textContent=d.hostname||'--';
-  $('platform').textContent=d.platform||'--';
-  $('cores').textContent=d.cpu?.cores??d.cores??'--';
-
-  const load=d.load||[];
-  $('load').textContent=Array.isArray(load)
-   ?load.map(x=>n(x).toFixed(2)).join(' / ')
-   :String(load);
-
-  const memTotal=d.memory?.total??d.memory?.totalBytes;
-  const diskTotal=d.disk?.total??d.disk?.totalBytes;
-
-  $('ramTotal').textContent=memTotal?bytes(memTotal):'--';
-  $('diskTotal').textContent=diskTotal?bytes(diskTotal):'--';
-
-  // NETWORK
-  const net=d.network||{};
-
-  const rx=n(net.download??net.rxSpeed??net.downloadSpeed??net.rx);
-  const tx=n(net.upload??net.txSpeed??net.uploadSpeed??net.tx);
-
-  $('download').textContent=speed(rx);
-  $('upload').textContent=speed(tx);
-  $('received').textContent=bytes(net.received);
-  $('sent').textContent=bytes(net.sent);
-
-  history.rx.push(rx);
-  history.tx.push(tx);
-
-  if(history.rx.length>40){
-   history.rx.shift();
-   history.tx.shift();
-  }
-
+  history.download.push(down);
+  history.upload.push(up);
+  if(history.download.length>MAX_POINTS)history.download.shift();
+  if(history.upload.length>MAX_POINTS)history.upload.shift();
+  setText('sampleCount',history.download.length+' samples');
   drawChart();
+}
+function drawChart(){
+  const canvas=$('trafficChart');
+  if(!canvas)return;
+  const rect=canvas.getBoundingClientRect();
+  const dpr=window.devicePixelRatio||1;
+  const w=Math.max(300,rect.width),h=Math.max(150,rect.height);
+  canvas.width=w*dpr;canvas.height=h*dpr;
+  const ctx=canvas.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,w,h);
 
-  // VPN / INCOMING / TCP
-  renderVPN(d.vpn);
-  renderIncoming(d.incoming);
-  renderTCP(d.tcp||d.connections||[]);
-  renderAlerts(cpu,ram,disk);
+  const pad={l:8,r:8,t:12,b:12};
+  const cw=w-pad.l-pad.r,ch=h-pad.t-pad.b;
+  ctx.strokeStyle='#302c49';ctx.lineWidth=1;
+  for(let i=0;i<5;i++){
+    const y=pad.t+(ch/4)*i;
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();
+  }
+  const all=[...history.download,...history.upload];
+  const max=Math.max(1,...all)*1.15;
 
-  $('updated').textContent=new Date().toLocaleTimeString();
+  function line(data,color){
+    if(!data.length)return;
+    ctx.beginPath();
+    data.forEach((v,i)=>{
+      const x=pad.l+(data.length===1?cw/2:(cw/(MAX_POINTS-1))*i);
+      const y=pad.t+ch-(num(v)/max)*ch;
+      if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    });
+    ctx.strokeStyle=color;ctx.lineWidth=2;ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();
+  }
+  line(history.download,'#45d8f5');
+  line(history.upload,'#48e4b0');
+}
+function updateTCP(tcp){
+  tcp=Array.isArray(tcp)?tcp:[];
+  setText('tcpCount',tcp.length);
+  $('tcpBody').innerHTML=tcp.length?tcp.slice(0,150).map(x=>
+    `<tr><td>${safe(x.protocol||'TCP')}</td><td>${safe(x.state||'--')}</td><td class="mono">${safe(x.local||'--')}</td><td class="mono">${safe(x.remote||'--')}</td></tr>`
+  ).join(''):'<tr><td colspan="4" class="empty">No TCP connection details</td></tr>';
+}
+function updateClock(){
+  setText('clock',new Date().toLocaleTimeString());
+}
+async function refresh(){
+  try{
+    const response=await fetch(API,{cache:'no-store',credentials:'same-origin'});
+    if(!response.ok)throw new Error('API response: '+response.status);
+    const d=await response.json();
+    latestData=d;
 
- }catch(e){
-  $('status').textContent='API OFFLINE';
-  $('dot').style.background='var(--red)';
-  $('dot').style.boxShadow='0 0 12px var(--red)';
-  $('error').textContent='API connection error: '+e.message;
-  $('alertList').innerHTML='<div class="alert danger">Server metrics unavailable. Check API connection.</div>';
- }finally{
-  refreshing=false;
- }
+    updateResources(d);
+    updateVPN(d.vpn);
+    updateIncomingData(d);
+    updateNetwork(d.network);
+    updateTCP(d.tcp);
+
+    setText('lastUpdate',new Date().toLocaleTimeString());
+    setText('apiStatus','SERVER ONLINE');
+    $('errorBanner').style.display='none';
+  }catch(error){
+    setText('apiStatus','API OFFLINE');
+    $('errorBanner').style.display='block';
+    $('errorBanner').textContent='Unable to load monitoring data. Please check the VPS monitor API connection.';
+    console.error('AGEVPN monitor:',error);
+  }
 }
 
-// EVENTS
-$('tcpToggle').addEventListener('click',()=>{
- const box=$('tcpBox');
- box.hidden=!box.hidden;
- $('tcpToggle').textContent=box.hidden?'SHOW DETAILS ＋':'HIDE DETAILS −';
+document.querySelectorAll('.nav a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    document.querySelectorAll('.nav a').forEach(x=>x.classList.remove('active'));
+    a.classList.add('active');
+  });
 });
-
-$('vpnSearch').addEventListener('input',renderVPNIPs);
-$('ipSearch').addEventListener('input',renderIncomingRows);
-$('portFilter').addEventListener('change',renderIncomingRows);
-
-// NAVIGATION
-document.querySelectorAll('.nav a,.mobile-nav a').forEach(a=>{
- a.addEventListener('click',()=>{
-  document.querySelectorAll('.nav a,.mobile-nav a').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll(`a[href="${a.getAttribute('href')}"]`).forEach(x=>x.classList.add('active'));
- });
-});
-
-function clock(){
- $('clock').textContent=new Date().toLocaleTimeString();
-}
-
-clock();
-refresh();
-setInterval(clock,1000);
-setInterval(refresh,5000);
 window.addEventListener('resize',drawChart);
+
+updateClock();
+refresh();
+setInterval(updateClock,1000);
+setInterval(refresh,5000);
 </script>
 </body>
 </html>
