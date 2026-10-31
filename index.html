@@ -3,109 +3,503 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080d18">
-<title>AGEVPN — Professional Control Center</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090817">
+<title>AGEVPN — Neon Premium Control Center</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
 :root{
- --bg:#080d18;--panel:#101827;--panel2:#151f31;--border:#26344a;
- --text:#edf4ff;--muted:#8b9ab2;--cyan:#48d9ee;--green:#36dfa1;
- --purple:#ad91ff;--red:#ff647c;--yellow:#ffcc70;
+ --bg:#090817;
+ --panel:#17152b;
+ --panel2:#201c39;
+ --border:#3a315b;
+ --text:#f5f2ff;
+ --muted:#aaa3c5;
+ --cyan:#36dcff;
+ --green:#39f5ae;
+ --purple:#ad79ff;
+ --pink:#ff70cf;
+ --red:#ff638f;
+ --yellow:#ffd166;
+ --orange:#ff9e59;
+ --blue:#6d8cff;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif}
+body{
+ margin:0;
+ background:
+ radial-gradient(ellipse at 5% 5%,#8b5cf633,transparent 30%),
+ radial-gradient(ellipse at 95% 10%,#ff70cf20,transparent 30%),
+ radial-gradient(ellipse at 50% 100%,#36dcff15,transparent 40%),
+ var(--bg);
+ color:var(--text);
+ font-family:Inter,sans-serif;
+}
 button,input,select{font:inherit}
 button{cursor:pointer}
 .layout{display:flex;min-height:100vh}
-.sidebar{width:235px;flex-shrink:0;background:#0b1220;border-right:1px solid var(--border);padding:25px 17px;position:fixed;inset:0 auto 0 0;z-index:20}
-.brand{font-size:23px;font-weight:800;letter-spacing:1px;padding:5px 10px 30px}
-.brand span{color:var(--cyan)}
-.brand small{display:block;font-size:9px;letter-spacing:3px;color:var(--muted);margin-top:6px}
-.nav-label{font-size:9px;color:#66758d;letter-spacing:2px;padding:15px 11px 9px}
-.nav a{display:flex;gap:12px;align-items:center;text-decoration:none;color:var(--muted);padding:13px 12px;border-radius:10px;font-size:12px;margin:4px 0;transition:.2s}
-.nav a:hover,.nav a.active{background:#16283a;color:var(--cyan)}
-.nav a.active{border:1px solid #48d9ee28}
-.side-bottom{position:absolute;bottom:23px;left:20px;right:20px;padding:14px;background:#111e2e;border:1px solid var(--border);border-radius:12px;font-size:10px;color:var(--muted);line-height:2}
+
+/* SIDEBAR */
+.sidebar{
+ width:240px;
+ flex-shrink:0;
+ position:fixed;
+ inset:0 auto 0 0;
+ z-index:20;
+ padding:24px 17px;
+ background:linear-gradient(180deg,#19132f,#0d1223);
+ border-right:1px solid #ad79ff35;
+}
+.brand{
+ font-size:24px;
+ font-weight:800;
+ letter-spacing:1px;
+ padding:6px 10px 28px;
+}
+.brand span{
+ background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
+ -webkit-background-clip:text;
+ background-clip:text;
+ color:transparent;
+}
+.brand small{
+ display:block;
+ color:var(--muted);
+ font-size:9px;
+ letter-spacing:3px;
+ margin-top:7px;
+}
+.nav-label{
+ font-size:9px;
+ color:#766b96;
+ letter-spacing:2px;
+ padding:13px 11px 9px;
+}
+.nav a{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ text-decoration:none;
+ color:var(--muted);
+ padding:13px 12px;
+ border-radius:10px;
+ font-size:12px;
+ margin:4px 0;
+ transition:.2s;
+}
+.nav a:hover{
+ background:#ad79ff20;
+ color:white;
+}
+.nav a.active{
+ background:linear-gradient(100deg,#743cff30,#36dcff15);
+ border:1px solid #ad79ff55;
+ color:#e3d2ff;
+ box-shadow:inset 3px 0 var(--purple);
+}
+.side-bottom{
+ position:absolute;
+ bottom:22px;
+ left:20px;
+ right:20px;
+ padding:14px;
+ background:#151d30;
+ border:1px solid var(--border);
+ border-radius:12px;
+ font-size:10px;
+ color:var(--muted);
+ line-height:2;
+}
 .side-bottom b{color:var(--green)}
-main{width:calc(100% - 235px);margin-left:235px;min-width:0}
-.topbar{height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid var(--border);background:#0b1220;position:sticky;top:0;z-index:10}
+
+/* MAIN */
+main{
+ width:calc(100% - 240px);
+ margin-left:240px;
+ min-width:0;
+}
+.topbar{
+ height:70px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:0 32px;
+ position:sticky;
+ top:0;
+ z-index:10;
+ background:#100e20ed;
+ border-bottom:1px solid #ad79ff35;
+ backdrop-filter:blur(18px);
+}
 .top-left{font-size:12px;color:var(--muted)}
-.top-left b{color:var(--text)}
-.live{display:flex;align-items:center;gap:9px;color:var(--green);font-size:10px;font-weight:800;letter-spacing:1px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);animation:pulse 1.6s infinite}
-@keyframes pulse{50%{opacity:.35}}
-.top-right{display:flex;align-items:center;gap:17px}
+.top-left b{color:white}
+.top-right{display:flex;align-items:center;gap:18px}
 #clock{font:12px 'Space Mono';color:var(--cyan)}
-.content{max-width:1600px;margin:auto;padding:30px 34px 50px}
-.page-head{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:25px}
-h1{font-size:27px;letter-spacing:-1px;margin:0 0 8px}
-.subtitle{color:var(--muted);font-size:11px}
-.updated{font-size:10px;color:var(--muted);background:var(--panel);padding:11px 14px;border:1px solid var(--border);border-radius:9px}
-.section-head{display:flex;justify-content:space-between;align-items:center;margin:32px 0 14px;gap:10px}
-.section-head h2{font-size:12px;letter-spacing:1.2px;margin:0}
-.section-head span{font-size:9px;color:var(--muted);letter-spacing:1px}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.card,.panel{background:linear-gradient(145deg,#131e30,#0e1624);border:1px solid var(--border);border-radius:15px;padding:19px;min-width:0;box-shadow:0 8px 25px #0002}
-.card-top{display:flex;justify-content:space-between;align-items:center}
-.label{font-size:9px;font-weight:800;letter-spacing:1.3px;color:var(--muted)}
-.icon{width:33px;height:33px;border-radius:10px;display:grid;place-items:center;background:#48d9ee12;color:var(--cyan);font-size:15px}
-.metric{font:700 27px 'Space Mono';margin:18px 0 8px;overflow-wrap:anywhere}
+.live{
+ display:flex;
+ align-items:center;
+ gap:9px;
+ color:var(--green);
+ font-size:10px;
+ font-weight:800;
+ letter-spacing:1px;
+}
+.dot{
+ width:8px;height:8px;
+ border-radius:50%;
+ background:var(--green);
+ box-shadow:0 0 12px var(--green);
+ animation:pulse 1.5s infinite;
+}
+@keyframes pulse{50%{opacity:.3;transform:scale(.75)}}
+
+.content{
+ max-width:1650px;
+ margin:auto;
+ padding:30px 32px 45px;
+}
+.page-head{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:15px;
+ flex-wrap:wrap;
+ margin-bottom:25px;
+}
+h1{font-size:28px;letter-spacing:-1px;margin:0 0 8px}
+.subtitle{font-size:11px;color:var(--muted)}
+.updated{
+ font-size:10px;
+ color:#e2d2ff;
+ background:#211b38;
+ padding:12px 15px;
+ border:1px solid #ad79ff55;
+ border-radius:9px;
+}
+
+/* SECTION */
+.section-head{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ margin:32px 0 15px;
+ padding-left:12px;
+ border-left:3px solid var(--purple);
+}
+.section-head h2{
+ font-size:12px;
+ letter-spacing:1.2px;
+ margin:0;
+ color:#e0caff;
+}
+.section-head span{
+ color:var(--muted);
+ font-size:9px;
+ letter-spacing:1px;
+}
+
+/* CARDS */
+.grid{
+ display:grid;
+ grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:14px;
+}
+.card,.panel{
+ min-width:0;
+ background:linear-gradient(145deg,#211c39,#12182b);
+ border:1px solid #40365f;
+ border-radius:15px;
+ padding:19px;
+ box-shadow:0 9px 28px #0004;
+ transition:.25s;
+ position:relative;
+ overflow:hidden;
+}
+.card:before{
+ content:"";
+ position:absolute;
+ height:2px;
+ top:0;left:15px;right:15px;
+ background:linear-gradient(90deg,transparent,var(--purple),var(--cyan),transparent);
+ opacity:.8;
+}
+.card:hover,.panel:hover{
+ transform:translateY(-3px);
+ border-color:#ad79ff90;
+ box-shadow:0 12px 30px #ad79ff18;
+}
+.card-top{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+.label{
+ font-size:9px;
+ font-weight:800;
+ letter-spacing:1.3px;
+ color:var(--muted);
+}
+.icon{
+ width:35px;height:35px;
+ display:grid;place-items:center;
+ border-radius:10px;
+ background:linear-gradient(135deg,#ad79ff35,#36dcff20);
+ color:#d9c1ff;
+ border:1px solid #ad79ff40;
+ font-size:16px;
+}
+.metric{
+ font:700 27px 'Space Mono',monospace;
+ margin:17px 0 8px;
+ overflow-wrap:anywhere;
+}
 .metric-sub{font-size:10px;color:var(--muted)}
-.progress{height:5px;background:#26344a;border-radius:9px;overflow:hidden;margin-top:17px}
-.progress span{display:block;height:100%;width:0;background:var(--cyan);border-radius:9px;transition:width .5s}
-.resource{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.progress{
+ height:6px;
+ background:#302b49;
+ border-radius:10px;
+ overflow:hidden;
+ margin-top:17px;
+}
+.progress span{
+ display:block;
+ height:100%;
+ width:0;
+ border-radius:10px;
+ transition:width .6s;
+}
+#cpuBar{background:linear-gradient(90deg,var(--cyan),var(--blue))}
+#ramBar{background:linear-gradient(90deg,var(--green),var(--cyan))}
+#diskBar{background:linear-gradient(90deg,var(--purple),var(--pink))}
+.resource{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .resource .metric{font-size:25px}
-.resource-tag{font-size:9px;color:var(--green)}
-.two{display:grid;grid-template-columns:1.45fr 1fr;gap:14px}
-.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.resource-tag{font-size:9px;color:var(--cyan)}
+
+/* LAYOUTS */
+.two{
+ display:grid;
+ grid-template-columns:1.45fr 1fr;
+ gap:14px;
+}
+.three{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:13px;
+}
 .panel h3{font-size:12px;margin:0}
 .panel-sub{font-size:10px;color:var(--muted);margin-top:6px}
-canvas{width:100%;height:205px;display:block;margin-top:18px}
-.chart-legend{display:flex;gap:20px;font-size:10px;color:var(--muted);margin-top:12px;flex-wrap:wrap}
-.chart-legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}
-.info{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:17px}
-.info div{background:#0a1320;border:1px solid #202d42;padding:12px;border-radius:9px;min-width:0}
-.info small{display:block;font-size:8px;color:var(--muted);letter-spacing:1px;margin-bottom:8px}
-.info strong{font-size:11px;overflow-wrap:anywhere}
-.stat-card{background:#101d2d;border:1px solid #26384b;border-radius:12px;padding:17px}
-.stat-card .metric{font-size:26px;color:var(--cyan)}
+.stat-card{
+ min-width:0;
+ padding:18px;
+ border-radius:13px;
+ background:linear-gradient(140deg,#172b3c,#17132c);
+ border:1px solid #36dcff50;
+ box-shadow:0 8px 24px #36dcff08;
+}
+.stat-card.green{
+ background:linear-gradient(140deg,#10382f,#142235);
+ border-color:#39f5ae65;
+}
+.stat-card.purple{
+ background:linear-gradient(140deg,#30204d,#19152e);
+ border-color:#ad79ff65;
+}
+.stat-card.pink{
+ background:linear-gradient(140deg,#401e3d,#21152e);
+ border-color:#ff70cf65;
+}
+.stat-card .metric{color:var(--cyan)}
 .stat-card.green .metric{color:var(--green)}
 .stat-card.purple .metric{color:var(--purple)}
-.tools{display:flex;gap:9px;flex-wrap:wrap;margin:17px 0}
-.tools input,.tools select{background:#0a1320;color:var(--text);border:1px solid var(--border);border-radius:8px;padding:11px 12px;font-size:11px;min-width:130px;outline:none}
-.tools input:focus,.tools select:focus{border-color:var(--cyan)}
+.stat-card.pink .metric{color:var(--pink)}
+
+/* CHART */
+canvas{
+ width:100%;
+ height:205px;
+ display:block;
+ margin-top:18px;
+}
+.chart-legend{
+ display:flex;
+ gap:20px;
+ flex-wrap:wrap;
+ margin-top:12px;
+ font-size:10px;
+ color:var(--muted);
+}
+.chart-legend i{
+ display:inline-block;
+ width:8px;height:8px;
+ border-radius:50%;
+ margin-right:6px;
+}
+.network-stats{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+ margin-top:17px;
+}
+.network-stats div{
+ padding:13px;
+ border-radius:10px;
+ background:#11182a;
+ border:1px solid var(--border);
+}
+.network-stats small{
+ display:block;
+ font-size:8px;
+ color:var(--muted);
+ margin-bottom:8px;
+}
+.network-stats strong{
+ font-size:11px;
+ overflow-wrap:anywhere;
+}
+
+/* INFO */
+.info{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:9px;
+ margin-top:17px;
+}
+.info div{
+ min-width:0;
+ background:linear-gradient(140deg,#25203e,#111a2d);
+ border:1px solid #42365f;
+ padding:13px;
+ border-radius:10px;
+}
+.info small{
+ display:block;
+ font-size:8px;
+ color:var(--muted);
+ letter-spacing:1px;
+ margin-bottom:8px;
+}
+.info strong{font-size:11px;overflow-wrap:anywhere}
+
+/* SEARCH */
+.tools{
+ display:flex;
+ gap:9px;
+ flex-wrap:wrap;
+ margin:16px 0;
+}
+.tools input,.tools select{
+ min-width:130px;
+ padding:11px 12px;
+ border-radius:8px;
+ background:#10182a;
+ border:1px solid var(--border);
+ color:white;
+ font-size:11px;
+ outline:none;
+}
 .tools input{flex:1}
-.table-wrap{overflow-x:auto;margin-top:14px}
-table{width:100%;min-width:760px;border-collapse:collapse;font-size:10px}
-th{text-align:left;color:var(--muted);font-size:8px;letter-spacing:1px;padding:13px;border-bottom:1px solid var(--border);white-space:nowrap}
-td{padding:13px;border-bottom:1px solid #1c293b;white-space:nowrap;font-family:'Space Mono';font-size:10px}
-tbody tr:hover{background:#48d9ee08}
-.location{font-family:Inter,sans-serif;white-space:normal;min-width:140px}
+.tools input:focus,.tools select:focus{border-color:var(--cyan)}
+.tools select option{background:#17152b}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;margin-top:15px}
+table{
+ width:100%;
+ min-width:760px;
+ border-collapse:collapse;
+ font-size:10px;
+}
+th{
+ text-align:left;
+ padding:13px;
+ font-size:8px;
+ letter-spacing:1px;
+ color:#c8aaff;
+ border-bottom:1px solid #55427b;
+ white-space:nowrap;
+}
+td{
+ padding:13px;
+ border-bottom:1px solid #29243e;
+ font:10px 'Space Mono',monospace;
+ white-space:nowrap;
+}
+tbody tr:hover{background:linear-gradient(90deg,#ad79ff12,#36dcff0c)}
+.ip{color:var(--cyan)}
+.port{color:var(--yellow)}
+.location{font-family:Inter,sans-serif;min-width:140px;white-space:normal}
 .location b{display:block;font-size:10px}
 .location small{display:block;color:var(--muted);margin-top:4px}
-.badge{display:inline-block;padding:5px 9px;border-radius:20px;background:#36dfa115;border:1px solid #36dfa13b;color:var(--green);font-size:8px}
-.port{color:var(--yellow)}
-.ip{color:var(--cyan)}
-.btn{background:#142a3a;color:var(--cyan);border:1px solid #48d9ee50;border-radius:8px;padding:10px 13px;font-size:10px;font-weight:700}
-.btn:hover{background:#1c3c50}
-.vpn-ip-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
-.vpn-ip{padding:9px 12px;background:#0b1725;border:1px solid #26384b;border-radius:8px;font:10px 'Space Mono';color:var(--cyan)}
-.alerts{display:grid;gap:8px;margin-top:15px}
-.alert{padding:11px 13px;border-radius:9px;background:#36dfa10c;border:1px solid #36dfa135;font-size:10px;color:var(--green)}
-.alert.warning{background:#ffcc7010;border-color:#ffcc7040;color:var(--yellow)}
-.alert.danger{background:#ff647c10;border-color:#ff647c45;color:var(--red)}
-.empty{padding:20px;color:var(--muted);text-align:center;font-size:10px}
-.error{color:var(--red);font-size:10px;margin-top:12px;overflow-wrap:anywhere}
-footer{text-align:center;color:#66758d;font-size:9px;letter-spacing:1px;padding:25px;border-top:1px solid var(--border)}
+.badge{
+ display:inline-block;
+ padding:5px 9px;
+ border-radius:20px;
+ background:#39f5ae18;
+ border:1px solid #39f5ae55;
+ color:var(--green);
+ font-size:8px;
+ font-weight:700;
+}
+.vpn-ip-list{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+.vpn-ip{
+ padding:10px 12px;
+ border-radius:9px;
+ background:linear-gradient(100deg,#102c2b,#14223a);
+ border:1px solid #39f5ae55;
+ color:var(--green);
+ font:10px 'Space Mono',monospace;
+}
+.btn{
+ padding:10px 14px;
+ background:linear-gradient(100deg,#6037a5,#315c91);
+ color:white;
+ border:1px solid #a98bff80;
+ border-radius:8px;
+ font-size:10px;
+ font-weight:700;
+}
+.btn:hover{box-shadow:0 0 18px #ad79ff55}
+.empty{padding:20px;text-align:center;color:var(--muted);font-size:10px}
+.alerts{display:grid;gap:9px;margin-top:15px}
+.alert{
+ padding:12px 14px;
+ border-radius:9px;
+ background:#123b32;
+ border:1px solid #39f5ae55;
+ color:#68ffbf;
+ font-size:10px;
+}
+.alert.warning{background:#44351c;border-color:#ffcc7060;color:#ffd166}
+.alert.danger{background:#461e36;border-color:#ff638f65;color:#ff8ba9}
+.error{font-size:10px;color:var(--red);margin-top:13px;overflow-wrap:anywhere}
+[hidden]{display:none!important}
+footer{
+ padding:26px 15px;
+ text-align:center;
+ color:var(--muted);
+ font-size:9px;
+ letter-spacing:1px;
+ border-top:1px solid var(--border);
+ background:#100e20;
+}
 .mobile-nav{display:none}
-@media(max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .two{grid-template-columns:1fr}
+}
 @media(max-width:700px){
- .sidebar{display:none}main{width:100%;margin:0}
- .topbar{height:60px;padding:0 15px}
- .content{padding:22px 13px 95px}
+ .sidebar{display:none}
+ main{width:100%;margin:0}
+ .topbar{height:60px;padding:0 14px}
+ .content{padding:22px 13px 100px}
  h1{font-size:22px}
  .grid{gap:9px}
  .card{padding:13px}
@@ -113,22 +507,46 @@ footer{text-align:center;color:#66758d;font-size:9px;letter-spacing:1px;padding:
  .resource .metric{font-size:21px}
  .three{grid-template-columns:1fr 1fr}
  .panel{padding:14px}
- .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#0b1220;border-top:1px solid var(--border);z-index:30;justify-content:space-around;padding:10px 3px calc(10px + env(safe-area-inset-bottom))}
- .mobile-nav a{color:var(--muted);text-decoration:none;font-size:9px;text-align:center;display:grid;gap:5px;justify-items:center}
- .mobile-nav a span{font-size:17px}
- .mobile-nav a.active{color:var(--cyan)}
  #clock{font-size:10px}
  .top-left{font-size:10px}
+ .mobile-nav{
+  display:flex;
+  position:fixed;
+  bottom:0;left:0;right:0;
+  background:#100e20f5;
+  border-top:1px solid #ad79ff55;
+  z-index:30;
+  justify-content:space-around;
+  padding:10px 3px calc(10px + env(safe-area-inset-bottom));
+ }
+ .mobile-nav a{
+  display:grid;
+  justify-items:center;
+  gap:5px;
+  color:var(--muted);
+  text-decoration:none;
+  font-size:9px;
+ }
+ .mobile-nav a span{font-size:17px}
+ .mobile-nav a.active{color:var(--pink)}
 }
-@media(max-width:360px){.grid{grid-template-columns:1fr 1fr}.card{padding:10px}.metric{font-size:19px}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(max-width:360px){
+ .grid{grid-template-columns:1fr 1fr}
+ .card{padding:10px}
+ .metric{font-size:19px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
 </style>
 </head>
+
 <body>
 <div class="layout">
+
 <aside class="sidebar">
- <div class="brand">AGE<span>VPN</span><small>PROFESSIONAL CONTROL</small></div>
- <div class="nav-label">CONTROL CENTER</div>
+ <div class="brand">AGE<span>VPN</span><small>NEON PREMIUM CONTROL</small></div>
+ <div class="nav-label">MAIN MENU</div>
  <nav class="nav">
   <a class="active" href="#overview">▦　Overview</a>
   <a href="#resources">◈　Resources</a>
@@ -139,72 +557,186 @@ footer{text-align:center;color:#66758d;font-size:9px;letter-spacing:1px;padding:
   <a href="#tcp">⇄　TCP Details</a>
   <a href="#alerts">♢　Smart Alerts</a>
  </nav>
- <div class="side-bottom">MONITORING STATUS<br><b>● AUTO MONITORING</b><br>Refresh interval: 5 seconds</div>
+ <div class="side-bottom">
+  SYSTEM MONITORING<br>
+  <b>● AUTO MONITORING</b><br>
+  Refresh interval: 5 seconds
+ </div>
 </aside>
+
 <main>
 <header class="topbar">
- <div class="top-left">AGEVPN / <b>Control Center</b></div>
- <div class="top-right"><div id="clock">--:--:--</div><div class="live"><i class="dot" id="dot"></i><span id="status">CONNECTING</span></div></div>
+ <div class="top-left">AGEVPN / <b>Professional Control Center</b></div>
+ <div class="top-right">
+  <div id="clock">--:--:--</div>
+  <div class="live"><i class="dot" id="dot"></i><span id="status">CONNECTING</span></div>
+ </div>
 </header>
+
 <div class="content">
- <section id="overview">
-  <div class="page-head">
-   <div><h1>Server Overview</h1><div class="subtitle">Real-time infrastructure monitoring and performance</div></div>
-   <div class="updated">LAST UPDATE · <span id="updated">Waiting...</span></div>
+
+<section id="overview">
+ <div class="page-head">
+  <div>
+   <h1>Server Overview</h1>
+   <div class="subtitle">Real-time VPS infrastructure monitoring</div>
   </div>
- </section>
- <div class="section-head" id="resources"><h2>01 / SYSTEM RESOURCES</h2><span>LIVE PERFORMANCE</span></div>
- <div class="grid">
-  <div class="card"><div class="card-top"><span class="label">CPU UTILIZATION</span><span class="icon">◈</span></div><div class="resource"><div class="metric" id="cpu">--%</div><span class="resource-tag">CPU</span></div><div class="metric-sub" id="cpuNote">Processor usage</div><div class="progress"><span id="cpuBar"></span></div></div>
-  <div class="card"><div class="card-top"><span class="label">MEMORY USAGE</span><span class="icon">▤</span></div><div class="resource"><div class="metric" id="ram">--%</div><span class="resource-tag">RAM</span></div><div class="metric-sub" id="ramNote">Memory usage</div><div class="progress"><span id="ramBar"></span></div></div>
-  <div class="card"><div class="card-top"><span class="label">DISK STORAGE</span><span class="icon">▣</span></div><div class="resource"><div class="metric" id="disk">--%</div><span class="resource-tag">DISK</span></div><div class="metric-sub" id="diskNote">Root filesystem</div><div class="progress"><span id="diskBar"></span></div></div>
-  <div class="card"><div class="card-top"><span class="label">SERVER UPTIME</span><span class="icon">◷</span></div><div class="metric" id="uptime">--</div><div class="metric-sub">Continuous running time</div><div style="margin-top:18px;color:var(--green);font-size:9px">● SYSTEM RUNNING</div></div>
+  <div class="updated">LAST UPDATE · <span id="updated">Waiting...</span></div>
  </div>
- <div class="section-head" id="vpn"><h2>02 / VPN MONITOR</h2><span>X-RAY LIVE CONNECTIONS</span></div>
- <div class="three">
-  <div class="stat-card green"><div class="label">VPN CONNECTIONS</div><div class="metric" id="vpnConnections">--</div><div class="metric-sub">Established sessions</div></div>
-  <div class="stat-card"><div class="label">UNIQUE IP ADDRESSES</div><div class="metric" id="vpnIPs">--</div><div class="metric-sub">Distinct remote IPs</div></div>
-  <div class="stat-card purple"><div class="label">ACTIVE VPN PORTS</div><div class="metric" id="vpnActivePorts">--</div><div class="metric-sub" id="vpnPortSummary">Enabled ports</div></div>
+</section>
+
+<div class="section-head" id="resources">
+ <h2>01 / SYSTEM RESOURCES</h2><span>LIVE PERFORMANCE</span>
+</div>
+
+<div class="grid">
+ <div class="card">
+  <div class="card-top"><span class="label">CPU UTILIZATION</span><span class="icon">◈</span></div>
+  <div class="resource"><div class="metric" id="cpu">--%</div><span class="resource-tag">CPU</span></div>
+  <div class="metric-sub">Processor utilization</div>
+  <div class="progress"><span id="cpuBar"></span></div>
  </div>
- <div class="panel" style="margin-top:13px"><h3>CONNECTED VPN IP ADDRESSES</h3><div class="panel-sub">Currently detected remote addresses</div><div class="tools"><input id="vpnSearch" placeholder="Search VPN IP address..."></div><div class="vpn-ip-list" id="vpnIPList"><div class="empty">Waiting for VPN data...</div></div></div>
- <div class="section-head" id="incoming"><h2>03 / INCOMING IP TRAFFIC</h2><span>LOCATION · PORT · SPEED</span></div>
- <div class="three">
-  <div class="stat-card"><div class="label">TOTAL CONNECTIONS</div><div class="metric" id="incomingConnections">--</div></div>
-  <div class="stat-card"><div class="label">UNIQUE IP ADDRESSES</div><div class="metric" id="incomingIPs">--</div></div>
-  <div class="stat-card"><div class="label">ACTIVE PORTS</div><div class="metric" id="incomingPorts">--</div></div>
+ <div class="card">
+  <div class="card-top"><span class="label">MEMORY USAGE</span><span class="icon">▤</span></div>
+  <div class="resource"><div class="metric" id="ram">--%</div><span class="resource-tag">RAM</span></div>
+  <div class="metric-sub" id="ramNote">Memory usage</div>
+  <div class="progress"><span id="ramBar"></span></div>
  </div>
- <div class="panel" style="margin-top:13px">
-  <div class="card-top"><div><h3>CONNECTED IP ADDRESS LIST</h3><div class="panel-sub">Live geographic and traffic information</div></div><span class="badge">AUTO UPDATED</span></div>
-  <div class="tools"><input id="ipSearch" placeholder="Search IP / country / city..."><select id="portFilter"><option value="">All ports</option></select></div>
-  <div class="table-wrap"><table><thead><tr><th>REMOTE IP</th><th>LOCATION</th><th>PORT</th><th>CONNECTIONS</th><th>UPLOAD</th><th>DOWNLOAD</th><th>STATUS</th></tr></thead><tbody id="incomingList"><tr><td colspan="7" class="empty">Waiting for data...</td></tr></tbody></table></div>
+ <div class="card">
+  <div class="card-top"><span class="label">DISK STORAGE</span><span class="icon">▣</span></div>
+  <div class="resource"><div class="metric" id="disk">--%</div><span class="resource-tag">DISK</span></div>
+  <div class="metric-sub" id="diskNote">Root filesystem</div>
+  <div class="progress"><span id="diskBar"></span></div>
  </div>
- <div class="section-head" id="analytics"><h2>04 / NETWORK ANALYTICS</h2><span>LIVE TRAFFIC</span></div>
- <div class="two">
-  <div class="panel"><h3>NETWORK TRAFFIC HISTORY</h3><div class="panel-sub">Recent download and upload speed samples</div><canvas id="networkChart"></canvas><div class="chart-legend"><span><i style="background:var(--cyan)"></i>Download</span><span><i style="background:var(--green)"></i>Upload</span></div></div>
-  <div class="panel"><h3>NETWORK PERFORMANCE</h3><div class="info">
+ <div class="card">
+  <div class="card-top"><span class="label">SERVER UPTIME</span><span class="icon">◷</span></div>
+  <div class="metric" id="uptime">--</div>
+  <div class="metric-sub">Continuous running time</div>
+  <div style="margin-top:18px;color:var(--green);font-size:9px">● SYSTEM RUNNING</div>
+ </div>
+</div>
+
+<div class="section-head" id="vpn">
+ <h2>02 / VPN MONITOR</h2><span>X-RAY LIVE CONNECTIONS</span>
+</div>
+
+<div class="three">
+ <div class="stat-card green"><div class="label">VPN CONNECTIONS</div><div class="metric" id="vpnConnections">--</div><div class="metric-sub">Established sessions</div></div>
+ <div class="stat-card"><div class="label">UNIQUE IP ADDRESSES</div><div class="metric" id="vpnIPs">--</div><div class="metric-sub">Distinct remote IPs</div></div>
+ <div class="stat-card purple"><div class="label">ACTIVE VPN PORTS</div><div class="metric" id="vpnActivePorts">--</div><div class="metric-sub" id="vpnPortSummary">Enabled ports</div></div>
+</div>
+
+<div class="panel" style="margin-top:13px">
+ <h3>CONNECTED VPN IP ADDRESSES</h3>
+ <div class="panel-sub">Currently detected remote addresses</div>
+ <div class="tools"><input id="vpnSearch" placeholder="Search VPN IP address..."></div>
+ <div class="vpn-ip-list" id="vpnIPList"><div class="empty">Waiting for VPN data...</div></div>
+</div>
+
+<div class="section-head" id="incoming">
+ <h2>03 / INCOMING IP TRAFFIC</h2><span>LOCATION · PORT · SPEED</span>
+</div>
+
+<div class="three">
+ <div class="stat-card"><div class="label">TOTAL CONNECTIONS</div><div class="metric" id="incomingConnections">--</div><div class="metric-sub">Established sessions</div></div>
+ <div class="stat-card pink"><div class="label">UNIQUE IP ADDRESSES</div><div class="metric" id="incomingIPs">--</div><div class="metric-sub">Distinct remote IPs</div></div>
+ <div class="stat-card purple"><div class="label">ACTIVE PORTS</div><div class="metric" id="incomingPorts">--</div><div class="metric-sub">Ports with connections</div></div>
+</div>
+
+<div class="panel" style="margin-top:13px">
+ <div class="card-top">
+  <div><h3>CONNECTED IP ADDRESS LIST</h3><div class="panel-sub">Live location and traffic information</div></div>
+  <span class="badge">AUTO UPDATED</span>
+ </div>
+ <div class="tools">
+  <input id="ipSearch" placeholder="Search IP / country / city...">
+  <select id="portFilter"><option value="">All ports</option></select>
+ </div>
+ <div class="table-wrap">
+  <table>
+   <thead><tr><th>REMOTE IP</th><th>LOCATION</th><th>PORT</th><th>CONNECTIONS</th><th>UPLOAD</th><th>DOWNLOAD</th><th>STATUS</th></tr></thead>
+   <tbody id="incomingList"><tr><td colspan="7" class="empty">Waiting for data...</td></tr></tbody>
+  </table>
+ </div>
+</div>
+
+<div class="section-head" id="analytics">
+ <h2>04 / NETWORK ANALYTICS</h2><span>LIVE TRAFFIC</span>
+</div>
+
+<div class="two">
+ <div class="panel">
+  <h3>NETWORK TRAFFIC HISTORY</h3>
+  <div class="panel-sub">Recent download and upload speed samples</div>
+  <canvas id="networkChart"></canvas>
+  <div class="chart-legend">
+   <span><i style="background:var(--cyan)"></i>Download</span>
+   <span><i style="background:var(--green)"></i>Upload</span>
+  </div>
+ </div>
+ <div class="panel">
+  <h3>NETWORK PERFORMANCE</h3>
+  <div class="network-stats">
    <div><small>DOWNLOAD SPEED</small><strong id="download">--</strong></div>
    <div><small>UPLOAD SPEED</small><strong id="upload">--</strong></div>
    <div><small>TOTAL RECEIVED</small><strong id="received">--</strong></div>
    <div><small>TOTAL SENT</small><strong id="sent">--</strong></div>
-  </div></div>
+  </div>
  </div>
- <div class="section-head" id="server"><h2>05 / SERVER INFORMATION</h2><span>INFRASTRUCTURE DETAILS</span></div>
- <div class="panel"><h3>SERVER SPECIFICATIONS</h3><div class="info">
-  <div><small>HOSTNAME</small><strong id="hostname">--</strong></div><div><small>PLATFORM</small><strong id="platform">--</strong></div>
-  <div><small>LOAD AVERAGE</small><strong id="load">--</strong></div><div><small>CPU CORES</small><strong id="cores">--</strong></div>
-  <div><small>RAM TOTAL</small><strong id="ramTotal">--</strong></div><div><small>DISK TOTAL</small><strong id="diskTotal">--</strong></div>
- </div></div>
- <div class="section-head" id="tcp"><h2>06 / TCP CONNECTIONS</h2><span>CONNECTION DETAILS</span></div>
- <div class="panel"><div class="card-top"><div><h3>LIVE TCP CONNECTIONS</h3><div class="panel-sub"><span id="connectionCount">--</span> detected connections</div></div><button class="btn" id="tcpToggle">SHOW DETAILS ＋</button></div>
-  <div id="tcpBox" hidden><div class="table-wrap"><table><thead><tr><th>REMOTE IP</th><th>LOCAL PORT</th><th>REMOTE PORT</th><th>PROTOCOL</th><th>STATUS</th></tr></thead><tbody id="connections"></tbody></table></div></div>
- </div>
- <div class="section-head" id="alerts"><h2>07 / SMART ALERTS</h2><span>RESOURCE THRESHOLDS</span></div>
- <div class="panel"><h3>SYSTEM HEALTH NOTIFICATIONS</h3><div class="panel-sub">Automatic checks based on current API metrics</div><div class="alerts" id="alertList"><div class="alert">Waiting for server metrics...</div></div></div>
- <div class="error" id="error"></div>
 </div>
-<footer>AGEVPN PROFESSIONAL CONTROL CENTER · AUTO REFRESH EVERY 5 SECONDS</footer>
+
+<div class="section-head" id="server">
+ <h2>05 / SERVER INFORMATION</h2><span>INFRASTRUCTURE DETAILS</span>
+</div>
+
+<div class="panel">
+ <h3>SERVER SPECIFICATIONS</h3>
+ <div class="info">
+  <div><small>HOSTNAME</small><strong id="hostname">--</strong></div>
+  <div><small>PLATFORM</small><strong id="platform">--</strong></div>
+  <div><small>LOAD AVERAGE</small><strong id="load">--</strong></div>
+  <div><small>CPU CORES</small><strong id="cores">--</strong></div>
+  <div><small>RAM TOTAL</small><strong id="ramTotal">--</strong></div>
+  <div><small>DISK TOTAL</small><strong id="diskTotal">--</strong></div>
+ </div>
+</div>
+
+<div class="section-head" id="tcp">
+ <h2>06 / TCP CONNECTIONS</h2><span>CONNECTION DETAILS</span>
+</div>
+
+<div class="panel">
+ <div class="card-top">
+  <div><h3>LIVE TCP CONNECTIONS</h3><div class="panel-sub"><span id="connectionCount">--</span> detected connections</div></div>
+  <button class="btn" id="tcpToggle" type="button">SHOW DETAILS ＋</button>
+ </div>
+ <div id="tcpBox" hidden>
+  <div class="table-wrap">
+   <table>
+    <thead><tr><th>REMOTE IP</th><th>LOCAL PORT</th><th>REMOTE PORT</th><th>PROTOCOL</th><th>STATUS</th></tr></thead>
+    <tbody id="connections"></tbody>
+   </table>
+  </div>
+ </div>
+</div>
+
+<div class="section-head" id="alerts">
+ <h2>07 / SMART ALERTS</h2><span>RESOURCE THRESHOLDS</span>
+</div>
+
+<div class="panel">
+ <h3>SYSTEM HEALTH NOTIFICATIONS</h3>
+ <div class="panel-sub">Automatic resource threshold checks</div>
+ <div class="alerts" id="alertList"><div class="alert">Waiting for server metrics...</div></div>
+</div>
+
+<div class="error" id="error"></div>
+</div>
+
+<footer>AGEVPN · NEON PREMIUM CONTROL CENTER · AUTO REFRESH EVERY 5 SECONDS</footer>
 </main>
 </div>
+
 <nav class="mobile-nav">
  <a class="active" href="#overview"><span>▦</span>Overview</a>
  <a href="#vpn"><span>⌁</span>VPN</a>
@@ -212,180 +744,338 @@ footer{text-align:center;color:#66758d;font-size:9px;letter-spacing:1px;padding:
  <a href="#analytics"><span>⌁</span>Analytics</a>
  <a href="#alerts"><span>♢</span>Alerts</a>
 </nav>
+
 <script>
 'use strict';
+
 const API='/api/metrics';
 const $=id=>document.getElementById(id);
+
 const history={rx:[],tx:[]};
-let incomingRows=[],vpnIPs=[];
+let incomingRows=[];
+let vpnIPs=[];
 let refreshing=false;
 
-function n(v){const x=Number(v);return Number.isFinite(x)?x:0}
-function pct(v){return Math.max(0,Math.min(100,n(v)))}
-function safe(v){return String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function n(v){
+ const x=Number(v);
+ return Number.isFinite(x)?x:0;
+}
+
+function pct(v){
+ return Math.max(0,Math.min(100,n(v)));
+}
+
+function safe(v){
+ return String(v??'-').replace(/[&<>"']/g,c=>({
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+ }[c]));
+}
+
 function bytes(v){
- v=n(v);if(v<1024)return v.toFixed(0)+' B';
- const units=['KB','MB','GB','TB'];let i=-1;
+ v=n(v);
+ if(v<1024)return v.toFixed(0)+' B';
+ const units=['KB','MB','GB','TB'];
+ let i=-1;
  do{v/=1024;i++}while(v>=1024&&i<units.length-1);
  return v.toFixed(2)+' '+units[i];
 }
+
 function speed(v){return bytes(v)+'/s'}
+
 function uptime(v){
- v=Math.max(0,n(v));let d=Math.floor(v/86400),h=Math.floor(v%86400/3600),m=Math.floor(v%3600/60);
+ v=Math.max(0,n(v));
+ const d=Math.floor(v/86400);
+ const h=Math.floor(v%86400/3600);
+ const m=Math.floor(v%3600/60);
  return `${d}d ${h}h ${m}m`;
 }
-function setMetric(id,bar,value,color){
+
+function setMetric(id,bar,value){
  $(id).textContent=pct(value).toFixed(1)+'%';
  $(bar).style.width=pct(value)+'%';
- $(bar).style.background=color;
 }
+
 function drawChart(){
- const c=$('networkChart'),w=c.clientWidth,h=205;
+ const c=$('networkChart');
+ if(!c)return;
+ const w=c.clientWidth,h=205;
  if(!w)return;
+
  const ratio=window.devicePixelRatio||1;
- c.width=w*ratio;c.height=h*ratio;
- const ctx=c.getContext('2d');ctx.setTransform(ratio,0,0,ratio,0,0);
+ c.width=w*ratio;
+ c.height=h*ratio;
+
+ const ctx=c.getContext('2d');
+ ctx.setTransform(ratio,0,0,ratio,0,0);
  ctx.clearRect(0,0,w,h);
- ctx.strokeStyle='#26344a';ctx.lineWidth=1;
- for(let i=1;i<5;i++){let y=i*h/5;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+
+ ctx.strokeStyle='#3a315b';
+ ctx.lineWidth=1;
+
+ for(let i=1;i<5;i++){
+  const y=i*h/5;
+  ctx.beginPath();
+  ctx.moveTo(0,y);
+  ctx.lineTo(w,y);
+  ctx.stroke();
+ }
+
  const max=Math.max(1,...history.rx,...history.tx);
+
  function line(data,color){
   if(!data.length)return;
   ctx.beginPath();
-  data.forEach((v,i)=>{let x=i/Math.max(1,data.length-1)*w,y=h-10-(v/max)*(h-25);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});
-  ctx.strokeStyle=color;ctx.lineWidth=2.4;ctx.stroke();
+  data.forEach((v,i)=>{
+   const x=i/Math.max(1,data.length-1)*w;
+   const y=h-10-(v/max)*(h-25);
+   if(i===0)ctx.moveTo(x,y);
+   else ctx.lineTo(x,y);
+  });
+  ctx.strokeStyle=color;
+  ctx.lineWidth=2.5;
+  ctx.shadowBlur=10;
+  ctx.shadowColor=color;
+  ctx.stroke();
+  ctx.shadowBlur=0;
  }
- line(history.rx,'#48d9ee');line(history.tx,'#36dfa1');
+ line(history.rx,'#36dcff');
+ line(history.tx,'#39f5ae');
 }
+
 function renderVPN(v){
  v=v||{};
- const ports=Array.isArray(v.ports)?v.ports:(Array.isArray(v.vpnPorts)?v.vpnPorts:[]);
+ const ports=Array.isArray(v.ports)?v.ports:
+  (Array.isArray(v.vpnPorts)?v.vpnPorts:[]);
  const active=Array.isArray(v.activePorts)?v.activePorts:[];
  vpnIPs=Array.isArray(v.ips)?v.ips:[];
+
  $('vpnConnections').textContent=n(v.connections);
  $('vpnIPs').textContent=n(v.uniqueIPs);
  $('vpnActivePorts').textContent=active.length;
  $('vpnPortSummary').textContent='Enabled: '+(ports.join(', ')||'—');
+
  renderVPNIPs();
 }
+
 function renderVPNIPs(){
  const q=$('vpnSearch').value.trim().toLowerCase();
- const list=vpnIPs.filter(x=>String(x).toLowerCase().includes(q));
- $('vpnIPList').innerHTML=list.length?list.map(ip=>`<span class="vpn-ip">${safe(ip)}　● ONLINE</span>`).join(''):'<div class="empty">No matching VPN IP addresses</div>';
+ const rows=vpnIPs.filter(x=>String(x).toLowerCase().includes(q));
+
+ $('vpnIPList').innerHTML=rows.length
+  ?rows.map(ip=>`<span class="vpn-ip">${safe(ip)}　● ONLINE</span>`).join('')
+  :'<div class="empty">No matching VPN IP addresses</div>';
 }
+
 function renderIncoming(data){
  data=data||{};
  incomingRows=Array.isArray(data.connections)?data.connections:[];
+
  $('incomingConnections').textContent=n(data.totalConnections);
  $('incomingIPs').textContent=n(data.uniqueIPs);
+
  const ports=[...new Set(incomingRows.map(x=>String(x.port??'-')))];
  $('incomingPorts').textContent=ports.length;
- const select=$('portFilter'),old=select.value;
- select.innerHTML='<option value="">All ports</option>'+ports.map(p=>`<option value="${safe(p)}">${safe(p)}</option>`).join('');
+
+ const select=$('portFilter');
+ const old=select.value;
+
+ select.innerHTML='<option value="">All ports</option>'+
+  ports.map(p=>`<option value="${safe(p)}">${safe(p)}</option>`).join('');
+
  if(ports.includes(old))select.value=old;
  renderIncomingRows();
 }
+
 function renderIncomingRows(){
- const q=$('ipSearch').value.trim().toLowerCase(),port=$('portFilter').value;
+ const q=$('ipSearch').value.trim().toLowerCase();
+ const port=$('portFilter').value;
+
  const rows=incomingRows.filter(x=>{
   const hay=[x.ip,x.country,x.city,x.port].join(' ').toLowerCase();
   return hay.includes(q)&&(!port||String(x.port)===port);
  });
+
  $('incomingList').innerHTML=rows.length?rows.map(x=>`
- <tr><td class="ip">${safe(x.ip)}</td>
- <td class="location">${safe(x.flag||'🌐')} <b>${safe(x.country||'Unknown')}</b><small>${safe(x.city||'Location unavailable')}</small></td>
- <td class="port">${safe(x.port)}</td><td>${n(x.connections)}</td>
- <td style="color:var(--green)">${n(x.uploadKbps).toFixed(2)} Kbps</td>
- <td style="color:var(--cyan)">${n(x.downloadKbps).toFixed(2)} Kbps</td>
- <td><span class="badge">ONLINE</span></td></tr>`).join(''):'<tr><td colspan="7" class="empty">No matching connections</td></tr>';
+  <tr>
+   <td class="ip">${safe(x.ip)}</td>
+   <td class="location">
+    ${safe(x.flag||'🌐')}
+    <b>${safe(x.country||'Unknown')}</b>
+    <small>${safe(x.city||'Location unavailable')}</small>
+   </td>
+   <td class="port">${safe(x.port)}</td>
+   <td>${n(x.connections)}</td>
+   <td style="color:var(--green)">${n(x.uploadKbps).toFixed(2)} Kbps</td>
+   <td style="color:var(--cyan)">${n(x.downloadKbps).toFixed(2)} Kbps</td>
+   <td><span class="badge">ONLINE</span></td>
+  </tr>
+ `).join(''):'<tr><td colspan="7" class="empty">No matching connections</td></tr>';
 }
+
 function splitHost(v){
- const s=String(v||'-'),m=s.match(/^(.*):(\d+)$/);
+ const s=String(v||'-');
+ const m=s.match(/^(.*):(\d+)$/);
  return m?{host:m[1].replace(/^\[|\]$/g,''),port:m[2]}:{host:s,port:'-'};
 }
+
 function renderTCP(list){
  if(!Array.isArray(list))list=[];
  $('connectionCount').textContent=list.length;
+
  $('connections').innerHTML=list.slice(0,150).map(x=>{
-  const r=splitHost(x.remote),l=splitHost(x.local);
-  return `<tr><td>${safe(x.remoteAddress||x.remoteIP||r.host)}</td><td>${safe(x.localPort||l.port)}</td><td>${safe(x.remotePort||r.port)}</td><td>${safe(x.protocol||'TCP')}</td><td><span class="badge">${safe(x.state||'ESTABLISHED')}</span></td></tr>`;
+  const r=splitHost(x.remote);
+  const l=splitHost(x.local);
+
+  return `<tr>
+   <td>${safe(x.remoteAddress||x.remoteIP||r.host)}</td>
+   <td>${safe(x.localPort||l.port)}</td>
+   <td>${safe(x.remotePort||r.port)}</td>
+   <td>${safe(x.protocol||'TCP')}</td>
+   <td><span class="badge">${safe(x.state||'ESTABLISHED')}</span></td>
+  </tr>`;
  }).join('')||'<tr><td colspan="5" class="empty">No TCP connections</td></tr>';
 }
-function alerts(cpu,ram,disk){
+
+function renderAlerts(cpu,ram,disk){
  const items=[];
- [['CPU',cpu],['RAM',ram],['Disk',disk]].forEach(([name,v])=>{
+
+ [['CPU',cpu],['RAM',ram],['DISK',disk]].forEach(([name,v])=>{
   if(v>=90)items.push({level:'danger',text:`${name} usage critical: ${v.toFixed(1)}%`});
   else if(v>=80)items.push({level:'warning',text:`${name} usage high: ${v.toFixed(1)}%`});
  });
- $('alertList').innerHTML=items.length?items.map(x=>`<div class="alert ${x.level}">⚠ ${safe(x.text)}</div>`).join(''):'<div class="alert">✓ All monitored resource levels are within configured thresholds.</div>';
+
+ $('alertList').innerHTML=items.length
+  ?items.map(x=>`<div class="alert ${x.level}">⚠ ${safe(x.text)}</div>`).join('')
+  :'<div class="alert">✓ All monitored resource levels are within configured thresholds.</div>';
 }
+
 async function refresh(){
- if(refreshing)return;refreshing=true;
+ if(refreshing)return;
+ refreshing=true;
+
  try{
   const res=await fetch(API,{cache:'no-store'});
   if(!res.ok)throw new Error('HTTP '+res.status);
+
   const d=await res.json();
+
   $('status').textContent='SERVER ONLINE';
   $('dot').style.background='var(--green)';
   $('dot').style.boxShadow='0 0 12px var(--green)';
   $('error').textContent='';
+
+  // CPU
   const cpu=n(d.cpu?.usage??d.cpuUsage??d.cpu);
-  const ram=n(d.memory?.percent??d.memory?.usagePercent??d.ramUsage??d.ram?.percent);
-  const disk=n(d.disk?.percent??d.disk?.usagePercent??d.diskUsage??d.disk?.usage);
-  setMetric('cpu','cpuBar',cpu,'var(--cyan)');
-  setMetric('ram','ramBar',ram,'var(--green)');
-  setMetric('disk','diskBar',disk,'var(--purple)');
-  $('cpuNote').textContent='Processor utilization';
-  $('ramNote').textContent=bytes(d.memory?.used??d.memory?.usedBytes)+' used';
-  $('diskNote').textContent=bytes(d.disk?.used??d.disk?.usedBytes)+' used';
+
+  // MEMORY
+  const ram=n(
+   d.memory?.percent??
+   d.memory?.usagePercent??
+   d.ramUsage??
+   d.ram?.percent
+  );
+
+  // DISK
+  const disk=n(
+   d.disk?.percent??
+   d.disk?.usagePercent??
+   d.diskUsage??
+   d.disk?.usage
+  );
+
+  setMetric('cpu','cpuBar',cpu);
+  setMetric('ram','ramBar',ram);
+  setMetric('disk','diskBar',disk);
+
+  $('ramNote').textContent=
+   bytes(d.memory?.used??d.memory?.usedBytes)+' used';
+
+  $('diskNote').textContent=
+   bytes(d.disk?.used??d.disk?.usedBytes)+' used';
+
   $('uptime').textContent=uptime(d.uptime);
+
+  // SERVER INFORMATION
   $('hostname').textContent=d.hostname||'--';
   $('platform').textContent=d.platform||'--';
   $('cores').textContent=d.cpu?.cores??d.cores??'--';
+
   const load=d.load||[];
-  $('load').textContent=Array.isArray(load)?load.map(x=>n(x).toFixed(2)).join(' / '):String(load);
-  const mt=d.memory?.total??d.memory?.totalBytes;
-  const dt=d.disk?.total??d.disk?.totalBytes;
-  $('ramTotal').textContent=mt?bytes(mt):'--';
-  $('diskTotal').textContent=dt?bytes(dt):'--';
+  $('load').textContent=Array.isArray(load)
+   ?load.map(x=>n(x).toFixed(2)).join(' / ')
+   :String(load);
+
+  const memTotal=d.memory?.total??d.memory?.totalBytes;
+  const diskTotal=d.disk?.total??d.disk?.totalBytes;
+
+  $('ramTotal').textContent=memTotal?bytes(memTotal):'--';
+  $('diskTotal').textContent=diskTotal?bytes(diskTotal):'--';
+
+  // NETWORK
   const net=d.network||{};
+
   const rx=n(net.download??net.rxSpeed??net.downloadSpeed??net.rx);
   const tx=n(net.upload??net.txSpeed??net.uploadSpeed??net.tx);
+
   $('download').textContent=speed(rx);
   $('upload').textContent=speed(tx);
   $('received').textContent=bytes(net.received);
   $('sent').textContent=bytes(net.sent);
-  history.rx.push(rx);history.tx.push(tx);
-  if(history.rx.length>40){history.rx.shift();history.tx.shift()}
+
+  history.rx.push(rx);
+  history.tx.push(tx);
+
+  if(history.rx.length>40){
+   history.rx.shift();
+   history.tx.shift();
+  }
+
   drawChart();
+
+  // VPN / INCOMING / TCP
   renderVPN(d.vpn);
   renderIncoming(d.incoming);
   renderTCP(d.tcp||d.connections||[]);
-  alerts(cpu,ram,disk);
+  renderAlerts(cpu,ram,disk);
+
   $('updated').textContent=new Date().toLocaleTimeString();
+
  }catch(e){
   $('status').textContent='API OFFLINE';
   $('dot').style.background='var(--red)';
   $('dot').style.boxShadow='0 0 12px var(--red)';
   $('error').textContent='API connection error: '+e.message;
   $('alertList').innerHTML='<div class="alert danger">Server metrics unavailable. Check API connection.</div>';
- }finally{refreshing=false}
+ }finally{
+  refreshing=false;
+ }
 }
-function clock(){$('clock').textContent=new Date().toLocaleTimeString()}
+
+// EVENTS
 $('tcpToggle').addEventListener('click',()=>{
- const box=$('tcpBox');box.hidden=!box.hidden;
+ const box=$('tcpBox');
+ box.hidden=!box.hidden;
  $('tcpToggle').textContent=box.hidden?'SHOW DETAILS ＋':'HIDE DETAILS −';
 });
+
 $('vpnSearch').addEventListener('input',renderVPNIPs);
 $('ipSearch').addEventListener('input',renderIncomingRows);
 $('portFilter').addEventListener('change',renderIncomingRows);
+
+// NAVIGATION
 document.querySelectorAll('.nav a,.mobile-nav a').forEach(a=>{
  a.addEventListener('click',()=>{
   document.querySelectorAll('.nav a,.mobile-nav a').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll(`a[href="${a.getAttribute('href')}"]`).forEach(x=>x.classList.add('active'));
  });
 });
-clock();refresh();
+
+function clock(){
+ $('clock').textContent=new Date().toLocaleTimeString();
+}
+
+clock();
+refresh();
 setInterval(clock,1000);
 setInterval(refresh,5000);
 window.addEventListener('resize',drawChart);
